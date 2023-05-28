@@ -14,18 +14,16 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
     private Button BtnLogin;
     private EditText Username;
     private EditText PassWord;
-
-
+    final MyHelper dbHelper=new MyHelper(MainActivity.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         //登录跳转
         BtnLogin = findViewById(R.id.bt_login);
         Username = findViewById(R.id.et_1);
         PassWord = findViewById(R.id.et_2);
-
         BtnLogin.setOnClickListener(this);
     }
 
@@ -37,7 +35,9 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
         if(username.equals("zhangcw") && password.equals("123456")) {
             intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
-        }else{
+        }
+        else
+        {
 
         }
     }
