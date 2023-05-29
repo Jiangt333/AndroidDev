@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
         String password = PassWord.getText().toString();
         Intent intent = null;
 
-        if(username.equals("zhangcw") && password.equals("123456")) {
+        if(username.equals("111") && password.equals("111")) {
             intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         }else{
