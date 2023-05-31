@@ -74,10 +74,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                                 startActivity(intent);
                             }
                         }
-
-
-                    } catch (SQLException | RuntimeException e)
-                    {
+                    } catch (SQLException | RuntimeException e){
                         System.out.println(e);
                         runOnUiThread(new Runnable() {
                             @Override
@@ -85,15 +82,21 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                                 Toast.makeText(MainActivity.this,"请输入正确的语句",Toast.LENGTH_SHORT).show();
                             }
                         });
-
                     }
-                    T=false;
                 }
         }
     }
 
     public void onClick(View v){
-        T=true;
+        String username = Username.getText().toString();
+        String password = PassWord.getText().toString();
+        Intent intent = null;
 
+        if(username.equals("111") && password.equals("111")) {
+            intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }else{
+
+        }
     }
 }
