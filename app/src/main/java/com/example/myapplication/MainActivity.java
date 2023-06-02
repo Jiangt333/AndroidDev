@@ -13,14 +13,25 @@ import android.widget.Toast;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.InetAddress;
+import java.net.Socket;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements  View.OnClickListener {
 
     //数据库连接类
-    private static Connection con = null;
-    private static PreparedStatement stmt = null;
+    //private static Connection con = null;
+    //private static PreparedStatement stmt = null;
     private EditText Username;
     private EditText PassWord;
     @Override
@@ -34,12 +45,15 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
         btnLogin.setOnClickListener(this);
     }
     class Threads_Login extends Thread {
+        private Socket client = null;
+        private BufferedReader in;
+        private BufferedWriter out;
         @Override
         public void run() {
             String username = Username.getText().toString();
             String password = PassWord.getText().toString();  //用户发送的信息
             ResultSet rs = null;
-            try {
+            /*try {
                 con = MySQLConnections.getConnection();
                 if (con != null) {
                     String sql = "select * from user";
@@ -61,6 +75,31 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                 }
             } catch (SQLException e){
                 throw new RuntimeException(e);
+            }*/
+
+            //以登录为例，但登录可以直接调数据库
+            try {
+                client = new Socket("172.27.43.168", 3430);
+                in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                out = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
+                //@前面的内容用来区分请求，后面的内容可以根据具体情况改变，在后端实现
+                String msg = "Login" + "@" + username + " " + password;
+                out.write(msg);
+                out.flush();
+                client.shutdownOutput();
+                String recv = "";
+                recv = in.readLine();
+                //这里先采用简单的响应
+                if(recv.equals("yes")) {
+                    Intent intent = null;
+                    intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
         }
