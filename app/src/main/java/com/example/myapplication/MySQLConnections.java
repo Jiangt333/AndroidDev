@@ -11,23 +11,16 @@ public class MySQLConnections {
     private String user = "";
     private String password = "";
     private static MySQLConnections connection = null;
-    private MySQLConnections() throws Exception {
+    private MySQLConnections()
+    {
         driver = "com.mysql.jdbc.Driver";
-        dbURL = "jdbc:mysql://ip/库名";
-        user = "数据库账号";
-        password = "密码";
-        System.out.println("dbURL:" + dbURL);
+        dbURL = "jdbc:mysql://192.168.43.50:3306/app?serverTimezone=UTC";
+        user = "root";
+        password = "522859038";
     }
     public static Connection getConnection() {
         Connection conn = null;
-        if (connection == null) {
-            try {
-                connection = new MySQLConnections();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
+        connection = new MySQLConnections();
         try {
             Class.forName(connection.driver);
             conn = (Connection) DriverManager.getConnection(connection.dbURL,
