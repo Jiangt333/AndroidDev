@@ -30,8 +30,8 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity implements  View.OnClickListener {
 
     // 数据库连接类
-    // private static Connection con = null;
-    // private static PreparedStatement stmt = null;
+    private static Connection con = null;
+    private static PreparedStatement stmt = null;
     private EditText Username;
     private EditText PassWord;
     @Override
@@ -53,17 +53,18 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
             String username = Username.getText().toString();
             String password = PassWord.getText().toString();  //用户发送的信息
             ResultSet rs = null;
-            /*try {
+            try {
                 con = MySQLConnections.getConnection();
                 if (con != null) {
-                    String sql = "select * from user";
+                    String sql = "select * from user_information where name='"+username+"'";
                     stmt = (PreparedStatement) con.prepareStatement(sql);
                     // 关闭事务自动提交 ,这一行必须加上
                     con.setAutoCommit(false);
                     rs = stmt.executeQuery();
                     //清空上次发送的信息
                     rs.next();
-                    String RealPassword = rs.getString(2);
+                    String RealPassword = rs.getString(3);
+                    System.out.println("password=" + RealPassword);
                     con.close();
                     rs.close();
                     stmt.close();
@@ -75,32 +76,32 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                 }
             } catch (SQLException e){
                 throw new RuntimeException(e);
-            }*/
+            }
 
             //以登录为例，但登录可以直接调数据库
-            try {
-                client = new Socket("172.27.43.168", 3430);
-                in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-                out = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
-                //@前面的内容用来区分请求，后面的内容可以根据具体情况改变，在后端实现
-                String msg = "Login" + "@" + username + " " + password;
-                out.write(msg);
-                out.flush();
-                client.shutdownOutput();
-                String recv = "";
-                recv = in.readLine();
-                //这里先采用简单的响应
-                if(recv.equals("yes")) {
-                    Intent intent = null;
-                    intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
-                else {
-
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                client = new Socket("172.27.43.168", 3430);
+//                in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+//                out = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
+//                //@前面的内容用来区分请求，后面的内容可以根据具体情况改变，在后端实现
+//                String msg = "Login" + "@" + username + " " + password;
+//                out.write(msg);
+//                out.flush();
+//                client.shutdownOutput();
+//                String recv = "";
+//                recv = in.readLine();
+//                //这里先采用简单的响应
+//                if(recv.equals("yes")) {
+//                    Intent intent = null;
+//                    intent = new Intent(MainActivity.this, LoginActivity.class);
+//                    startActivity(intent);
+//                }
+//                else {
+//
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
 
         }
     }
