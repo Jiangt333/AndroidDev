@@ -14,9 +14,9 @@ public class MySQLConnections {
     private MySQLConnections()
     {
         driver = "com.mysql.jdbc.Driver";
-        dbURL = "jdbc:mysql://192.168.43.50:3306/app?serverTimezone=UTC";
+        dbURL = "jdbc:mysql://172.27.70.112:3306/android?useSSL=false&serverTimezone=UTC";
         user = "root";
-        password = "522859038";
+        password = "ZCWei123456789";
     }
     public static Connection getConnection() {
         Connection conn = null;
