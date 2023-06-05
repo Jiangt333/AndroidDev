@@ -25,9 +25,15 @@ import java.sql.SQLException;
 
 public class MainActivity extends AppCompatActivity implements  View.OnClickListener {
 
+
     //数据库连接类
     private static Connection con = null;
     private static PreparedStatement stmt = null;
+
+    // 数据库连接类
+    // private static Connection con = null;
+    // private static PreparedStatement stmt = null;
+
     private EditText Username;
     private EditText PassWord;
     @Override
