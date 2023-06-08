@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                     rs = stmt.executeQuery();
                     //清空上次发送的信息
                     rs.next();
-                    String RealPassword = rs.getString(3);
+                    String RealPassword = rs.getString(2);
                     System.out.println(RealPassword);
                     con.close();
                     rs.close();
