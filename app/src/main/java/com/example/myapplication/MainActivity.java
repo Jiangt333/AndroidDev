@@ -25,7 +25,6 @@ import java.sql.SQLException;
 
 public class MainActivity extends AppCompatActivity implements  View.OnClickListener {
 
-
     //数据库连接类
     private static Connection con = null;
     private static PreparedStatement stmt = null;
@@ -42,9 +41,14 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
         setContentView(R.layout.activity_main);
         //登录跳转
         Button btnLogin = findViewById(R.id.bt_login);
+        //注册跳转
+        Button btnRegister = findViewById(R.id.bt_reg);
+
         Username = findViewById(R.id.et_1);
         PassWord = findViewById(R.id.et_2);
+
         btnLogin.setOnClickListener(this);
+        btnRegister.setOnClickListener(this::onClickRegister);
     }
     class Threads_Login extends Thread {
         //private Socket client = null;
@@ -90,12 +94,15 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
             } catch (SQLException e){
                 throw new RuntimeException(e);
             }
-
         }
     }
 
     public void onClick(View v){
         Threads_Login login = new Threads_Login();
         login.start();
+    }
+    public void onClickRegister(View v){
+        Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+        startActivity(intent);
     }
 }

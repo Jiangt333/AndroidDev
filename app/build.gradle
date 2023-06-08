@@ -1,5 +1,12 @@
 plugins {
     id 'com.android.application'
+    id 'com.mob.sdk'
+}
+
+MobSDK{
+    appKey"3805a30a09595"
+    appSecret"4126fd577130e07a64873af014315bed"
+    SMSSDK{}
 }
 
 android {
