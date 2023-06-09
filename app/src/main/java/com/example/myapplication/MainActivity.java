@@ -78,14 +78,14 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                         User user = gson.fromJson(userJson, User.class); //反序列化
                         Intent intent = null;
                         if (password.equals(user.getRealpassword())) {
-                            intent = new Intent(MainActivity.this, LoginActivity.class);
+                            intent = new Intent(MainActivity.this, TotalActivity.class);
                             startActivity(intent);
                         } else {
-                            System.out.println("wrong");
+                            System.out.println("wrong response");
                         }
                     }
                     else {
-                        System.out.println("wrong");
+                        System.out.println("response failed");
                     }
                 }
             });
