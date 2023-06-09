@@ -266,7 +266,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {//回调的方法执行在子线程。
                     String res = response.body().string();
-                    if (res == "saved") {
+                    if (res.equals("saved")) {
                         //发送验证码
                         Intent intent = null;
                         intent = new Intent(RegisterActivity.this, TotalActivity.class);
