@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                     .post(body)
                     .cacheControl(CacheControl.FORCE_NETWORK)
                     .build();
+            Looper.prepare();
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
@@ -89,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                     }
                 }
             });
+            Looper.loop();
 
         }
     }

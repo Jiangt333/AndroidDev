@@ -47,6 +47,7 @@ import okhttp3.Response;
 
 public class RegisterActivity extends AppCompatActivity {
     private boolean approved =false;
+    private boolean registered = true;
     private TimerTask timerTask;
     private Timer timer;
     private EditText inputPhone;
@@ -162,15 +163,20 @@ public class RegisterActivity extends AppCompatActivity {
                             String res = response.body().string();
                             if (res.equals("not registered")) {
                                 //发送验证码
-                                alterWarning();
-                                if(approved)
-                                    saveaccount();
-
-                            } else
+                                registered = false;
+                            } else {
                                 Toast.makeText(RegisterActivity.this, "手机号已被注册", Toast.LENGTH_LONG).show();
+                            }
                         } else
                             System.out.println("response failed");
                     }});
+                if(!registered)
+                {
+                    alterWarning();
+                    saveaccount();
+                }
+                if(approved)
+                    saveaccount();
 
             } else {
                 Toast.makeText(RegisterActivity.this, "请输入手机号", Toast.LENGTH_LONG).show();
