@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -45,6 +46,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class RegisterActivity extends AppCompatActivity {
+    private boolean approved =false;
     private TimerTask timerTask;
     private Timer timer;
     private EditText inputPhone;
@@ -103,38 +105,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
                     Toast.makeText(RegisterActivity.this, "验证成功！", Toast.LENGTH_LONG).show();
-                    /*注册，向数据库中插入该项*/
-                    //将手机号、密码、注册时间加入数据库
-                    OkHttpClient client = new OkHttpClient();
-                    RequestBody body = new FormBody.Builder()
-                            .add("password", password)
-                            .add("phonenumber", phone)
-                            .build();
-                    Request request = new Request.Builder()
-                            .url("http://172.17.19.156:8080/register/confirm")
-                            .post(body)
-                            .cacheControl(CacheControl.FORCE_NETWORK)
-                            .build();
-                    client.newCall(request).enqueue(new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-                            e.printStackTrace();
-                        }
+                    approved = true;
 
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            if (response.isSuccessful()) {//回调的方法执行在子线程。
-                                String res = response.body().string();
-                                if (res == "saved") {
-                                    Intent intent = null;
-                                    intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                    startActivity(intent);
-                                } else
-                                    System.out.println("wrong responce");
-                            } else
-                                System.out.println("response failed");
-                        }
-                    });
                 } else {
                     Toast.makeText(RegisterActivity.this, "验证错误！", Toast.LENGTH_LONG).show();
                 }
@@ -175,7 +147,7 @@ public class RegisterActivity extends AppCompatActivity {
                         .add("phonenumber",phone)
                         .build();
                 Request request = new Request.Builder()
-                        .url("http://172.17.19.156:8080/register/check")
+                        .url("http://172.17.55.141:8080/register/check")
                         .post(body)
                         .cacheControl(CacheControl.FORCE_NETWORK)
                         .build();
@@ -188,9 +160,12 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onResponse(Call call, Response response) throws IOException {
                         if (response.isSuccessful()) {//回调的方法执行在子线程。
                             String res = response.body().string();
-                            if (res == "not registered") {
+                            if (res.equals("not registered")) {
                                 //发送验证码
                                 alterWarning();
+                                if(approved)
+                                    saveaccount();
+
                             } else
                                 Toast.makeText(RegisterActivity.this, "手机号已被注册", Toast.LENGTH_LONG).show();
                         } else
@@ -264,6 +239,38 @@ public class RegisterActivity extends AppCompatActivity {
         super.onDestroy();
         // 注销回调
         SMSSDK.unregisterEventHandler(eventHandle);
+    }
+    private void saveaccount(){
+        OkHttpClient client = new OkHttpClient();
+        RequestBody body = new FormBody.Builder()
+                .add("password", password)
+                .add("phonenumber",phone)
+                .build();
+        Request request = new Request.Builder()
+                .url("http://172.17.55.141:8080/register/comfirm")
+                .post(body)
+                .cacheControl(CacheControl.FORCE_NETWORK)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {//回调的方法执行在子线程。
+                    String res = response.body().string();
+                    if (res == "saved") {
+                        //发送验证码
+                        Intent intent = null;
+                        intent = new Intent(RegisterActivity.this, TotalActivity.class);
+                        startActivity(intent);
+                    } else
+                        System.out.println("wrong response");
+                } else
+                    System.out.println("response failed");
+            }});
+
     }
 
 }
