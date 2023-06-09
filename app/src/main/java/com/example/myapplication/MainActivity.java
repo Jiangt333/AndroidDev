@@ -81,11 +81,11 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                             intent = new Intent(MainActivity.this, LoginActivity.class);
                             startActivity(intent);
                         } else {
-                            System.out.println("wrong");
+                            System.out.println("wrong response");
                         }
                     }
                     else {
-                        System.out.println("wrong");
+                        System.out.println("response failed");
                     }
                 }
             });
