@@ -1,7 +1,6 @@
 package com.example.myapplication;
 
 import com.mysql.jdbc.Connection;
-
 import java.sql.DriverManager;
 
 // An highlighted block
