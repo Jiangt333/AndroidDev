@@ -2,24 +2,24 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Looper;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.mysql.jdbc.log.LogUtils;
-
+import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.Socket;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import okhttp3.*;
 import java.io.IOException;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements  View.OnClickListener {
 
@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
     private static PreparedStatement stmt = null;
     private EditText Username;
     private EditText PassWord;
+    private Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +36,18 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
         setContentView(R.layout.activity_main);
         //登录跳转
         Button btnLogin = findViewById(R.id.bt_login);
+        //注册跳转
+        Button btnRegister = findViewById(R.id.bt_reg);
+
         Username = findViewById(R.id.et_1);
         PassWord = findViewById(R.id.et_2);
+
         btnLogin.setOnClickListener(this);
+        btnRegister.setOnClickListener(this::onClickRegister);
     }
 
     class Threads_Login extends Thread {
-        private OkHttpClient client = null;
+        //private Socket client = null;
         private BufferedReader in;
         private BufferedWriter out;
 
@@ -54,41 +60,34 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                     .add("user",username)
                     .build();
             Request request = new Request.Builder()
-                    .url("http://172.17.58.89:8080/login")
+                    .url("http://172.17.19.156:8080/login")
                     .post(body)
                     .cacheControl(CacheControl.FORCE_NETWORK)
                     .build();
-
-            System.out.println("yyy");
-            Call call = client.newCall(request);
-            call.enqueue(new Callback() {
+            client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    System.out.println("sorry!");
+                    e.printStackTrace();
                 }
-
-
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    System.out.println("starton");
-
                     if(response.isSuccessful()){//回调的方法执行在子线程。
-                        String RealPassword = response.body().string();
-                        System.out.println("congratulation!");
-                        System.out.println("password="+RealPassword);
+                        String userJson= response.body().string();
+                        //Type type = new TypeToken<List<User>>() {
+                        //}.getType(); //泛型类型，import com.google.gson.reflect.TypeToken;
+                        User user = gson.fromJson(userJson, User.class); //反序列化
                         Intent intent = null;
-                        if (password.equals(RealPassword)) {
+                        if (password.equals(user.getRealpassword())) {
                             intent = new Intent(MainActivity.this, TotalActivity.class);
                             startActivity(intent);
                         } else {
-
+                            System.out.println("wrong response");
                         }
                     }
                     else {
-                        System.out.println("wrong");
+                        System.out.println("response failed");
                     }
                 }
-
             });
 
         }
@@ -97,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
         Threads_Login login = new Threads_Login();
         login.start();
     }
+    public void onClickRegister(View v){
+        Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+        startActivity(intent);
+    }
 }
-
-
