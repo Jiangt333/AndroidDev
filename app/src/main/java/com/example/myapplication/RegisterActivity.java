@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -19,6 +20,9 @@ import android.widget.EditText;
 
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -32,8 +36,18 @@ import java.sql.SQLException;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
+import okhttp3.CacheControl;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class RegisterActivity extends AppCompatActivity {
+    private boolean approved =false;
+    private boolean registered = true;
     private TimerTask timerTask;
     private Timer timer;
     private EditText inputPhone;
@@ -75,45 +89,26 @@ public class RegisterActivity extends AppCompatActivity {
                 TIME = 60;
                 get_code.setText("获取验证码");
             } else {
-                String showText = "("+TIME + "s)";
+                String showText = "(" + TIME + "s)";
                 get_code.setText(showText);
             }
         }
     };
     @SuppressLint("HandlerLeak")
-    Handler submitHandle=new Handler(){
+    Handler submitHandle = new Handler() {
         @Override
-        public void handleMessage(Message msg){
+        public void handleMessage(Message msg) {
             super.handleMessage(msg);
             @SuppressLint("HandlerLeak") int event = msg.arg1;
-            int result=msg.arg2;
-            Object data=msg.obj;
+            int result = msg.arg2;
+            Object data = msg.obj;
             if (result == SMSSDK.RESULT_COMPLETE) {
+
                 if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
                     Toast.makeText(RegisterActivity.this, "验证成功！", Toast.LENGTH_LONG).show();
-                    /*注册，向数据库中插入该项*/
-                    //将手机号、密码、注册时间加入数据库
-                    con = MySQLConnections.getConnection();
-                    ResultSet rs = null;
-                    try{
-                        if (con != null) {
-                            String sql = "INSERT INTO user_information (name, pword) VALUES ('"+phone+"', '"+password+"')";
-                            stmt = (PreparedStatement) con.prepareStatement(sql);
-                            // 关闭事务自动提交 ,这一行必须加上
-                            con.setAutoCommit(false);
-                            rs = stmt.executeQuery();
+                    approved = true;
 
-                            //清空上次发送的信息
-                            rs.next();
-                            con.close();
-                            rs.close();
-                            stmt.close();
-                        }
-                    } catch(SQLException e){
-                        throw new RuntimeException(e);
-                    }
-                    startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
-                }else {
+                } else {
                     Toast.makeText(RegisterActivity.this, "验证错误！", Toast.LENGTH_LONG).show();
                 }
             }
@@ -140,49 +135,71 @@ public class RegisterActivity extends AppCompatActivity {
         commit = findViewById(R.id.commit);
 
         get_code.setOnClickListener(view -> {
-            phone = inputPhone.getText().toString().trim().replaceAll("/s","");
-            if(!TextUtils.isEmpty(phone)){
+            OkHttpClient client = new OkHttpClient();
+            phone = inputPhone.getText().toString().trim().replaceAll("/s", "");
+            if (!TextUtils.isEmpty(phone)) {
                 //判断手机号格式是否正确，不正确则提示
-                if(!isPhoneValid(phone)){
+                if (!isPhoneValid(phone)) {
                     Toast.makeText(RegisterActivity.this, "手机号格式错误", Toast.LENGTH_LONG).show();
                     return;
                 }
                 //判断手机号是否存在于数据库第二行，若存在，弹窗提示无法注册
-/*
-                if(isPhoneExist(phone)){
-                    Toast.makeText(RegisterActivity.this, "该手机号已注册！", Toast.LENGTH_LONG).show();
-                    return;
+                RequestBody body = new FormBody.Builder()
+                        .add("phonenumber",phone)
+                        .build();
+                Request request = new Request.Builder()
+                        .url("http://172.17.55.141:8080/register/check")
+                        .post(body)
+                        .cacheControl(CacheControl.FORCE_NETWORK)
+                        .build();
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        if (response.isSuccessful()) {//回调的方法执行在子线程。
+                            String res = response.body().string();
+                            if (res.equals("not registered")) {
+                                //发送验证码
+                                registered = false;
+                            } else {
+                                Toast.makeText(RegisterActivity.this, "手机号已被注册", Toast.LENGTH_LONG).show();
+                            }
+                        } else
+                            System.out.println("response failed");
+                    }});
+                if(!registered)
+                {
+                    alterWarning();
+                    saveaccount();
                 }
-*/
-                //发送验证码
-                alterWarning();
-            }else {
+                if(approved)
+                    saveaccount();
+
+            } else {
                 Toast.makeText(RegisterActivity.this, "请输入手机号", Toast.LENGTH_LONG).show();
             }
         });
 
         commit.setOnClickListener(view -> {
-            String code = inputCode.getText().toString().replaceAll("/s","");
-            phone = inputPhone.getText().toString().trim().replaceAll("/s","");
-            password = inputPassword.getText().toString().trim().replaceAll("/s","");
+            String code = inputCode.getText().toString().replaceAll("/s", "");
+            phone = inputPhone.getText().toString().trim().replaceAll("/s", "");
+            password = inputPassword.getText().toString().trim().replaceAll("/s", "");
 
-            if(TextUtils.isEmpty(code))
-            {
-                Toast.makeText(RegisterActivity.this,"验证码为空",Toast.LENGTH_LONG).show();
+            if (TextUtils.isEmpty(code)) {
+                Toast.makeText(RegisterActivity.this, "验证码为空", Toast.LENGTH_LONG).show();
                 return;
-            }
-            else if(phone.length() == 0)
-            {
-                Toast.makeText(RegisterActivity.this,"请输入手机号",Toast.LENGTH_LONG).show();
+            } else if (phone.length() == 0) {
+                Toast.makeText(RegisterActivity.this, "请输入手机号", Toast.LENGTH_LONG).show();
                 return;
-            }
-            else if(password.length() == 0)
-            {
-                Toast.makeText(RegisterActivity.this,"请设置密码",Toast.LENGTH_LONG).show();
+            } else if (password.length() == 0) {
+                Toast.makeText(RegisterActivity.this, "请设置密码", Toast.LENGTH_LONG).show();
                 return;
             }
             //验证
-            SMSSDK.submitVerificationCode(country,phone,code);
+            SMSSDK.submitVerificationCode(country, phone, code);
         });
     }
 
@@ -193,27 +210,6 @@ public class RegisterActivity extends AppCompatActivity {
         return phone.matches(regex);
     }
 
-    //判断手机号是否存在于数据库中
-    private boolean isPhoneExist(String phone) {
-        con = MySQLConnections.getConnection();
-        ResultSet rs = null;
-        try {
-            if (con != null) {
-                String sql = "SELECT * FROM user_information WHERE name = '"+phone+"'";
-                stmt = (PreparedStatement) con.prepareStatement(sql);
-                stmt.setString(1, phone);
-                rs = stmt.executeQuery();
-                boolean exists = rs.next();
-                rs.close();
-                stmt.close();
-                con.close();
-                return exists;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return true;
-    }
 
     private void alterWarning(){
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
@@ -249,6 +245,38 @@ public class RegisterActivity extends AppCompatActivity {
         super.onDestroy();
         // 注销回调
         SMSSDK.unregisterEventHandler(eventHandle);
+    }
+    private void saveaccount(){
+        OkHttpClient client = new OkHttpClient();
+        RequestBody body = new FormBody.Builder()
+                .add("password", password)
+                .add("phonenumber",phone)
+                .build();
+        Request request = new Request.Builder()
+                .url("http://172.17.55.141:8080/register/comfirm")
+                .post(body)
+                .cacheControl(CacheControl.FORCE_NETWORK)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {//回调的方法执行在子线程。
+                    String res = response.body().string();
+                    if (res.equals("saved")) {
+                        //发送验证码
+                        Intent intent = null;
+                        intent = new Intent(RegisterActivity.this, TotalActivity.class);
+                        startActivity(intent);
+                    } else
+                        System.out.println("wrong response");
+                } else
+                    System.out.println("response failed");
+            }});
+
     }
 
 }
