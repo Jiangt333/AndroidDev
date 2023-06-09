@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                     .add("user",username)
                     .build();
             Request request = new Request.Builder()
-                    .url("http://172.27.59.2:8080/login")
+                    .url("http://172.17.58.89:8080/login")
                     .post(body)
                     .cacheControl(CacheControl.FORCE_NETWORK)
                     .build();
