@@ -3,11 +3,19 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/test_txt1"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textSize="30sp"
-        android:text="这里是首页"/>
+        android:orientation="horizontal">
+        <ListView
+            android:id="@+id/listview_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </ListView>
+
+
+    </LinearLayout>
+
 </LinearLayout>

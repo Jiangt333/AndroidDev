@@ -5,27 +5,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
     tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00d69c" />
 
     <TextView
         android:id="@+id/tv_1"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="100dp"
+        android:gravity="center"
         android:text="Welcome!"
         android:textColor="#000000"
         android:textSize="20sp"
-        android:gravity="center"
-        android:layout_marginTop="360dp"
         />
 
     <EditText
         android:id="@+id/et_1"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:textSize="16sp"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:textSize="18sp"
         android:textColor="@color/black"
         android:hint="用户名"
+        android:layout_gravity="center"
         android:maxLines="1"
         android:padding="5dp"
         android:layout_marginTop="10dp"
@@ -33,11 +39,12 @@
 
     <EditText
         android:id="@+id/et_2"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:textSize="16sp"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:textSize="18sp"
         android:textColor="@color/black"
         android:hint="密  码"
+        android:layout_gravity="center"
         android:maxLines="1"
         android:padding="5dp"
         android:inputType="textPassword"
@@ -47,28 +54,32 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_marginTop="20dp"
+        android:gravity="center"
         >
 
         <Button
             android:id="@+id/bt_login"
-            android:layout_width="0dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="登录"
             android:textColor="@color/black"
+            android:background="#00d69c"
             android:layout_marginTop="20dp"
             android:layout_gravity="center"
             />
 
         <Button
             android:id="@+id/bt_reg"
-            android:layout_width="0dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="注册"
+            android:radius="30dp"
             android:textColor="@color/black"
+            android:background="#00d69c"
             android:layout_marginTop="20dp"
             android:layout_gravity="center"
             />

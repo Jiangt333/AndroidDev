@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                     .add("user",username)
                     .build();
             Request request = new Request.Builder()
-                    .url("http://172.27.59.2:8080/login")
+                    .url("http://172.21.110.179:8080/login")
                     .post(body)
                     .cacheControl(CacheControl.FORCE_NETWORK)
                     .build();
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    System.out.println("starton");
+                    System.out.println("start on");
 
                     if(response.isSuccessful()){//回调的方法执行在子线程。
                         String RealPassword = response.body().string();
