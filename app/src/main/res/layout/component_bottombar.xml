@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="65dp"
     android:gravity="center"
-    android:background="#37474f"
+    android:background="#00d69c"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -18,7 +18,7 @@
             android:id="@+id/id_homebottomtab_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#ffffff"
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:text="首 页"/>
     </LinearLayout>
@@ -34,7 +34,7 @@
             android:id="@+id/id_squarebottomtab_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#ffffff"
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:text="广 场"/>
     </LinearLayout>
@@ -50,7 +50,7 @@
             android:id="@+id/id_infobottomtab_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#ffffff"
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:text="我 的"/>
     </LinearLayout>

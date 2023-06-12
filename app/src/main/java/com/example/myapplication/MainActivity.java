@@ -60,7 +60,8 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                     .add("user",username)
                     .build();
             Request request = new Request.Builder()
-                    .url("http://172.17.19.156:8080/login")
+                    .url("http://172.17.23.103:8080/login")
+
                     .post(body)
                     .cacheControl(CacheControl.FORCE_NETWORK)
                     .build();
@@ -71,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                 }
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
+
+                    System.out.println("start on");
                     if(response.isSuccessful()){//回调的方法执行在子线程。
                         String userJson= response.body().string();
                         //Type type = new TypeToken<List<User>>() {
@@ -89,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                     }
                 }
             });
-            Looper.loop();
 
         }
     }
