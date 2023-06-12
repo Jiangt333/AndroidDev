@@ -14,8 +14,9 @@ public class InfoFragment extends Fragment {
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
                 View tabView = inflater.inflate(R.layout.tab_info, container, false);
-                TextView txt = (TextView)tabView.findViewById(R.id.test_txt3);
-                txt.setText("我 的");
+//                TextView txt = (TextView)tabView.findViewById(R.id.test_txt3);
+//                txt.setText("我 的");
+
                 return tabView;
         }
 }

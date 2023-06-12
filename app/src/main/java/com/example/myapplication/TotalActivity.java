@@ -154,20 +154,20 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
             case 0:
                 TopBarTitle.setText("首 页");
                 BottomBarText_home.setTextColor(Color.parseColor("#c47731"));
-                BottomBarText_square.setTextColor(Color.parseColor("#ffffff"));
-                BottomBarText_info.setTextColor(Color.parseColor("#ffffff"));
+                BottomBarText_square.setTextColor(Color.parseColor("#000000"));
+                BottomBarText_info.setTextColor(Color.parseColor("#000000"));
                 break;
             case 1:
                 TopBarTitle.setText("广 场");
                 BottomBarText_square.setTextColor(Color.parseColor("#c47731"));
-                BottomBarText_home.setTextColor(Color.parseColor("#ffffff"));
-                BottomBarText_info.setTextColor(Color.parseColor("#ffffff"));
+                BottomBarText_home.setTextColor(Color.parseColor("#000000"));
+                BottomBarText_info.setTextColor(Color.parseColor("#000000"));
                 break;
             case 2:
                 TopBarTitle.setText("我 的");
                 BottomBarText_info.setTextColor(Color.parseColor("#c47731"));
-                BottomBarText_home.setTextColor(Color.parseColor("#ffffff"));
-                BottomBarText_square.setTextColor(Color.parseColor("#ffffff"));
+                BottomBarText_home.setTextColor(Color.parseColor("#000000"));
+                BottomBarText_square.setTextColor(Color.parseColor("#000000"));
                 break;
         }
         // 设置当前点击的Tab所对应的页面

@@ -13,7 +13,7 @@ public class MySQLConnections {
     private MySQLConnections()
     {
         driver = "com.mysql.jdbc.Driver";
-        dbURL = "jdbc:mysql://172.27.70.112:3306/android?useSSL=false&serverTimezone=UTC";
+        dbURL = "jdbc:mysql://172.27.1.140:3306/android?useSSL=false&serverTimezone=UTC";
         user = "root";
         password = "ZCWei123456789";
     }
