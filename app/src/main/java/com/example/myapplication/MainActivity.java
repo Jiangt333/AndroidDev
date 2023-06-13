@@ -23,7 +23,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements  View.OnClickListener {
 
-
     //数据库连接类
     private static Connection con = null;
     private static PreparedStatement stmt = null;
@@ -62,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                     .build();
             Request request = new Request.Builder()
                     .url(Common.URL+"/login")
-
                     .post(body)
                     .cacheControl(CacheControl.FORCE_NETWORK)
                     .build();
@@ -101,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
             login.start();
         }
         public void onClickRegister(View v){
-        Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-        startActivity(intent);
+            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+            startActivity(intent);
         }
 }
