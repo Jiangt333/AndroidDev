@@ -3,23 +3,18 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import com.example.myapplication.entity.User;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.net.Socket;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import okhttp3.*;
-import java.io.IOException;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements  View.OnClickListener {
 
@@ -79,7 +74,8 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                         String userJson= response.body().string();
                         //Type type = new TypeToken<List<User>>() {
                         //}.getType(); //泛型类型，import com.google.gson.reflect.TypeToken;
-                        User user = gson.fromJson(userJson, User.class); //反序列化
+                        User user =  gson.fromJson(userJson, User.class);
+                        Common.user= gson.fromJson(userJson, User.class); //反序列化
                         Intent intent = null;
                         if (password.equals(user.getRealpassword())) {
                             intent = new Intent(MainActivity.this, TotalActivity.class);

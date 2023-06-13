@@ -27,12 +27,15 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
+import com.example.myapplication.entity.User;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class TotalActivity extends FragmentActivity implements View.OnClickListener {
 
     // 声明ViewPager
+    private User host;
     private ViewPager ViewPager;
     // 适配器
     private FragmentPagerAdapter Adapter;
@@ -62,6 +65,10 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        host = Common.user;
+        /*Intent intent=getIntent();
+        Bundle bundle = intent.getExtras();
+        host=(User) bundle.getSerializable("host");*/
         // 去掉TitleBar
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         // 指定布局界面
@@ -73,6 +80,7 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
 
     // 初始化控件
     private void initViews() {
+
         ViewPager = (ViewPager) findViewById(R.id.id_viewpager);
 
         HomeBottomTab = (LinearLayout) findViewById(R.id.id_homebottomtab);
@@ -94,7 +102,7 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
         // 将三个Fragment加入集合中
         FragmentList.add(new HomeFragment());
         FragmentList.add(new SquareFragment());
-        FragmentList.add(new InfoFragment());
+        FragmentList.add(new InfoFragment(host));
 
         // 初始化适配器
         Adapter = new mFragmentPagerAdapter(mFragmentManager, FragmentList);
