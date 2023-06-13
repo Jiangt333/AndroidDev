@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/loginbg"
+    android:windowSoftInputMode="adjustResize|stateHidden"
     tools:context=".MainActivity">
 
     <TextView
