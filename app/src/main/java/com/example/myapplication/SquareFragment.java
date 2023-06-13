@@ -1,16 +1,21 @@
 package com.example.myapplication;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -21,6 +26,7 @@ import com.google.gson.reflect.TypeToken;
 
 
 import java.io.IOException;
+import java.util.AbstractList;
 import java.util.ArrayList;
 
 import okhttp3.CacheControl;
@@ -36,6 +42,7 @@ public class SquareFragment extends Fragment {
     ListView listView;
     ListView listView_new;
     View tabView;
+    SwipeRefreshLayout swipeRefreshLayout;
     private Gson gson = new Gson();
     ArrayList<String> Atten = new ArrayList<>();
 
@@ -50,7 +57,7 @@ public class SquareFragment extends Fragment {
                     .add("myattention", myPhone)
                     .build();
             Request request = new Request.Builder()
-                    .url("http://172.17.23.103:8080/square/myattention")
+                    .url(Common.URL+"/square/myattention")
                     .post(body)
                     .cacheControl(CacheControl.FORCE_NETWORK)
                     .build();
@@ -77,17 +84,88 @@ public class SquareFragment extends Fragment {
                                 listView.setAdapter(adapter);
                                 Toast.makeText(tabView.getContext(), "congratulation!", Toast.LENGTH_SHORT).show();
                                 System.out.println(Atten);
+                                swipeRefreshLayout.setRefreshing(false);
                             }
                         });
 
                     }
                     else {
                         System.out.println("wrong");
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                 }
             });
         }
     }
+
+    private void showInputDialog() {
+        LayoutInflater layoutInflater = LayoutInflater.from(tabView.getContext());
+        View promptView = layoutInflater.inflate(R.layout.input_dialog, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(tabView.getContext());
+        alertDialogBuilder.setView(promptView);
+
+        final EditText editText = (EditText) promptView.findViewById(R.id.inputEditText);
+
+        alertDialogBuilder.setCancelable(false)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int id) {
+                        String source = "1";
+
+                        // 处理输入内容
+                        String inputText = editText.getText().toString().trim();
+                        //Toast.makeText(tabView.getContext(), "正在查找-ID：" + inputText, Toast.LENGTH_SHORT).show();
+                        //----
+                        OkHttpClient client = new OkHttpClient();
+                        RequestBody body = new FormBody.Builder()
+                                .add("source",source)
+                                .add("target",inputText)
+                                .build();
+                        Request request = new Request.Builder()
+                                .url(Common.URL+"/square/add")
+                                .post(body)
+                                .cacheControl(CacheControl.FORCE_NETWORK)
+                                .build();
+                        client.newCall(request).enqueue(new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+                                e.printStackTrace();
+                            }
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                if (response.isSuccessful()) {//回调的方法执行在子线程。
+                                    String res = response.body().string();
+                                    System.out.println(res);
+                                    if(res.equals("repeated")){
+                                        //Toast.makeText(tabView.getContext(), "请勿重复添加~", Toast.LENGTH_SHORT).show();
+                                    }else if(res.equals("successful")) {
+                                        //Toast.makeText(tabView.getContext(), "添加成功-ID!", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else
+                                    System.out.println("response failed");
+                            }});
+                        //----
+                    }
+                })
+                .setNegativeButton("取消",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
+
+    private AbsListView.OnScrollListener scrollListener = new AbsListView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {}
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            swipeRefreshLayout.setEnabled(firstVisibleItem == 0);
+        }
+    };
 
     @Nullable
     @Override
@@ -97,6 +175,8 @@ public class SquareFragment extends Fragment {
         listView_new = (ListView) tabView.findViewById(R.id.list_new);
         Button tBtn = tabView.findViewById(R.id.toggleButton);
         Button nBtn = tabView.findViewById(R.id.newsButton);
+        Button aBtn = tabView.findViewById(R.id.addButton);
+        swipeRefreshLayout = tabView.findViewById(R.id.swipeRefreshLayout);
 
         Threads_GetBox GetBox = new Threads_GetBox();
         GetBox.start();
@@ -122,6 +202,24 @@ public class SquareFragment extends Fragment {
                 listView_new.setVisibility(visibility == View.VISIBLE ? View.GONE : View.VISIBLE);
             }
         });
+
+        aBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showInputDialog();
+            }
+        });
+
+        listView.setOnScrollListener(scrollListener);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Threads_GetBox GetBox = new Threads_GetBox();
+                GetBox.start();
+            }
+        });
+
         return tabView;
     }
 }

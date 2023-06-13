@@ -148,7 +148,7 @@ public class RegisterActivity extends AppCompatActivity {
                         .add("phonenumber",phone)
                         .build();
                 Request request = new Request.Builder()
-                        .url(Common.URL+"register/check")
+                        .url(Common.URL+"/register/check")
                         .post(body)
                         .cacheControl(CacheControl.FORCE_NETWORK)
                         .build();
@@ -276,7 +276,5 @@ public class RegisterActivity extends AppCompatActivity {
                 } else
                     System.out.println("response failed");
             }});
-
     }
-
 }
