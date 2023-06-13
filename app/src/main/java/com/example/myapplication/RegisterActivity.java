@@ -148,7 +148,7 @@ public class RegisterActivity extends AppCompatActivity {
                         .add("phonenumber",phone)
                         .build();
                 Request request = new Request.Builder()
-                        .url("http://172.17.55.141:8080/register/check")
+                        .url(Common.URL+"register/check")
                         .post(body)
                         .cacheControl(CacheControl.FORCE_NETWORK)
                         .build();
@@ -253,7 +253,7 @@ public class RegisterActivity extends AppCompatActivity {
                 .add("phonenumber",phone)
                 .build();
         Request request = new Request.Builder()
-                .url("http://172.17.55.141:8080/register/comfirm")
+                .url(Common.URL+"/register/comfirm")
                 .post(body)
                 .cacheControl(CacheControl.FORCE_NETWORK)
                 .build();

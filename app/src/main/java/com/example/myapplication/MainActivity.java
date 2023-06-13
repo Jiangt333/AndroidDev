@@ -23,6 +23,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements  View.OnClickListener {
 
+
     //数据库连接类
     private static Connection con = null;
     private static PreparedStatement stmt = null;
@@ -57,10 +58,10 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
             String password = PassWord.getText().toString();  //用户发送的信息
             OkHttpClient client = new OkHttpClient();
             RequestBody body = new FormBody.Builder()
-                    .add("user",username)
+                    .add("phone",username)
                     .build();
             Request request = new Request.Builder()
-                    .url("http://172.17.23.103:8080/login")
+                    .url(Common.URL+"/login")
 
                     .post(body)
                     .cacheControl(CacheControl.FORCE_NETWORK)
