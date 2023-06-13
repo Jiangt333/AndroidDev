@@ -1,7 +1,6 @@
 package com.example.myapplication;
 
 import com.mysql.jdbc.Connection;
-
 import java.sql.DriverManager;
 
 // An highlighted block
@@ -14,9 +13,9 @@ public class MySQLConnections {
     private MySQLConnections()
     {
         driver = "com.mysql.jdbc.Driver";
-        dbURL = "jdbc:mysql://172.27.59.2:3306/androiddevdb?serverTimezone=UTC";
+        dbURL = "jdbc:mysql://172.27.1.140:3306/android?useSSL=false&serverTimezone=UTC";
         user = "root";
-        password = "jt123456";
+        password = "ZCWei123456789";
     }
     public static Connection getConnection() {
         Connection conn = null;
@@ -31,3 +30,4 @@ public class MySQLConnections {
         return conn;
     }
 }
+
