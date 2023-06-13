@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,10 +19,8 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import okhttp3.CacheControl;
@@ -35,6 +34,7 @@ import okhttp3.Response;
 
 public class SquareFragment extends Fragment {
     ListView listView;
+    ListView listView_new;
     View tabView;
     private Gson gson = new Gson();
     ArrayList<String> Atten = new ArrayList<>();
@@ -70,10 +70,16 @@ public class SquareFragment extends Fragment {
                     if(response.isSuccessful()){//回调的方法执行在子线程。
                         String AttenJson = response.body().string();
                         Atten = gson.fromJson(AttenJson, new TypeToken<ArrayList<String>>(){}.getType());
-                        ArrayAdapter<String> adapter = new ArrayAdapter<>(tabView.getContext(), android.R.layout.simple_list_item_1,Atten);
-                        listView.setAdapter(adapter);
-                        System.out.println("congratulation!");
-                        System.out.println(Atten);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ArrayAdapter<String> adapter = new ArrayAdapter<>(tabView.getContext(), android.R.layout.simple_list_item_1, Atten);
+                                listView.setAdapter(adapter);
+                                Toast.makeText(tabView.getContext(), "congratulation!", Toast.LENGTH_SHORT).show();
+                                System.out.println(Atten);
+                            }
+                        });
+
                     }
                     else {
                         System.out.println("wrong");
@@ -87,14 +93,33 @@ public class SquareFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         tabView = inflater.inflate(R.layout.tab_square, container, false);
+        listView = (ListView) tabView.findViewById(R.id.list_atten);
+        listView_new = (ListView) tabView.findViewById(R.id.list_new);
+        Button tBtn = tabView.findViewById(R.id.toggleButton);
+        Button nBtn = tabView.findViewById(R.id.newsButton);
+
         Threads_GetBox GetBox = new Threads_GetBox();
         GetBox.start();
-        listView = (ListView) tabView.findViewById(R.id.list);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent,View view,int i,long l){
                 String result = ((TextView) view).getText().toString();
                 Toast.makeText(tabView.getContext(),result,Toast.LENGTH_LONG).show();
+            }
+        });
+        tBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int visibility = listView.getVisibility();
+                listView.setVisibility(visibility == View.VISIBLE ? View.GONE : View.VISIBLE);
+            }
+        });
+        nBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int visibility = listView_new.getVisibility();
+                listView_new.setVisibility(visibility == View.VISIBLE ? View.GONE : View.VISIBLE);
             }
         });
         return tabView;
