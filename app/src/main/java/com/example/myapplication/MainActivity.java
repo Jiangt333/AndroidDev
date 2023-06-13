@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getWindow().setBackgroundDrawableResource(R.drawable.loginbg);
         //登录跳转
         Button btnLogin = findViewById(R.id.bt_login);
         //注册跳转
