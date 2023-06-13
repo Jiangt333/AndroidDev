@@ -14,7 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class Common {
-    public static String URL = "http://172.17.36.214:8080";
+    public static String URL = "http://172.27.81.126:8080";
     public static User user;
     public static Bitmap getHttpBitmap(String url) {
         java.net.URL FileUrl = null;
