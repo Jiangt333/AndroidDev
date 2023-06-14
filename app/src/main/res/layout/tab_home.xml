@@ -73,6 +73,7 @@
 
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/listview_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -80,7 +81,11 @@
         <ListView
             android:id="@+id/listview_1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:dividerHeight="2px"
+            android:listSelector="@android:color/transparent"
+
+                                                >
 
         </ListView>
 
