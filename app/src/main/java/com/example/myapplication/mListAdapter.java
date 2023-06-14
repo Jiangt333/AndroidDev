@@ -15,8 +15,7 @@ public class mListAdapter extends ArrayAdapter<listviewItem> {
 //    private Context mContext;
 //    private List<String> mData;
 
-    public mListAdapter(Context context, int textViewResourceId,
-                        List<listviewItem> objects) {
+    public mListAdapter(Context context, int textViewResourceId, List<listviewItem> objects) {
         super(context, textViewResourceId, objects);
         resourceId = textViewResourceId;
     }
@@ -27,8 +26,8 @@ public class mListAdapter extends ArrayAdapter<listviewItem> {
         View view = LayoutInflater.from(getContext()).inflate(resourceId, null);
         TextView question = (TextView)  view.findViewById(R.id.question);
         TextView time = (TextView) view.findViewById(R.id.time);
-        System.out.println(lvItem.getQuestion());
-        System.out.println(lvItem.getTime());
+        System.out.println("hhh"+lvItem.getQuestion());
+        System.out.println("hhh"+lvItem.getTime());
         question.setText(lvItem.getQuestion());
         time.setText(lvItem.getTime());
         return view;

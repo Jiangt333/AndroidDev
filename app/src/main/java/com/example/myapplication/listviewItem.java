@@ -4,9 +4,6 @@ public class listviewItem {
     private String question;
 
     private String time;
-    public listviewItem() {
-
-    }
 
     public listviewItem(String question, String time) {
         this.question = question;
