@@ -16,6 +16,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -26,7 +27,11 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
 
 import okhttp3.CacheControl;
 import okhttp3.Call;
@@ -55,12 +60,7 @@ public class PictureActivity extends AppCompatActivity {
     }
     public void photo() {//调用系统相册选择图片
         Intent intent = new Intent();
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-        } else {
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-        }
+        intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         startActivityForResult(intent, 1000);//打开相册
     }
@@ -68,35 +68,30 @@ public class PictureActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {//相册的调用回调
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1000) {//判断是否是我们通过photo()发起的
-            if (resultCode == PictureActivity.RESULT_OK && null != data) {
+            if (resultCode == PictureActivity.RESULT_OK && data != null & data.getData() != null) {
                 Uri uri = data.getData();
                 ContentResolver cr = this.getContentResolver();
                 try {
                     Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));//获取位图
-                    //将位图转为字节数组后再转为base64
-                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG,100, outputStream);
-                    //发起网络请求，传入base64数据
-                    getImgBase64(Base64.encodeToString(outputStream.toByteArray(),Base64.DEFAULT));
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    ImageView iv= (ImageView)findViewById (R.id.imageView);
+                    iv.setImageBitmap(bitmap);
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
                 }
-            }
-        }
-    }
-
-    void getImgBase64(String imgBase64) {
-        new Thread() {//开线程
-            @Override
-            public void run() {
+                //Bitmap bitmap= BitmapFactory.decodeFile (img_path);
+                File file = new File(uri.getPath());
+                //ContentResolver cr = this.getContentResolver();
+                //Picasso.get().load(uri).into(mImageView);
                 OkHttpClient client = new OkHttpClient();
-                RequestBody body = new FormBody.Builder()
-                        .add("pic",imgBase64)
+                MediaType mediaType = MediaType.parse("application/octet-stream");
+                RequestBody body = RequestBody.create(mediaType, file);
+                MultipartBody multipartBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("file", file.getName(), body)
                         .build();
                 Request request = new Request.Builder()
-                        .url(Common.URL+"/uploadAudio")
-                        .post(body)
-                        .cacheControl(CacheControl.FORCE_NETWORK)
+                        .url(Common.URL+"/upload")
+                        .post(multipartBody)
                         .build();
                 client.newCall(request).enqueue(new Callback() {
                     @Override
@@ -106,17 +101,18 @@ public class PictureActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
                         System.out.println("start on");
-                        if(response.isSuccessful()){//回调的方法执行在子线程。
+                        if (response.isSuccessful()) {//回调的方法执行在子线程。
                             System.out.println("response success");
-                        }
-                        else {
+                        } else {
                             System.out.println("response failed");
                         }
                     }
+                    //发起网络请求，传入base64数据
+                    //getImgBase64(Base64.encodeToString(outputStream.toByteArray(),Base64.DEFAULT));
                 });
-
             }
-        }.start();
+        }
     }
+
 
 }
