@@ -67,6 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        getWindow().setBackgroundDrawableResource(R.drawable.registerbg);
         //mob
         MobSDK.init(this, "3805a30a09595", "4126fd577130e07a64873af014315bed");
         MobSDK.submitPolicyGrantResult(true);
@@ -148,7 +149,7 @@ public class RegisterActivity extends AppCompatActivity {
                         .add("phonenumber",phone)
                         .build();
                 Request request = new Request.Builder()
-                        .url(Common.URL+"register/check")
+                        .url(Common.URL+"/register/check")
                         .post(body)
                         .cacheControl(CacheControl.FORCE_NETWORK)
                         .build();
@@ -276,7 +277,5 @@ public class RegisterActivity extends AppCompatActivity {
                 } else
                     System.out.println("response failed");
             }});
-
     }
-
 }

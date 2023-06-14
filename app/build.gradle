@@ -45,7 +45,8 @@ dependencies {
 
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'  // okhtttp库
     implementation 'com.squareup.okio:okio:1.17.4'      // okhttp需要依赖的基础
-    implementation 'com.google.code.gson:gson:2.8.2'    // gson依赖
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'// gson依赖
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
