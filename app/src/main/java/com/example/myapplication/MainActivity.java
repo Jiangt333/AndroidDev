@@ -23,7 +23,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements  View.OnClickListener {
 
-
     //数据库连接类
     private static Connection con = null;
     private static PreparedStatement stmt = null;
@@ -35,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getWindow().setBackgroundDrawableResource(R.drawable.loginbg);
         //登录跳转
         Button btnLogin = findViewById(R.id.bt_login);
         //注册跳转
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
             login.start();
         }
         public void onClickRegister(View v){
-        Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-        startActivity(intent);
+            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+            startActivity(intent);
         }
 }
