@@ -74,14 +74,17 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                 public void onResponse(Call call, Response response) throws IOException {
 
                     System.out.println("start on");
-                    if(response.isSuccessful()){//回调的方法执行在子线程。
+                    if(response.isSuccessful()){    // 回调的方法执行在子线程。
                         String userJson= response.body().string();
                         //Type type = new TypeToken<List<User>>() {
                         //}.getType(); //泛型类型，import com.google.gson.reflect.TypeToken;
                         User user = gson.fromJson(userJson, User.class); //反序列化
+                        System.out.println(user);
                         Intent intent = null;
+                        System.out.println("password="+password);
                         if (password.equals(user.getRealpassword())) {
                             intent = new Intent(MainActivity.this, TotalActivity.class);
+                            System.out.println("login!");
                             startActivity(intent);
                         } else {
                             System.out.println("wrong response");

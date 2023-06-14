@@ -1,0 +1,23 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:textSize="20dp"
+        android:lines="2"
+        android:ellipsize="end"
+        android:text="这是一个问题"/>
+
+    <TextView
+        android:id="@+id/time"
+        android:paddingLeft="160dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="2023-06-14 "/>
+
+</LinearLayout>

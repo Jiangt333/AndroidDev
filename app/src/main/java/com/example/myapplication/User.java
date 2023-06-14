@@ -1,21 +1,23 @@
 package com.example.myapplication;
 
-public class User {
-    private String login;
+public class User{
+
+    private int Id;
     private String name;
+    // Getters and setters
     private String realpassword;
     private String phone;
+    public int getId() {
+        return Id;
+    }
+    public void setId(int id) {
+        Id = id;
+    }
     public String getName() {
         return name;
     }
     public void setName(String name) {
         this.name = name;
-    }
-    public String getLogin() {
-        return login;
-    }
-    public void setLogin(String login) {
-        this.login = login;
     }
     public String getRealpassword() {
         return realpassword;
@@ -29,4 +31,5 @@ public class User {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
 }
