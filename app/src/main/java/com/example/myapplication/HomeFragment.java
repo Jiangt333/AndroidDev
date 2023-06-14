@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     List<Questionbox> QBox;
     ArrayList<String> questionList;
     ArrayList<String> timeList;
-    List<listviewItem> lvItemList = new ArrayList<listviewItem>();
+    List<listviewItem> lvItemList;
 
     class Threads_GetBox extends Thread {
         // 获取提问箱列表
@@ -96,13 +96,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                             timeList.add(qb.getTime());
                         }
                         System.out.println("congratulation!");
-                        System.out.println(QBox);
+
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
 
                                 listView = (ListView) tabView.findViewById(R.id.listview_1);
-                                ArrayAdapter<String> adapter = new ArrayAdapter<>(tabView.getContext(), android.R.layout.simple_list_item_1, questionList);
+                                lvItemList = new ArrayList<listviewItem>();
+                                InitlvItem();
+//                                System.out.println(questionList);
+//                                System.out.println(timeList);
+//                                System.out.println(lvItemList);
+//                                ArrayAdapter<String> adapter = new ArrayAdapter<>(tabView.getContext(), android.R.layout.simple_list_item_1, questionList);
+                                mListAdapter adapter = new mListAdapter(tabView.getContext(), R.layout.listview_item, lvItemList);
                                 listView.setAdapter(adapter);
 
                             }
@@ -150,8 +156,22 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         meQUnansweredTab = (LinearLayout) tabView.findViewById(R.id.id_meQUnanswered);
         meQAnsweredTab = (LinearLayout) tabView.findViewById(R.id.id_meQAnswered);
     }
-
-
+    private void InitlvItem() {
+        int length = questionList.size();
+        System.out.println("qlsize="+length);
+        int i = 0;
+//        listviewItem lvitem0 = new listviewItem(questionList.get(0), timeList.get(0));
+//        lvItemList.add(lvitem0);
+//        listviewItem lvitem1 = new listviewItem(questionList.get(1),timeList.get(1));
+//        lvItemList.add(lvitem1);
+        while(i < length){
+            System.out.println(questionList.get(i));
+            System.out.println(timeList.get(i));
+            listviewItem lvitem = new listviewItem(questionList.get(i), timeList.get(i));
+            lvItemList.add(lvitem);
+            i++;
+        }
+    }
 
     @Override
     public void onClick(View v) {
