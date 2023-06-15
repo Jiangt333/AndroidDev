@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Common {
+<<<<<<< HEAD
+=======
+
+>>>>>>> f3bc83eedab10ee081a87be440710cb1df100ae1
     public static String URL = "http://172.20.10.3:8080";
 
     public static ArrayList<String> questionList;

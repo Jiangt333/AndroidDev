@@ -137,7 +137,6 @@ public class RegisterActivity extends AppCompatActivity {
         get_code = findViewById(R.id.get_code);
         commit = findViewById(R.id.commit);
 
-
         get_code.setOnClickListener(view -> {
             OkHttpClient client = new OkHttpClient();
             phone = inputPhone.getText().toString().trim().replaceAll("/s", "");
