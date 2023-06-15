@@ -62,7 +62,6 @@ public class SquareFragment extends Fragment {
                     .cacheControl(CacheControl.FORCE_NETWORK)
                     .build();
 
-
             Call call = client.newCall(request);
             call.enqueue(new Callback() {
                 @Override
@@ -87,7 +86,6 @@ public class SquareFragment extends Fragment {
                                 swipeRefreshLayout.setRefreshing(false);
                             }
                         });
-
                     }
                     else {
                         System.out.println("wrong");
@@ -138,6 +136,8 @@ public class SquareFragment extends Fragment {
                                     System.out.println(res);
                                     if(res.equals("repeated")){
                                         //Toast.makeText(tabView.getContext(), "请勿重复添加~", Toast.LENGTH_SHORT).show();
+                                    }else if(res.equals("nonuser")){
+                                        //Toast.makeText(tabView.getContext(), "该用户不存在，请检查好友ID", Toast.LENGTH_SHORT).show();
                                     }else if(res.equals("successful")) {
                                         //Toast.makeText(tabView.getContext(), "添加成功-ID!", Toast.LENGTH_SHORT).show();
                                     }
