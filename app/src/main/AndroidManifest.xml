@@ -32,7 +32,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
-        tools:targetApi="tiramisu">
+        tools:targetApi="tiramisu"
+        >
 <!--        <activity-->
 <!--            android:name=".HomeFragment"-->
 <!--            android:exported="false"-->

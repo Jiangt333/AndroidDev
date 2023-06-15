@@ -275,6 +275,7 @@ public class FriendFragment extends Fragment {
                 adapterFans.notifyDataSetChanged();
                 //传递电话号码
                 intent.putExtra("target", targetList.get(i).Target);
+                intent.putExtra("targetName", targetList.get(i).TargetName);
                 System.out.println(targetList.get(i).Target);
                 startActivity(intent);
             }
