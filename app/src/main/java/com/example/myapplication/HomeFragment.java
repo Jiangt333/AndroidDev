@@ -140,6 +140,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 //                Toast.makeText(tabView.getContext(), "您选择的水果是：" + result, Toast.LENGTH_LONG).show();
 //            }
 //        });
+
         return tabView;
     }
 

@@ -33,18 +33,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="tiramisu">
+<!--        <activity-->
+<!--            android:name=".HomeFragment"-->
+<!--            android:exported="false"-->
+<!--            tools:ignore="Instantiatable" />-->
+<!--        <activity-->
+<!--            android:name=".SquareFragment"-->
+<!--            android:exported="false"-->
+<!--            tools:ignore="Instantiatable" />-->
+<!--        <activity-->
+<!--            android:name=".InfoFragment"-->
+<!--            android:exported="false"-->
+<!--            tools:ignore="Instantiatable" />-->
+<!--        <activity-->
+<!--            android:name=".qaDetailActivity"-->
+<!--            android:exported="true" />-->
         <activity
-            android:name=".HomeFragment"
-            android:exported="false"
-            tools:ignore="Instantiatable" />
-        <activity
-            android:name=".SquareFragment"
-            android:exported="false"
-            tools:ignore="Instantiatable" />
-        <activity
-            android:name=".InfoFragment"
-            android:exported="false"
-            tools:ignore="Instantiatable" />
+            android:name=".qaDetailActivity"
+            android:exported="false">
+
+        </activity>
 
         <activity
             android:name=".MainActivity"
