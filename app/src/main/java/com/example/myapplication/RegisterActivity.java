@@ -106,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
                     Toast.makeText(RegisterActivity.this, "验证成功！", Toast.LENGTH_LONG).show();
-                    approved = true;
+                    saveaccount();
 
                 } else {
                     Toast.makeText(RegisterActivity.this, "验证错误！", Toast.LENGTH_LONG).show();
@@ -175,8 +175,6 @@ public class RegisterActivity extends AppCompatActivity {
                     alterWarning();
                     saveaccount();
                 }
-                if(approved)
-                    saveaccount();
 
             } else {
                 Toast.makeText(RegisterActivity.this, "请输入手机号", Toast.LENGTH_LONG).show();
