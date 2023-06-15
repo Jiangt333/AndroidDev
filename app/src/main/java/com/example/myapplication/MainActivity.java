@@ -1,28 +1,27 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Looper;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import com.example.myapplication.entity.User;
+import android.widget.Toast;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.net.Socket;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import okhttp3.*;
+import java.io.IOException;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements  View.OnClickListener {
-
 
     //数据库连接类
     private static Connection con = null;
@@ -30,28 +29,12 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
     private EditText Username;
     private EditText PassWord;
     private Gson gson = new Gson();
-    private  final int REQUEST_EXTERNAL_STORAGE = 1;
-    private  String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE };
-    public  void verifyStoragePermissions(Activity activity) {
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE);
-        }
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //设置读写权限
-        verifyStoragePermissions(this);
+        getWindow().setBackgroundDrawableResource(R.drawable.loginbg);
         //登录跳转
         Button btnLogin = findViewById(R.id.bt_login);
         //注册跳转
@@ -91,18 +74,29 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                 public void onResponse(Call call, Response response) throws IOException {
 
                     System.out.println("start on");
-                    if(response.isSuccessful()){//回调的方法执行在子线程。
+                    if(response.isSuccessful()){    // 回调的方法执行在子线程。
                         String userJson= response.body().string();
                         //Type type = new TypeToken<List<User>>() {
                         //}.getType(); //泛型类型，import com.google.gson.reflect.TypeToken;
-                        User user =  gson.fromJson(userJson, User.class);
-                        Common.user= gson.fromJson(userJson, User.class); //反序列化
+                        User user = gson.fromJson(userJson, User.class); //反序列化
+                        System.out.println(user);
                         Intent intent = null;
-                        if (password.equals(user.getRealpassword())) {
+                        System.out.println("password="+password);
+                        if(user == null){
+                            Looper.prepare();
+                            Toast.makeText(MainActivity.this,"该用户不存在！",Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+                        } else if (password.equals(user.getRealpassword())) {
+                            Looper.prepare();
+                            Toast.makeText(MainActivity.this,"登录成功！",Toast.LENGTH_SHORT).show();
                             intent = new Intent(MainActivity.this, TotalActivity.class);
                             startActivity(intent);
+                            Looper.loop();
                         } else {
+                            Looper.prepare();
+                            Toast.makeText(MainActivity.this,"密码错误",Toast.LENGTH_SHORT).show();
                             System.out.println("wrong response");
+                            Looper.loop();
                         }
                     }
                     else {
@@ -118,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
             login.start();
         }
         public void onClickRegister(View v){
-        Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-        startActivity(intent);
+            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+            startActivity(intent);
         }
 }
