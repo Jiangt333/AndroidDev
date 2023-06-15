@@ -20,6 +20,7 @@
                 android:textSize="18dp"
                 android:lines="2"
                 android:ellipsize="end"
+                android:textColor="@color/black"
                 android:text="这是一个问题"/>
         </LinearLayout>
         <LinearLayout
