@@ -54,6 +54,7 @@
         </activity>
 
         <activity
+
             android:name=".qaDetailActivity"
             android:exported="false">
 
