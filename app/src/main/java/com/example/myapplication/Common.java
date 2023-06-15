@@ -2,7 +2,6 @@ package com.example.myapplication;
 
 public class Common {
 
-
-    public static String URL = "http://172.17.50.147:8080";
+    public static String URL = "http://192.168.200.1:8080";
 
 }

@@ -9,6 +9,7 @@
         android:id="@+id/askPlace"
         android:hint="向 我 提 问"
         android:gravity="center"
+        android:background="@drawable/textview_question_radioboder"
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="150dp"/>
