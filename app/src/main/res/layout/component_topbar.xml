@@ -5,6 +5,8 @@
     android:background="#f5f5f5"
     android:gravity="center"
     android:layout_width="match_parent"
+    android:translationZ="5dp"
+    android:elevation="5dp"
     android:layout_height="65dp">
 
     <TextView
