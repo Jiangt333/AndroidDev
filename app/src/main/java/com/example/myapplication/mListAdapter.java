@@ -42,10 +42,12 @@ public class mListAdapter extends ArrayAdapter<listviewItem> {
             Intent intent;
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(),"你点击了第"+position+"项",Toast.LENGTH_SHORT).show();
-
+//                Toast.makeText(getContext(),"你点击了第"+position+"项",Toast.LENGTH_SHORT).show();
+                TextView qtext = ll_question.findViewById(R.id.question);
+                String question = qtext.getText().toString();
+                System.out.println(question);
+                Common.nowpos = Common.questionList.indexOf(question);
                 intent = new Intent(mContext, qaDetailActivity.class);
-
                 mContext.startActivity(intent);
                 System.out.println("yes");
             }

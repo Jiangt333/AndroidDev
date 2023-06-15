@@ -46,9 +46,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private LinearLayout meQUnansweredTab;
     private LinearLayout meQAnsweredTab;
     private Gson gson = new Gson();
+
     List<Questionbox> QBox;
-    ArrayList<String> questionList;
-    ArrayList<String> timeList;
+
     List<listviewItem> lvItemList;
 
     class Threads_GetBox extends Thread {
@@ -87,13 +87,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     if(response.isSuccessful()){//回调的方法执行在子线程。
                         String QBoxJson = response.body().string();
                         QBox = gson.fromJson(QBoxJson, new TypeToken<ArrayList<Questionbox>>(){}.getType());
-                        questionList = new ArrayList<>();
-                        timeList = new ArrayList<>();
+//                        System.out.println("QBox"+QBox);
+                        Common.questionList = new ArrayList<>();    // 一定要在这里new，在Common里不要new
+                        Common.timeList = new ArrayList<>();
+                        Common.answerList = new ArrayList<>();
                         for(Questionbox qb : QBox){
-                            questionList.add(qb.getQuestion());
+                            Common.questionList.add(qb.getQuestion());
                         }
                         for(Questionbox qb : QBox){
-                            timeList.add(qb.getTime());
+                            Common.timeList.add(qb.getTime());
+                        }
+                        for(Questionbox qb : QBox){
+                            Common.answerList.add(qb.getAnswer());
                         }
                         System.out.println("congratulation!");
 
@@ -104,13 +109,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                                 listView = (ListView) tabView.findViewById(R.id.listview_1);
                                 lvItemList = new ArrayList<listviewItem>();
                                 InitlvItem();
-//                                System.out.println(questionList);
-//                                System.out.println(timeList);
-//                                System.out.println(lvItemList);
+//                                System.out.println("ql"+Common.questionList);
+//                                System.out.println("tl"+Common.timeList);
+//                                System.out.println("ll"+lvItemList);
 //                                ArrayAdapter<String> adapter = new ArrayAdapter<>(tabView.getContext(), android.R.layout.simple_list_item_1, questionList);
                                 mListAdapter adapter = new mListAdapter(tabView.getContext(), R.layout.listview_item, lvItemList);
                                 listView.setAdapter(adapter);
-
                             }
                         });
                     }
@@ -128,19 +132,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         tabView = inflater.inflate(R.layout.tab_home, container, false);
         InitData();
         InitEvents();
-
-        System.out.println("ok!");
-//        Threads_GetBox GetBox = new Threads_GetBox();
-//        GetBox.start();
-
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
-//                String result = ((TextView) view).getText().toString();
-//                Toast.makeText(tabView.getContext(), "您选择的水果是：" + result, Toast.LENGTH_LONG).show();
-//            }
-//        });
-
         return tabView;
     }
 
@@ -156,23 +147,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         QmeAnsweredTab = (LinearLayout) tabView.findViewById(R.id.id_QmeAnswered);
         meQUnansweredTab = (LinearLayout) tabView.findViewById(R.id.id_meQUnanswered);
         meQAnsweredTab = (LinearLayout) tabView.findViewById(R.id.id_meQAnswered);
+        Threads_GetBox GetBox_0 = new Threads_GetBox();
+        GetBox_0.phone = "18060142936";
+        GetBox_0.state = "0";
+        GetBox_0.server = "/gettarget";
+        GetBox_0.start();
     }
     private void InitlvItem() {
-        int length = questionList.size();
+        int length = Common.questionList.size();
         System.out.println("qlsize="+length);
         int i = 0;
-//        listviewItem lvitem0 = new listviewItem(questionList.get(0), timeList.get(0));
-//        lvItemList.add(lvitem0);
-//        listviewItem lvitem1 = new listviewItem(questionList.get(1),timeList.get(1));
-//        lvItemList.add(lvitem1);
         while(i < length){
-            System.out.println(questionList.get(i));
-            System.out.println(timeList.get(i));
-            listviewItem lvitem = new listviewItem(questionList.get(i), timeList.get(i));
+            listviewItem lvitem = new listviewItem(Common.questionList.get(i), Common.timeList.get(i));
             lvItemList.add(lvitem);
             i++;
         }
     }
+
 
     @Override
     public void onClick(View v) {
@@ -227,23 +218,4 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
-
-//    @Override
-//    public void onActivityCreated(Bundle savedInstanceState) {
-//        // TODO Auto-generated method stub
-//        super.onActivityCreated(savedInstanceState);
-//        Threads_GetBox GetBox = new Threads_GetBox();
-//        GetBox.start();
-//        listView = (ListView) tabView.findViewById(R.id.listview_1);
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(tabView.getContext(), android.R.layout.simple_list_item_1, QmeBox);
-//        listView.setAdapter(adapter);
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
-//                String result = ((TextView) view).getText().toString();
-//                Toast.makeText(tabView.getContext(), "您选择的水果是：" + result, Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//    }
 }

@@ -15,8 +15,10 @@ public class qaDetailActivity extends AppCompatActivity {
         setContentView(R.layout.qa_detail);
         TextView TopBarTitle = (TextView)findViewById(R.id.topbar_title);
         TopBarTitle.setText("回答详情");
-
-
+        TextView qtext = (TextView)findViewById(R.id.question);
+        TextView atext = (TextView)findViewById(R.id.answer);
+        qtext.setText(Common.questionList.get(Common.nowpos));
+        atext.setText(Common.answerList.get(Common.nowpos));
     }
 
 }
