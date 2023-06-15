@@ -17,7 +17,7 @@
             android:id="@+id/toggleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我的关注" />
+            android:text="关注" />
 
         <ListView
             android:id="@+id/list_atten"
@@ -29,7 +29,7 @@
             android:id="@+id/newsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="最新消息" />
+            android:text="粉丝" />
 
         <ListView
             android:id="@+id/list_new"
@@ -45,6 +45,7 @@
         android:id="@+id/addButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_bg"
         android:text="添加新好友"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true" />
