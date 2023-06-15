@@ -49,6 +49,12 @@
 <!--            android:name=".qaDetailActivity"-->
 <!--            android:exported="true" />-->
         <activity
+            android:name=".AskActivity"
+            android:exported="false">
+        </activity>
+
+        <activity
+
             android:name=".qaDetailActivity"
             android:exported="true">
 
