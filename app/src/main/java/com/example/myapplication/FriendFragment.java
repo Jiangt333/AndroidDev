@@ -40,13 +40,13 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class FriendFragment extends Fragment {
-    ListView listView;
-    ListView listView_new;
-    View tabView;
-    SwipeRefreshLayout swipeRefreshLayout;
+    private ListView listView;
+    private ListView listView_new;
+    private View tabView;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private Gson gson = new Gson();
-    ArrayList<String> Atten = new ArrayList<>();
-    ArrayList<String> Fans = new ArrayList<>();
+    public ArrayList<String> Atten = new ArrayList<>();//存储我关注的人
+    public ArrayList<String> Fans = new ArrayList<>();//存储关注我的人
 
     class Threads_GetAtten extends Thread {
         // 获取提问箱列表
