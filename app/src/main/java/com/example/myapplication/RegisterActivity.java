@@ -50,14 +50,17 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean registered = true;
     private TimerTask timerTask;
     private Timer timer;
+    private EditText inputName;
     private EditText inputPhone;
     private EditText inputCode;
     private EditText inputPassword;
     private Button get_code;
     private Button commit;
     public String country = "86";
+    private String name;
     private String phone;
     private String password;
+    private String code;
     private int TIME = 60;
     private static final int CODE_REPEAT = 1;
     private static Connection con = null;
@@ -104,11 +107,9 @@ public class RegisterActivity extends AppCompatActivity {
             int result = msg.arg2;
             Object data = msg.obj;
             if (result == SMSSDK.RESULT_COMPLETE) {
-
                 if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
                     Toast.makeText(RegisterActivity.this, "验证成功！", Toast.LENGTH_LONG).show();
-                    approved = true;
-
+                    saveaccount();
                 } else {
                     Toast.makeText(RegisterActivity.this, "验证错误！", Toast.LENGTH_LONG).show();
                 }
@@ -129,11 +130,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void initView() {
 
+        inputName = findViewById(R.id.name);
         inputCode = findViewById(R.id.code);
         inputPhone = findViewById(R.id.phone);
         inputPassword = findViewById(R.id.password);
         get_code = findViewById(R.id.get_code);
         commit = findViewById(R.id.commit);
+
 
         get_code.setOnClickListener(view -> {
             OkHttpClient client = new OkHttpClient();
@@ -162,30 +165,28 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onResponse(Call call, Response response) throws IOException {
                         if (response.isSuccessful()) {//回调的方法执行在子线程。
                             String res = response.body().string();
-                            if (res.equals("not registered")) {
+                            if (res.equals("notRegistered")) {
                                 //发送验证码
                                 registered = false;
                             } else {
+                                Looper.prepare();
                                 Toast.makeText(RegisterActivity.this, "手机号已被注册", Toast.LENGTH_LONG).show();
+                                Looper.loop();
                             }
                         } else
                             System.out.println("response failed");
                     }});
-                if(!registered)
-                {
-                    alterWarning();
-                    saveaccount();
-                }
-                if(approved)
-                    saveaccount();
-
+                    if(!registered){
+                        alterWarning();
+                    }
             } else {
                 Toast.makeText(RegisterActivity.this, "请输入手机号", Toast.LENGTH_LONG).show();
             }
         });
 
         commit.setOnClickListener(view -> {
-            String code = inputCode.getText().toString().replaceAll("/s", "");
+            name = inputName.getText().toString().replaceAll("/s", "");
+            code = inputCode.getText().toString().replaceAll("/s", "");
             phone = inputPhone.getText().toString().trim().replaceAll("/s", "");
             password = inputPassword.getText().toString().trim().replaceAll("/s", "");
 
@@ -250,11 +251,12 @@ public class RegisterActivity extends AppCompatActivity {
     private void saveaccount(){
         OkHttpClient client = new OkHttpClient();
         RequestBody body = new FormBody.Builder()
+                .add("name",name)
                 .add("password", password)
                 .add("phonenumber",phone)
                 .build();
         Request request = new Request.Builder()
-                .url(Common.URL+"/register/comfirm")
+                .url(Common.URL+"/register/confirm")
                 .post(body)
                 .cacheControl(CacheControl.FORCE_NETWORK)
                 .build();

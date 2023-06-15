@@ -82,12 +82,21 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                         System.out.println(user);
                         Intent intent = null;
                         System.out.println("password="+password);
-                        if (password.equals(user.getRealpassword())) {
+                        if(user == null){
+                            Looper.prepare();
+                            Toast.makeText(MainActivity.this,"该用户不存在！",Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+                        } else if (password.equals(user.getRealpassword())) {
+                            Looper.prepare();
+                            Toast.makeText(MainActivity.this,"登录成功！",Toast.LENGTH_SHORT).show();
                             intent = new Intent(MainActivity.this, TotalActivity.class);
-                            System.out.println("login!");
                             startActivity(intent);
+                            Looper.loop();
                         } else {
+                            Looper.prepare();
+                            Toast.makeText(MainActivity.this,"密码错误",Toast.LENGTH_SHORT).show();
                             System.out.println("wrong response");
+                            Looper.loop();
                         }
                     }
                     else {
