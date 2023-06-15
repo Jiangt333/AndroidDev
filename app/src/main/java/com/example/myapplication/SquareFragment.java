@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,8 +46,9 @@ public class SquareFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
     private Gson gson = new Gson();
     ArrayList<String> Atten = new ArrayList<>();
+    ArrayList<String> Fans = new ArrayList<>();
 
-    class Threads_GetBox extends Thread {
+    class Threads_GetAtten extends Thread {
         // 获取提问箱列表
         private OkHttpClient client = null;
         @Override
@@ -66,7 +68,7 @@ public class SquareFragment extends Fragment {
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    System.out.println("fail to get box!");
+                    System.out.println("fail to get attention!");
                 }
 
                 @Override
@@ -81,8 +83,56 @@ public class SquareFragment extends Fragment {
                             public void run() {
                                 ArrayAdapter<String> adapter = new ArrayAdapter<>(tabView.getContext(), android.R.layout.simple_list_item_1, Atten);
                                 listView.setAdapter(adapter);
-                                Toast.makeText(tabView.getContext(), "congratulation!", Toast.LENGTH_SHORT).show();
                                 System.out.println(Atten);
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+                        });
+                    }
+                    else {
+                        System.out.println("wrong");
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }
+            });
+        }
+    }
+
+    class Threads_GetFans extends Thread {
+        // 获取提问箱列表
+        private OkHttpClient client = null;
+        @Override
+        public void run() {
+            String myPhone = "1";
+            client = new OkHttpClient();
+            RequestBody body = new FormBody.Builder()
+                    .add("myfans", myPhone)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(Common.URL+"/square/myfans")
+                    .post(body)
+                    .cacheControl(CacheControl.FORCE_NETWORK)
+                    .build();
+
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    System.out.println("fail to get fan!");
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    System.out.println("start on");
+
+                    if(response.isSuccessful()){//回调的方法执行在子线程。
+                        String FansJson = response.body().string();
+                        Fans = gson.fromJson(FansJson, new TypeToken<ArrayList<String>>(){}.getType());
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ArrayAdapter<String> adapterFans = new ArrayAdapter<>(tabView.getContext(), android.R.layout.simple_list_item_1, Fans);
+                                listView_new.setAdapter(adapterFans);
+                                System.out.println(Fans);
                                 swipeRefreshLayout.setRefreshing(false);
                             }
                         });
@@ -108,7 +158,9 @@ public class SquareFragment extends Fragment {
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int id) {
+                        //当前手机号与当前用户昵称
                         String source = "1";
+                        String sourceName = "zhangchw";
 
                         // 处理输入内容
                         String inputText = editText.getText().toString().trim();
@@ -117,6 +169,7 @@ public class SquareFragment extends Fragment {
                         OkHttpClient client = new OkHttpClient();
                         RequestBody body = new FormBody.Builder()
                                 .add("source",source)
+                                .add("sourceName",sourceName)
                                 .add("target",inputText)
                                 .build();
                         Request request = new Request.Builder()
@@ -135,14 +188,20 @@ public class SquareFragment extends Fragment {
                                     String res = response.body().string();
                                     System.out.println(res);
                                     if(res.equals("repeated")){
-                                        //Toast.makeText(tabView.getContext(), "请勿重复添加~", Toast.LENGTH_SHORT).show();
-                                    }else if(res.equals("nonuser")){
-                                        //Toast.makeText(tabView.getContext(), "该用户不存在，请检查好友ID", Toast.LENGTH_SHORT).show();
+                                        Looper.prepare();
+                                        Toast.makeText(tabView.getContext(), "请勿重复添加~", Toast.LENGTH_SHORT).show();
+                                        Looper.loop();
                                     }else if(res.equals("successful")) {
-                                        //Toast.makeText(tabView.getContext(), "添加成功-ID!", Toast.LENGTH_SHORT).show();
+                                        Looper.prepare();
+                                        Toast.makeText(tabView.getContext(), "添加成功-ID!", Toast.LENGTH_SHORT).show();
+                                        Looper.loop();
                                     }
-                                } else
+                                } else {
+                                    Looper.prepare();
+                                    Toast.makeText(tabView.getContext(), "该用户不存在，请检查好友ID", Toast.LENGTH_SHORT).show();
                                     System.out.println("response failed");
+                                    Looper.loop();
+                                }
                             }});
                         //----
                     }
@@ -171,15 +230,18 @@ public class SquareFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         tabView = inflater.inflate(R.layout.tab_square, container, false);
-        listView = (ListView) tabView.findViewById(R.id.list_atten);
-        listView_new = (ListView) tabView.findViewById(R.id.list_new);
+        listView = tabView.findViewById(R.id.list_atten);
+        listView_new = tabView.findViewById(R.id.list_new);
         Button tBtn = tabView.findViewById(R.id.toggleButton);
         Button nBtn = tabView.findViewById(R.id.newsButton);
         Button aBtn = tabView.findViewById(R.id.addButton);
         swipeRefreshLayout = tabView.findViewById(R.id.swipeRefreshLayout);
 
-        Threads_GetBox GetBox = new Threads_GetBox();
-        GetBox.start();
+        Threads_GetAtten GetAtten = new Threads_GetAtten();
+        GetAtten.start();
+
+        Threads_GetFans GetFans = new Threads_GetFans();
+        GetFans.start();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -215,8 +277,11 @@ public class SquareFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Threads_GetBox GetBox = new Threads_GetBox();
-                GetBox.start();
+                Threads_GetAtten GetAtten = new Threads_GetAtten();
+                GetAtten.start();
+
+                Threads_GetFans GetFans = new Threads_GetFans();
+                GetFans.start();
             }
         });
 
