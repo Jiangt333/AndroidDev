@@ -7,8 +7,9 @@ import java.util.List;
 
 public class Common {
 
-
     public static String URL = "http://172.17.22.225:8080";
+
+    public static List<Questionbox> QBox = new ArrayList<>();
 
     public static List<listviewItem> lvItemList = new ArrayList<listviewItem>();
     public static ListView listView;
@@ -30,6 +31,10 @@ public class Common {
 //    public static ArrayList<String> questiontimeList;
 //    public static ArrayList<String> answertimeList ;
     public static int nowpos;   // 当前选中的问题在列表中的索引值
+
+    public static mBottomSheetDialogFragment BottomSheet = new mBottomSheetDialogFragment();
+
+    public static boolean deletingItemFlag = false;
 
 
 }
