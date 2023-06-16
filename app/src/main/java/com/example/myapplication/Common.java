@@ -31,4 +31,5 @@ public class Common {
     public static int nowpos;   // 当前选中的问题在列表中的索引值
     public static mBottomSheetDialogFragment BottomSheet = new mBottomSheetDialogFragment();
     public static int hometabNum = 0;   // 指示首页现在在4个小tab页面的哪一个
+
 }
