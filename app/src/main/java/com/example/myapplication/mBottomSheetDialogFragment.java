@@ -52,7 +52,7 @@ public class mBottomSheetDialogFragment extends BottomSheetDialogFragment implem
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    System.out.println("fail to get box!");
+                    System.out.println("fail to delete!");
                 }
 
                 @Override
