@@ -38,7 +38,6 @@ import okhttp3.Response;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
     View tabView;
-
     private LinearLayout QmeUnansweredTab;
     private LinearLayout QmeAnsweredTab;
     private LinearLayout meQUnansweredTab;
@@ -142,7 +141,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     }
                 }
             });
-
         }
     }
 
@@ -168,14 +166,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         meQUnansweredTab = (LinearLayout) tabView.findViewById(R.id.id_meQUnanswered);
         meQAnsweredTab = (LinearLayout) tabView.findViewById(R.id.id_meQAnswered);
         Threads_GetBox GetBox_0 = new Threads_GetBox();
-        GetBox_0.phone = "18060142936";
+        GetBox_0.phone = Common.user.getPhone();
         GetBox_0.state = "0";
         GetBox_0.server = "/gettarget";
         GetBox_0.start();
     }
     private void InitlvItem() {
         int length = Common.questionList.size();
-        System.out.println("qlsize="+length);
+//        System.out.println("qlsize="+length);
         int i = 0;
         while(i < length){
             listviewItem lvitem = new listviewItem(Common.questionList.get(i), Common.questiontimeList.get(i));
@@ -206,7 +204,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         switch (i) {
             case 0:
                 Threads_GetBox GetBox_1 = new Threads_GetBox();
-                GetBox_1.phone = "18060142936";
+                GetBox_1.phone = Common.user.getPhone();
                 GetBox_1.state = "0";
                 GetBox_1.server = "/gettarget";
                 GetBox_1.start();
@@ -214,7 +212,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             case 1:
                 Threads_GetBox GetBox_2 = new Threads_GetBox();
-                GetBox_2.phone = "18060142936";
+                GetBox_2.phone = Common.user.getPhone();
                 GetBox_2.state = "1";
                 GetBox_2.server = "/gettarget";
                 GetBox_2.start();
@@ -222,7 +220,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             case 2:
                 Threads_GetBox GetBox_3 = new Threads_GetBox();
-                GetBox_3.phone = "18060142936";
+                GetBox_3.phone = Common.user.getPhone();
                 GetBox_3.state = "0";
                 GetBox_3.server = "/getsource";
                 GetBox_3.start();
@@ -230,7 +228,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             case 3:
                 Threads_GetBox GetBox_4 = new Threads_GetBox();
-                GetBox_4.phone = "18060142936";
+                GetBox_4.phone = Common.user.getPhone();
                 GetBox_4.state = "1";
                 GetBox_4.server = "/getsource";
                 GetBox_4.start();
