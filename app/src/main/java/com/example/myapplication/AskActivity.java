@@ -5,7 +5,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +31,7 @@ public class AskActivity extends AppCompatActivity {
     private ListView answeredList;//已回答过的问题列表
     private Button commitBtn;
     private String question;
+    private ImageButton backBtn;
 
     class Threads_Ask extends Thread {
         // 提交提问
@@ -137,9 +140,14 @@ public class AskActivity extends AppCompatActivity {
         askText = findViewById(R.id.askPlace);
         answeredList = findViewById(R.id.answered);
         commitBtn = findViewById(R.id.commit);
+        backBtn = findViewById(R.id.backButton);
 
         String target = getIntent().getStringExtra("target");
-        System.out.println(target);
+        String targetName = getIntent().getStringExtra("targetName");
+
+        TextView TopBarTitle = (TextView)findViewById(R.id.topbar_title);
+        TopBarTitle.setText(targetName + " 的 回 答");
+
         /*
         Threads_Ans ans = new Threads_Ans();
         ans.start();
@@ -153,6 +161,12 @@ public class AskActivity extends AppCompatActivity {
                 }else{
                     Toast.makeText(AskActivity.this, "请输入你的提问", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

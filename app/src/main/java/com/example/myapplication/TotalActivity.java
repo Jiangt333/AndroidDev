@@ -1,7 +1,9 @@
 
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -10,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
@@ -17,6 +20,7 @@ import android.content.MutableContextWrapper;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -34,6 +38,7 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
 
     // 声明ViewPager
     private ViewPager ViewPager;
+    private Toolbar toolbar;
     // 适配器
     private FragmentPagerAdapter Adapter;
     // 装载Fragment的集合
@@ -50,6 +55,7 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
     private TextView SquareBottomTabText;
     private TextView InfoBottomTabText;
     private TextView FriendBottomTabText;
+    private ImageButton backButton;
 
     // 三个页面的Fragment
     private Fragment HomeFragment;
@@ -73,10 +79,11 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
         initEvents();   // 初始化事件
         initDatas();    // 初始化数据
     }
-
     // 初始化控件
     private void initViews() {
         ViewPager = (ViewPager) findViewById(R.id.id_viewpager);
+
+        backButton = findViewById(R.id.backButton);
 
         HomeBottomTab = (LinearLayout) findViewById(R.id.id_homebottomtab);
         SquareBottomTab = (LinearLayout) findViewById(R.id.id_squarebottomtab);
@@ -94,6 +101,7 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
         SquareBottomTab.setOnClickListener(this);
         InfoBottomTab.setOnClickListener(this);
         FriendBottomTab.setOnClickListener(this);
+        backButton.setOnClickListener(this);
     }
     private void initDatas() {
         FragmentList = new ArrayList<>();
@@ -152,6 +160,9 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
         }
         if(v.getId() == R.id.id_infobottomtab) {
             selectTabBtn(3);
+        }
+        if (v.getId() == R.id.backButton) {
+            finish(); // 返回上一个界面
         }
 
     }

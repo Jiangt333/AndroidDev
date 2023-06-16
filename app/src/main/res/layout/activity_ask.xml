@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:windowSoftInputMode="adjustResize|stateHidden">
+    <include layout="@layout/component_topbar"/>
 
     <EditText
         android:id="@+id/askPlace"
