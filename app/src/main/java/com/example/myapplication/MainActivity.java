@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                         //Type type = new TypeToken<List<User>>() {
                         //}.getType(); //泛型类型，import com.google.gson.reflect.TypeToken;
                         User user = gson.fromJson(userJson, User.class); //反序列化
+                        Common.user = user;
                         System.out.println(user);
                         Intent intent = null;
                         System.out.println("password="+password);
