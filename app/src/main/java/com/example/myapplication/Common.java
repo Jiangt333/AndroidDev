@@ -6,7 +6,7 @@ import java.util.List;
 public class Common {
 
 
-    public static String URL = "http://172.27.1.140:8080";
+    public static String URL = "http://172.17.50.147:8080";
 
     public static ArrayList<String> questionList;
     public static ArrayList<String> answerList;

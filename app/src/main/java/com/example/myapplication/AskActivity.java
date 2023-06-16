@@ -142,8 +142,8 @@ public class AskActivity extends AppCompatActivity {
         commitBtn = findViewById(R.id.commit);
         backBtn = findViewById(R.id.backButton);
 
-        String target = getIntent().getStringExtra("target");
-        String targetName = getIntent().getStringExtra("targetName");
+        String target = getIntent().getStringExtra("target");//手机号
+        String targetName = getIntent().getStringExtra("targetName");//昵称
 
         TextView TopBarTitle = (TextView)findViewById(R.id.topbar_title);
         TopBarTitle.setText(targetName + " 的 回 答");
