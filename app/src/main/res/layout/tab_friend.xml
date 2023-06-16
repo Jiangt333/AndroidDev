@@ -8,44 +8,90 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/toggleButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="关注" />
-
-            <ListView
-                android:id="@+id/list_atten"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center" />
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/newsButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="粉丝" />
-
-            <ListView
-                android:id="@+id/list_new"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center" />
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <ImageButton
+                    android:id="@+id/toggleButton"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/arrowdown"
+                    android:scaleType="fitCenter"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="25dp"
+                    android:text="关 注"
+                    />
+
+            </LinearLayout>
+
+                <ListView
+                    android:id="@+id/list_atten"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/newsButton"
+                        android:layout_width="50dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/arrowdown"
+                        android:scaleType="fitCenter"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="25dp"
+                        android:text="粉 丝"
+                        />
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/list_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+        </ScrollView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <Button
         android:id="@+id/addButton"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_bg"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/addbutton_bg"
         android:text="添加新好友"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true" />
