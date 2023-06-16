@@ -311,11 +311,11 @@ public class FriendFragment extends Fragment {
                     }
                 })
                 .setNegativeButton("取消",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                });
 
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
@@ -37,19 +38,16 @@ import okhttp3.Response;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
     View tabView;
-
-    ListView listView;
-
-
     private LinearLayout QmeUnansweredTab;
     private LinearLayout QmeAnsweredTab;
     private LinearLayout meQUnansweredTab;
     private LinearLayout meQAnsweredTab;
     private Gson gson = new Gson();
+//    private ListView listView;
 
     List<Questionbox> QBox;
 
-    List<listviewItem> lvItemList;
+//    List<listviewItem> lvItemList;
 
     class Threads_GetBox extends Thread {
         // 获取提问箱列表
@@ -59,8 +57,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         String server = null;
         @Override
         public void run() {
-
-
             client = new OkHttpClient();
             RequestBody body = new FormBody.Builder()
                     .add("phone", phone)
@@ -71,7 +67,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     .post(body)
                     .cacheControl(CacheControl.FORCE_NETWORK)
                     .build();
-
 
             Call call = client.newCall(request);
             call.enqueue(new Callback() {
@@ -88,33 +83,56 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         String QBoxJson = response.body().string();
                         QBox = gson.fromJson(QBoxJson, new TypeToken<ArrayList<Questionbox>>(){}.getType());
 //                        System.out.println("QBox"+QBox);
-                        Common.questionList = new ArrayList<>();    // 一定要在这里new，在Common里不要new
-                        Common.timeList = new ArrayList<>();
-                        Common.answerList = new ArrayList<>();
+//                        Common.idList = new ArrayList<>();
+//                        Common.questionList = new ArrayList<>();
+//                        Common.answerList = new ArrayList<>();
+//                        Common.sourcephoneList = new ArrayList<>();
+//                        Common.targetphoneList = new ArrayList<>();
+//                        Common.questiontimeList = new ArrayList<>();
+//                        Common.answertimeList = new ArrayList<>();
+                        Common.idList.clear();
+                        Common.questionList.clear();
+                        Common.answerList.clear();
+                        Common.sourcephoneList.clear();
+                        Common.targetphoneList.clear();
+                        Common.questiontimeList.clear();
+                        Common.answertimeList.clear();
+                        for(Questionbox qb : QBox){
+                            Common.idList.add(qb.getId());
+                        }
                         for(Questionbox qb : QBox){
                             Common.questionList.add(qb.getQuestion());
                         }
                         for(Questionbox qb : QBox){
-                            Common.timeList.add(qb.getTime());
+                            Common.answerList.add(qb.getAnswer());
                         }
                         for(Questionbox qb : QBox){
-                            Common.answerList.add(qb.getAnswer());
+                            Common.sourcephoneList.add(qb.getSourcePhone());
+                        }
+                        for(Questionbox qb : QBox){
+                            Common.targetphoneList.add(qb.getTargetPhone());
+                        }
+                        for(Questionbox qb : QBox){
+                            Common.questiontimeList.add(qb.getQuestionTime());
+                        }
+                        for(Questionbox qb : QBox){
+                            Common.answertimeList.add(qb.getAnswerTime());
                         }
                         System.out.println("congratulation!");
 
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-
-                                listView = (ListView) tabView.findViewById(R.id.listview_1);
-                                lvItemList = new ArrayList<listviewItem>();
+                                Common.listView = (ListView) tabView.findViewById(R.id.listview_1);
+//                                Common.lvItemList = new ArrayList<listviewItem>();
+                                Common.lvItemList.clear();
                                 InitlvItem();
 //                                System.out.println("ql"+Common.questionList);
 //                                System.out.println("tl"+Common.timeList);
 //                                System.out.println("ll"+lvItemList);
 //                                ArrayAdapter<String> adapter = new ArrayAdapter<>(tabView.getContext(), android.R.layout.simple_list_item_1, questionList);
-                                mListAdapter adapter = new mListAdapter(tabView.getContext(), R.layout.listview_item, lvItemList);
-                                listView.setAdapter(adapter);
+                                Common.adapter = new mListAdapter(getActivity(), R.layout.listview_item, Common.lvItemList);
+                                Common.listView.setAdapter(Common.adapter);
                             }
                         });
                     }
@@ -148,18 +166,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         meQUnansweredTab = (LinearLayout) tabView.findViewById(R.id.id_meQUnanswered);
         meQAnsweredTab = (LinearLayout) tabView.findViewById(R.id.id_meQAnswered);
         Threads_GetBox GetBox_0 = new Threads_GetBox();
-        GetBox_0.phone = "18060142936";
+        GetBox_0.phone = Common.user.getPhone();
         GetBox_0.state = "0";
         GetBox_0.server = "/gettarget";
         GetBox_0.start();
     }
     private void InitlvItem() {
         int length = Common.questionList.size();
-        System.out.println("qlsize="+length);
+//        System.out.println("qlsize="+length);
         int i = 0;
         while(i < length){
-            listviewItem lvitem = new listviewItem(Common.questionList.get(i), Common.timeList.get(i));
-            lvItemList.add(lvitem);
+            listviewItem lvitem = new listviewItem(Common.questionList.get(i), Common.questiontimeList.get(i));
+            Common.lvItemList.add(lvitem);
             i++;
         }
     }
@@ -179,7 +197,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         if(v.getId() == R.id.id_meQAnswered) {
             selectTabBtn(3);
         }
-
     }
     public void selectTabBtn(int i) {
 
@@ -187,7 +204,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         switch (i) {
             case 0:
                 Threads_GetBox GetBox_1 = new Threads_GetBox();
-                GetBox_1.phone = "18060142936";
+                GetBox_1.phone = Common.user.getPhone();
                 GetBox_1.state = "0";
                 GetBox_1.server = "/gettarget";
                 GetBox_1.start();
@@ -195,7 +212,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             case 1:
                 Threads_GetBox GetBox_2 = new Threads_GetBox();
-                GetBox_2.phone = "18060142936";
+                GetBox_2.phone = Common.user.getPhone();
                 GetBox_2.state = "1";
                 GetBox_2.server = "/gettarget";
                 GetBox_2.start();
@@ -203,7 +220,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             case 2:
                 Threads_GetBox GetBox_3 = new Threads_GetBox();
-                GetBox_3.phone = "18060142936";
+                GetBox_3.phone = Common.user.getPhone();
                 GetBox_3.state = "0";
                 GetBox_3.server = "/getsource";
                 GetBox_3.start();
@@ -211,7 +228,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             case 3:
                 Threads_GetBox GetBox_4 = new Threads_GetBox();
-                GetBox_4.phone = "18060142936";
+                GetBox_4.phone = Common.user.getPhone();
                 GetBox_4.state = "1";
                 GetBox_4.server = "/getsource";
                 GetBox_4.start();

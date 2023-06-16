@@ -3,19 +3,19 @@ package com.example.myapplication;
 public class listviewItem {
     private String question;
 
-    private String time;
+    private String questiontime;
 
     public listviewItem(String question, String time) {
         this.question = question;
-        this.time= time;
+        this.questiontime= time;
     }
 
     public void setQuestion(String question) {
         this.question = question;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setQuestionTime(String time) {
+        this.questiontime = time;
     }
 
 
@@ -23,8 +23,8 @@ public class listviewItem {
         return question;
     }
 
-    public String getTime() {
-        return time;
+    public String getQuestionTime() {
+        return questiontime;
     }
 
 }
