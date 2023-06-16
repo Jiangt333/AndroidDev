@@ -15,7 +15,11 @@ public class Questionbox {
         private String answer;
 
         private String state;
-        private String time;
+        private String questiontime;
+        private String answertime;
+        public int getId() {
+                return Id;
+        }
 
         public String getSourcePhone() {
                 return sourcephone;
@@ -53,11 +57,17 @@ public class Questionbox {
         public void setState(String state) {
                 this.state = state;
         }
-        public String getTime() {
-                return time;
+        public String getQuestionTime() {
+                return questiontime;
         }
-        public void setTime(String time) {
-                this.time = time;
+        public void setQuestionTime(String time) {
+                this.questiontime = time;
+        }
+        public String getAnswerTime() {
+                return answertime;
+        }
+        public void setAnswerTime(String time) {
+                this.answertime = time;
         }
 }
 
