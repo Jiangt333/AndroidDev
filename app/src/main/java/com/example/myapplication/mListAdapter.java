@@ -59,6 +59,7 @@ public class mListAdapter extends ArrayAdapter<listviewItem> {
 //                TextView qtext = ll_question.findViewById(R.id.question);
                 TextView qtext = (TextView)  view.findViewById(R.id.question);
                 String question = qtext.getText().toString();
+                Common.nowpos = Common.questionList.indexOf(question);
                 System.out.println(question);
                 Common.nowpos = Common.questionList.indexOf(question);
                 intent = new Intent(mContext, qaDetailActivity.class);

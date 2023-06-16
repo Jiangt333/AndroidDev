@@ -13,7 +13,6 @@ public class Questionbox {
         private String question;
 
         private String answer;
-
         private String state;
         private String questiontime;
         private String answertime;

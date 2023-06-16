@@ -97,6 +97,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         Common.targetphoneList.clear();
                         Common.questiontimeList.clear();
                         Common.answertimeList.clear();
+                        Common.stateList.clear();
                         for(Questionbox qb : QBox){
                             Common.idList.add(qb.getId());
                         }
@@ -118,6 +119,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         for(Questionbox qb : QBox){
                             Common.answertimeList.add(qb.getAnswerTime());
                         }
+                        for(Questionbox qb : QBox){
+                            Common.stateList.add(qb.getState());
+                        }
+                        System.out.println("stateList="+Common.stateList);
                         System.out.println("congratulation!");
 
                         getActivity().runOnUiThread(new Runnable() {
@@ -186,15 +191,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.id_QmeUnanswered) {
+            Common.hometabNum = 0;
             selectTabBtn(0);
         }
         if(v.getId() == R.id.id_QmeAnswered) {
+            Common.hometabNum = 1;
             selectTabBtn(1);
         }
         if(v.getId() == R.id.id_meQUnanswered) {
+            Common.hometabNum = 2;
             selectTabBtn(2);
         }
         if(v.getId() == R.id.id_meQAnswered) {
+            Common.hometabNum = 3;
             selectTabBtn(3);
         }
     }
