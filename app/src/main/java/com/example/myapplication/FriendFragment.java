@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,6 +63,33 @@ public class FriendFragment extends Fragment {
         }
     }
 
+    public void calculateHeight(){
+        if (adapter != null) {
+            int totalHeight = 0;
+            int itemCount = adapter.getCount();
+            for (int i = 0; i < itemCount; i++) {
+                View listItem = adapter.getView(i, null, listView);
+                listItem.measure(0, 0);
+                totalHeight += listItem.getMeasuredHeight();
+            }
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+            params.height = totalHeight + (listView.getDividerHeight() * (itemCount - 1));
+            listView.setLayoutParams(params);
+        }
+        if (adapterFans != null) {
+            int totalHeight = 0;
+            int itemCount = adapterFans.getCount();
+            for (int i = 0; i < itemCount; i++) {
+                View listItem = adapterFans.getView(i, null, listView_new);
+                listItem.measure(0, 0);
+                totalHeight += listItem.getMeasuredHeight();
+            }
+            ViewGroup.LayoutParams params = listView_new.getLayoutParams();
+            params.height = totalHeight + (listView_new.getDividerHeight() * (itemCount - 1));
+            listView_new.setLayoutParams(params);
+        }
+    }
+
     class Threads_GetAtten extends Thread {
         // 获取提问箱列表
         private OkHttpClient client = null;
@@ -102,6 +130,7 @@ public class FriendFragment extends Fragment {
                                 adapter = new AskListAdapter(tabView.getContext(), R.layout.listview_item_ask,Atten);
                                 listView.setAdapter(adapter);
                                 System.out.println(Atten);
+                                calculateHeight();
                                 swipeRefreshLayout.setRefreshing(false);
                             }
                         });
@@ -155,6 +184,7 @@ public class FriendFragment extends Fragment {
                                 adapterFans = new AskListAdapter(tabView.getContext(), R.layout.listview_item_ask,Fans);
                                 listView_new.setAdapter(adapterFans);
                                 System.out.println(Fans);
+                                calculateHeight();
                                 swipeRefreshLayout.setRefreshing(false);
                             }
                         });
@@ -228,6 +258,7 @@ public class FriendFragment extends Fragment {
                                     adapter.clear();
                                     adapter.addAll(x);
                                     listView.setAdapter(adapter);
+                                    calculateHeight();
                                 }else if(state == 1){
                                     sourceList.remove(position);
                                     ArrayList<String> x = new ArrayList<>();
@@ -237,6 +268,7 @@ public class FriendFragment extends Fragment {
                                     adapterFans.clear();
                                     adapterFans.addAll(x);
                                     listView_new.setAdapter(adapterFans);
+                                    calculateHeight();
                                 }
                             }
                         });
@@ -336,8 +368,8 @@ public class FriendFragment extends Fragment {
         tabView = inflater.inflate(R.layout.tab_friend, container, false);
         listView = tabView.findViewById(R.id.list_atten);
         listView_new = tabView.findViewById(R.id.list_new);
-        Button tBtn = tabView.findViewById(R.id.toggleButton);
-        Button nBtn = tabView.findViewById(R.id.newsButton);
+        ImageButton tBtn = tabView.findViewById(R.id.toggleButton);
+        ImageButton nBtn = tabView.findViewById(R.id.newsButton);
         Button aBtn = tabView.findViewById(R.id.addButton);
         swipeRefreshLayout = tabView.findViewById(R.id.swipeRefreshLayout);
 
@@ -376,17 +408,31 @@ public class FriendFragment extends Fragment {
         });
 
         tBtn.setOnClickListener(new View.OnClickListener() {
+            boolean isArrowDown = true;
             @Override
             public void onClick(View v) {
                 int visibility = listView.getVisibility();
                 listView.setVisibility(visibility == View.VISIBLE ? View.GONE : View.VISIBLE);
+                if (isArrowDown) {
+                    tBtn.setImageResource(R.drawable.arrowright);
+                } else {
+                    tBtn.setImageResource(R.drawable.arrowdown);
+                }
+                isArrowDown = !isArrowDown;
             }
         });
         nBtn.setOnClickListener(new View.OnClickListener() {
+            boolean isArrowDown = true;
             @Override
             public void onClick(View v) {
                 int visibility = listView_new.getVisibility();
                 listView_new.setVisibility(visibility == View.VISIBLE ? View.GONE : View.VISIBLE);
+                if (isArrowDown) {
+                    nBtn.setImageResource(R.drawable.arrowright);
+                } else {
+                    nBtn.setImageResource(R.drawable.arrowdown);
+                }
+                isArrowDown = !isArrowDown;
             }
         });
 
