@@ -99,7 +99,7 @@ public class FriendFragment extends Fragment {
                                 for(ListofTarget l :targetList){
                                     Atten.add(l.TargetName);
                                 }
-                                adapter = new ArrayAdapter<>(tabView.getContext(), android.R.layout.simple_list_item_1,Atten);
+                                adapter = new AskListAdapter(tabView.getContext(), R.layout.listview_item_ask,Atten);
                                 listView.setAdapter(adapter);
                                 System.out.println(Atten);
                                 swipeRefreshLayout.setRefreshing(false);
@@ -152,7 +152,7 @@ public class FriendFragment extends Fragment {
                                 for(ListofTarget l :sourceList){
                                     Fans.add(l.TargetName);
                                 }
-                                adapterFans = new ArrayAdapter<>(tabView.getContext(), android.R.layout.simple_list_item_1,Fans);
+                                adapterFans = new AskListAdapter(tabView.getContext(), R.layout.listview_item_ask,Fans);
                                 listView_new.setAdapter(adapterFans);
                                 System.out.println(Fans);
                                 swipeRefreshLayout.setRefreshing(false);
@@ -167,6 +167,88 @@ public class FriendFragment extends Fragment {
             });
         }
     }
+
+    class Threads_delete extends Thread {
+        // 获取提问箱列表
+        private OkHttpClient client = null;
+        private String targetPhone; // 添加目标手机号码字段
+        private int position;
+        private int state;
+
+        // 构造函数，接收目标手机号码
+        public Threads_delete(String targetPhone,int position,int state) {
+            this.targetPhone = targetPhone;
+            this.position = position;
+            this.state = state;//state = 1 删除粉丝；state = 0，删除关注
+        }
+        @Override
+        public void run() {
+            String myPhone = "1";
+            client = new OkHttpClient();
+
+            if(state == 1){
+                //交换目标和源
+                String item = myPhone;
+                myPhone = targetPhone;
+                targetPhone = item;
+            }
+
+            RequestBody body = new FormBody.Builder()
+                    .add("target", targetPhone)
+                    .add("source", myPhone)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(Common.URL+"/square/delete")
+                    .post(body)
+                    .cacheControl(CacheControl.FORCE_NETWORK)
+                    .build();
+
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    System.out.println("fail to get fan!");
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    System.out.println("start on");
+
+                    if(response.isSuccessful()){//回调的方法执行在子线程。
+                        System.out.println("delete success");
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (state == 0) {
+                                    targetList.remove(position);
+                                    ArrayList<String> x = new ArrayList<>();
+                                    for (ListofTarget l : targetList) {
+                                        x.add(l.TargetName);
+                                    }
+                                    adapter.clear();
+                                    adapter.addAll(x);
+                                    listView.setAdapter(adapter);
+                                }else if(state == 1){
+                                    sourceList.remove(position);
+                                    ArrayList<String> x = new ArrayList<>();
+                                    for (ListofTarget l : sourceList) {
+                                        x.add(l.TargetName);
+                                    }
+                                    adapterFans.clear();
+                                    adapterFans.addAll(x);
+                                    listView_new.setAdapter(adapterFans);
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        System.out.println("wrong");
+                    }
+                }
+            });
+        }
+    }
+
 
     private void showInputDialog() {
         LayoutInflater layoutInflater = LayoutInflater.from(tabView.getContext());
@@ -268,8 +350,6 @@ public class FriendFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent,View view,int i,long l){
-                String result = ((TextView) view).getText().toString();
-                Toast.makeText(tabView.getContext(),result,Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(view.getContext(), AskActivity.class);
                 adapter.notifyDataSetChanged();
                 adapterFans.notifyDataSetChanged();
@@ -280,6 +360,21 @@ public class FriendFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        listView_new.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent,View view,int i,long l){
+                Intent intent = new Intent(view.getContext(), AskActivity.class);
+                adapter.notifyDataSetChanged();
+                adapterFans.notifyDataSetChanged();
+                //传递电话号码
+                intent.putExtra("target", sourceList.get(i).Target);
+                intent.putExtra("targetName", sourceList.get(i).TargetName);
+                System.out.println(sourceList.get(i).Target);
+                startActivity(intent);
+            }
+        });
+
         tBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -312,6 +407,50 @@ public class FriendFragment extends Fragment {
 
                 Threads_GetFans GetFans = new Threads_GetFans();
                 GetFans.start();
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(tabView.getContext());
+                builder.setTitle("提示！");
+                builder.setMessage("确定删除？");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String targetPhone = targetList.get(position).Target;
+                        //调用删除线程，从数据库删除
+                        Threads_delete del = new Threads_delete(targetPhone,position,0);
+                        del.start();
+                    }
+                });
+                builder.setNegativeButton("取消", null);
+                builder.create().show();
+                // 返回true避免与点击事件冲突
+                return true;
+            }
+        });
+
+        listView_new.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(tabView.getContext());
+                builder.setTitle("提示！");
+                builder.setMessage("确定删除？");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String targetPhone = sourceList.get(position).Target;
+                        //调用删除线程，从数据库删除
+                        Threads_delete del = new Threads_delete(targetPhone,position,1);
+                        del.start();
+                    }
+                });
+                builder.setNegativeButton("取消", null);
+                builder.create().show();
+                // 返回true避免与点击事件冲突
+                return true;
             }
         });
 

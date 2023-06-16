@@ -26,6 +26,7 @@ public class Common {
 //    public static ArrayList<String> targetphoneList;
 //    public static ArrayList<String> questiontimeList;
 //    public static ArrayList<String> answertimeList ;
+
     public static int nowpos;   // 当前选中的问题在列表中的索引值
     public static mBottomSheetDialogFragment BottomSheet = new mBottomSheetDialogFragment();
 }
