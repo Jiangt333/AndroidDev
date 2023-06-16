@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.myapplication.entity.User;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                         String userJson= response.body().string();
                         //Type type = new TypeToken<List<User>>() {
                         //}.getType(); //泛型类型，import com.google.gson.reflect.TypeToken;
+                        Common.user = gson.fromJson(userJson, User.class);
                         User user = gson.fromJson(userJson, User.class); //反序列化
                         System.out.println(user);
                         Intent intent = null;

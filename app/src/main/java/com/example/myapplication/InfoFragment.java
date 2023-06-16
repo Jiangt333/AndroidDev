@@ -1,7 +1,6 @@
 package com.example.myapplication;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -11,27 +10,19 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.myapplication.Interface.ImageInterface;
+import com.example.myapplication.Interface.FragmentInterface;
 import com.example.myapplication.entity.User;
 import com.google.gson.Gson;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.ByteBuffer;
 
 import okhttp3.CacheControl;
 import okhttp3.Call;
@@ -46,7 +37,7 @@ public class InfoFragment extends Fragment {
         private User host;
         ImageView headimg;
         private Gson gson = new Gson();
-        private ImageInterface Listener;
+        private FragmentInterface Listener;
 
         public InfoFragment(User host) {
                 this.host = host;
@@ -56,8 +47,8 @@ public class InfoFragment extends Fragment {
         @Override
         public void onAttach(Context context) {
                 super.onAttach(context);
-                if (context instanceof ImageInterface) {
-                        Listener = (ImageInterface) context;
+                if (context instanceof FragmentInterface) {
+                        Listener = (FragmentInterface) context;
                 } else {
                         throw new RuntimeException(context.toString()
                                 + " must implement OnListener");
@@ -78,17 +69,24 @@ public class InfoFragment extends Fragment {
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
                 View tabView = inflater.inflate(R.layout.tab_info, container, false);
-                TextView txt = tabView.findViewById(R.id.textView5);
+                EditText txt = tabView.findViewById(R.id.editTextText);
                 txt.setText(host.getName());
                 headimg = tabView.findViewById(R.id.header);
                 headimg.setImageResource(R.drawable.img_1);
                 headimg.setOnClickListener(this::onClickUpload);
-                Getheader();
+                headimg.setOnClickListener(this::onClickUpload);
+                headimg.setOnClickListener(this::onClickUpload);
+                Button ExistBtn = tabView.findViewById(R.id.exist);
+                ExistBtn.setOnClickListener(this::onExist);
+                //Getheader();
                 return tabView;
         }
 
         public void onClickUpload(View v) {
                 Listener.photo();
+        }
+        public void onExist(View v) {
+                Listener.exist();
         }
 
         public void Getheader() {
@@ -119,9 +117,6 @@ public class InfoFragment extends Fragment {
                                         Message msg=new Message();
                                         msg.what=0;
                                         msg.obj=bundle;
-                                        //File file =  gson.fromJson(userJson, File.class);
-                                        //FileInputStream fis = new FileInputStream(file);
-                                        //Bitmap bitmap  = BitmapFactory.decodeStream(fis);
                                         handler.sendMessage(msg);
 
                                 } else {

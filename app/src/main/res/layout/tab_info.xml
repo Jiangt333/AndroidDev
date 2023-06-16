@@ -33,8 +33,8 @@
         android:layout_height="646dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,72 +42,79 @@
 
         <ImageView
             android:id="@+id/header"
-            android:layout_width="match_parent"
-            android:layout_height="111dp"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
             app:srcCompat="@drawable/img_1" />
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="13dp" />
-
-        <EditText
-            android:id="@+id/editTextText"
-            android:layout_width="399dp"
-            android:layout_height="69dp"
-            android:ems="10"
-            android:inputType="text"
-            android:text="我的昵称" />
-
         <TextView
             android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="TextView" />
+            android:layout_marginStart="10dp"
+            android:ems="10"
+            android:textSize="15dp"
+            android:text="我的昵称" />
 
         <EditText
-            android:id="@+id/editTextText2"
+            android:id="@+id/editTextText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
-            android:text="我的密码" />
+            android:layout_marginStart="5dp"
+            android:inputType="text" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="TextView" />
+            android:layout_marginStart="10dp"
+            android:ems="10"
+            android:textSize="15dp"
+            android:text="我的密码" />
+
+        <EditText
+            android:id="@+id/editTextText2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:inputType="text" />
+
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="86dp" />
 
-        <EditText
+        <TextView
             android:id="@+id/editTextText5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="text"
+            android:textSize="20dp"
+            android:layout_marginStart="5dp"
             android:text="用户手册" />
 
-        <EditText
+        <TextView
             android:id="@+id/editTextText6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="text"
+            android:textSize="20dp"
+            android:layout_marginStart="5dp"
             android:text="隐私协议" />
 
-        <EditText
+        <TextView
             android:id="@+id/editTextText8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="text"
+            android:textSize="20dp"
+            android:layout_marginStart="5dp"
             android:text="联系我们" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/exist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="退出登录"

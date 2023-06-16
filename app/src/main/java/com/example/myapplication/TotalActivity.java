@@ -1,7 +1,7 @@
 
 package com.example.myapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -9,30 +9,20 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.TabActivity;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.MutableContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TabHost;
-import android.widget.TabWidget;
 import android.widget.TextView;
 
-import com.example.myapplication.Interface.ImageInterface;
+import com.example.myapplication.Interface.FragmentInterface;
 import com.example.myapplication.entity.User;
 
 import java.io.ByteArrayOutputStream;
@@ -52,12 +42,12 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class TotalActivity extends FragmentActivity implements View.OnClickListener, ImageInterface {
+public class TotalActivity extends FragmentActivity implements View.OnClickListener, FragmentInterface {
 
-    // 声明ViewPager
     private User host;
-    private Bitmap bitmap = null;
+    // 声明ViewPager
     private ViewPager ViewPager;
+    private Toolbar toolbar;
     // 适配器
     private FragmentPagerAdapter Adapter;
     // 装载Fragment的集合
@@ -67,16 +57,20 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
     private LinearLayout HomeBottomTab;
     private LinearLayout SquareBottomTab;
     private LinearLayout InfoBottomTab;
+    private LinearLayout FriendBottomTab;
 
     // 三个Tab点击对应的Text字
     private TextView HomeBottomTabText;
     private TextView SquareBottomTabText;
     private TextView InfoBottomTabText;
+    private TextView FriendBottomTabText;
+    private ImageButton backButton;
 
     // 三个页面的Fragment
     private Fragment HomeFragment;
     private  Fragment SquareFragment;
     private  Fragment InfoFragment;
+    private  Fragment FriendFragment;
 
     // 获取FragmentManager对象
     FragmentManager mFragmentManager = getSupportFragmentManager();
@@ -86,39 +80,47 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        host = Common.user;
+        // 去掉TitleBar
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         // 指定布局界面
         setContentView(R.layout.activity_total);
+        host = Common.user;
         initViews();    // 初始化控件
         initEvents();   // 初始化事件
         initDatas();    // 初始化数据
     }
-
     // 初始化控件
     private void initViews() {
         ViewPager = (ViewPager) findViewById(R.id.id_viewpager);
 
+        backButton = findViewById(R.id.backButton);
+
         HomeBottomTab = (LinearLayout) findViewById(R.id.id_homebottomtab);
         SquareBottomTab = (LinearLayout) findViewById(R.id.id_squarebottomtab);
         InfoBottomTab = (LinearLayout) findViewById(R.id.id_infobottomtab);
+        FriendBottomTab = (LinearLayout) findViewById(R.id.id_friendbottomtab);
 
         HomeBottomTabText = (TextView) findViewById(R.id.id_homebottomtab_text);
         SquareBottomTabText = (TextView) findViewById(R.id.id_squarebottomtab_text);
         InfoBottomTabText = (TextView)findViewById(R.id.id_infobottomtab_text);
+        FriendBottomTabText = (TextView)findViewById(R.id.id_friendbottomtab_text);
     }
     private void initEvents() {
         // 设置三个Tab点击的点击事件
         HomeBottomTab.setOnClickListener(this);
         SquareBottomTab.setOnClickListener(this);
         InfoBottomTab.setOnClickListener(this);
+        FriendBottomTab.setOnClickListener(this);
+        backButton.setOnClickListener(this);
     }
     private void initDatas() {
         FragmentList = new ArrayList<>();
         // 将三个Fragment加入集合中
         FragmentList.add(new HomeFragment());
         FragmentList.add(new SquareFragment());
+        FragmentList.add(new FriendFragment());
         FragmentList.add(new InfoFragment(host));
+
 
         // 初始化适配器
         Adapter = new mFragmentPagerAdapter(mFragmentManager, FragmentList);
@@ -133,11 +135,13 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
+
             // 页面选中事件
             @Override
             public void onPageSelected(int position) {
                 // 设置position对应的集合中的Fragment
                 ViewPager.setCurrentItem(position);
+                System.out.println(position);
                 selectTabBtn(position);
             }
 
@@ -161,9 +165,16 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
         if(v.getId() == R.id.id_squarebottomtab) {
             selectTabBtn(1);
         }
-        if(v.getId() == R.id.id_infobottomtab) {
+        if(v.getId() == R.id.id_friendbottomtab) {
             selectTabBtn(2);
         }
+        if(v.getId() == R.id.id_infobottomtab) {
+            selectTabBtn(3);
+        }
+        if (v.getId() == R.id.backButton) {
+            finish(); // 返回上一个界面
+        }
+
     }
 
     private void selectTabBtn(int i) {
@@ -173,35 +184,49 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
         TextView BottomBarText_home = (TextView)findViewById(R.id.id_homebottomtab_text);
         TextView BottomBarText_square = (TextView)findViewById(R.id.id_squarebottomtab_text);
         TextView BottomBarText_info = (TextView)findViewById(R.id.id_infobottomtab_text);
+        TextView BottomBarText_friend = (TextView)findViewById(R.id.id_friendbottomtab_text);
         switch (i) {
             case 0:
                 TopBarTitle.setText("首 页");
                 BottomBarText_home.setTextColor(Color.parseColor("#c47731"));
                 BottomBarText_square.setTextColor(Color.parseColor("#000000"));
                 BottomBarText_info.setTextColor(Color.parseColor("#000000"));
+                BottomBarText_friend.setTextColor(Color.parseColor("#000000"));
                 break;
             case 1:
                 TopBarTitle.setText("广 场");
                 BottomBarText_square.setTextColor(Color.parseColor("#c47731"));
                 BottomBarText_home.setTextColor(Color.parseColor("#000000"));
                 BottomBarText_info.setTextColor(Color.parseColor("#000000"));
+                BottomBarText_friend.setTextColor(Color.parseColor("#000000"));
                 break;
             case 2:
+                TopBarTitle.setText("交 友");
+                BottomBarText_friend.setTextColor(Color.parseColor("#c47731"));
+                BottomBarText_home.setTextColor(Color.parseColor("#000000"));
+                BottomBarText_square.setTextColor(Color.parseColor("#000000"));
+                BottomBarText_info.setTextColor(Color.parseColor("#000000"));
+                break;
+            case 3:
                 TopBarTitle.setText("我 的");
                 BottomBarText_info.setTextColor(Color.parseColor("#c47731"));
                 BottomBarText_home.setTextColor(Color.parseColor("#000000"));
                 BottomBarText_square.setTextColor(Color.parseColor("#000000"));
+                BottomBarText_friend.setTextColor(Color.parseColor("#000000"));
                 break;
+
         }
         // 设置当前点击的Tab所对应的页面
         ViewPager.setCurrentItem(i);
     }
-
     public void photo() {//调用系统相册选择图片
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         startActivityForResult(intent, 1000);//打开相册
+    }
+    public void exist() {
+        finish();
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {//相册的调用回调
@@ -212,7 +237,7 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
                 ContentResolver cr = this.getContentResolver();
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 try {
-                    bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));//获取位图
+                    Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));//获取位图
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
@@ -228,6 +253,8 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
                     e.printStackTrace();
                 }
                 File file = this.getFileStreamPath("test.png");
+                if(!file.exists())
+                    System.out.println("not found");
                 OkHttpClient client = new OkHttpClient();
                 RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), file);
                 MultipartBody multipartBody = new MultipartBody.Builder()
@@ -237,6 +264,7 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
                 Request request = new Request.Builder()
                         .url(Common.URL+"/upload")
                         .post(multipartBody)
+                        .addHeader("phone",Common.user.getPhone())
                         .build();
                 client.newCall(request).enqueue(new Callback() {
                     @Override
@@ -245,7 +273,6 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
                     }
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
-                        System.out.println("start on");
                         if (response.isSuccessful()) {//回调的方法执行在子线程。
                             System.out.println("succeed");
                         } else {
@@ -256,6 +283,5 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
             }
         }
     }
-
 
 }

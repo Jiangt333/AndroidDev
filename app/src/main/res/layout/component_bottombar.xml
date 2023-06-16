@@ -20,8 +20,10 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:text="首 页"/>
+            android:text="首 页"
+            />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/id_squarebottomtab"
         android:layout_width="0dp"

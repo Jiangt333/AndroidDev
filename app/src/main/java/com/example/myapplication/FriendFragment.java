@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.CacheControl;
 import okhttp3.Call;
@@ -40,13 +42,25 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class FriendFragment extends Fragment {
-    ListView listView;
-    ListView listView_new;
-    View tabView;
-    SwipeRefreshLayout swipeRefreshLayout;
+    private ListView listView;
+    private ListView listView_new;
+    private View tabView;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private Gson gson = new Gson();
-    ArrayList<String> Atten = new ArrayList<>();
-    ArrayList<String> Fans = new ArrayList<>();
+    public ArrayList<ListofTarget> targetList = new ArrayList<>();//存储我关注的人
+    public ArrayList<ListofTarget> sourceList = new ArrayList<>();//存储关注我的人
+
+    ArrayAdapter<String> adapter;
+    ArrayAdapter<String> adapterFans;
+
+    public class ListofTarget{
+        public String TargetName;
+        public String Target;
+        public void additem(String TargetName,String Target){
+            this.TargetName = TargetName;
+            this.Target = Target;
+        }
+    }
 
     class Threads_GetAtten extends Thread {
         // 获取提问箱列表
@@ -77,11 +91,15 @@ public class FriendFragment extends Fragment {
 
                     if(response.isSuccessful()){//回调的方法执行在子线程。
                         String AttenJson = response.body().string();
-                        Atten = gson.fromJson(AttenJson, new TypeToken<ArrayList<String>>(){}.getType());
+                        targetList = gson.fromJson(AttenJson, new TypeToken<ArrayList<ListofTarget>>(){}.getType());
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                ArrayAdapter<String> adapter = new ArrayAdapter<>(tabView.getContext(), android.R.layout.simple_list_item_1, Atten);
+                                ArrayList<String> Atten = new ArrayList<>();
+                                for(ListofTarget l :targetList){
+                                    Atten.add(l.TargetName);
+                                }
+                                adapter = new ArrayAdapter<>(tabView.getContext(), android.R.layout.simple_list_item_1,Atten);
                                 listView.setAdapter(adapter);
                                 System.out.println(Atten);
                                 swipeRefreshLayout.setRefreshing(false);
@@ -126,11 +144,15 @@ public class FriendFragment extends Fragment {
 
                     if(response.isSuccessful()){//回调的方法执行在子线程。
                         String FansJson = response.body().string();
-                        Fans = gson.fromJson(FansJson, new TypeToken<ArrayList<String>>(){}.getType());
+                        sourceList = gson.fromJson(FansJson, new TypeToken<ArrayList<ListofTarget>>(){}.getType());
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                ArrayAdapter<String> adapterFans = new ArrayAdapter<>(tabView.getContext(), android.R.layout.simple_list_item_1, Fans);
+                                ArrayList<String> Fans = new ArrayList<>();
+                                for(ListofTarget l :sourceList){
+                                    Fans.add(l.TargetName);
+                                }
+                                adapterFans = new ArrayAdapter<>(tabView.getContext(), android.R.layout.simple_list_item_1,Fans);
                                 listView_new.setAdapter(adapterFans);
                                 System.out.println(Fans);
                                 swipeRefreshLayout.setRefreshing(false);
@@ -248,6 +270,14 @@ public class FriendFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent,View view,int i,long l){
                 String result = ((TextView) view).getText().toString();
                 Toast.makeText(tabView.getContext(),result,Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(view.getContext(), AskActivity.class);
+                adapter.notifyDataSetChanged();
+                adapterFans.notifyDataSetChanged();
+                //传递电话号码
+                intent.putExtra("target", targetList.get(i).Target);
+                intent.putExtra("targetName", targetList.get(i).TargetName);
+                System.out.println(targetList.get(i).Target);
+                startActivity(intent);
             }
         });
         tBtn.setOnClickListener(new View.OnClickListener() {
