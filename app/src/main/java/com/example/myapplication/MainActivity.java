@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                         User user = gson.fromJson(userJson, User.class); //反序列化
                         Common.user = user;
                         System.out.println(user);
+                        System.out.println(Common.user.getRealpassword());
+                        System.out.println(Common.user.getPhone());
                         Intent intent = null;
                         System.out.println("password="+password);
                         if(user == null){

@@ -46,6 +46,7 @@ public class FriendFragment extends Fragment {
     private ListView listView;
     private ListView listView_new;
     private View tabView;
+    private String phone;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Gson gson = new Gson();
     public ArrayList<ListofTarget> targetList = new ArrayList<>();//存储我关注的人
@@ -95,10 +96,9 @@ public class FriendFragment extends Fragment {
         private OkHttpClient client = null;
         @Override
         public void run() {
-            String myPhone = "1";
             client = new OkHttpClient();
             RequestBody body = new FormBody.Builder()
-                    .add("myattention", myPhone)
+                    .add("myattention", phone)
                     .build();
             Request request = new Request.Builder()
                     .url(Common.URL+"/square/myattention")
@@ -149,10 +149,9 @@ public class FriendFragment extends Fragment {
         private OkHttpClient client = null;
         @Override
         public void run() {
-            String myPhone = "1";
             client = new OkHttpClient();
             RequestBody body = new FormBody.Builder()
-                    .add("myfans", myPhone)
+                    .add("myfans", phone)
                     .build();
             Request request = new Request.Builder()
                     .url(Common.URL+"/square/myfans")
@@ -213,9 +212,8 @@ public class FriendFragment extends Fragment {
         }
         @Override
         public void run() {
-            String myPhone = "1";
             client = new OkHttpClient();
-
+            String myPhone = phone;
             if(state == 1){
                 //交换目标和源
                 String item = myPhone;
@@ -366,6 +364,9 @@ public class FriendFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         tabView = inflater.inflate(R.layout.tab_friend, container, false);
+
+        phone = Common.user.getPhone();
+
         listView = tabView.findViewById(R.id.list_atten);
         listView_new = tabView.findViewById(R.id.list_new);
         ImageButton tBtn = tabView.findViewById(R.id.toggleButton);
