@@ -136,7 +136,7 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
         });
         ViewPager.setCurrentItem(0);
         TextView BottomBarText_home = (TextView)findViewById(R.id.id_homebottomtab_text);
-        BottomBarText_home.setTextColor(Color.parseColor("#c47731"));
+        BottomBarText_home.setTextColor(Color.parseColor("#000000"));
     }
 
     @Override
@@ -167,22 +167,22 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
         switch (i) {
             case 0:
                 TopBarTitle.setText("首 页");
-                BottomBarText_home.setTextColor(Color.parseColor("#c47731"));
-                BottomBarText_info.setTextColor(Color.parseColor("#000000"));
-                BottomBarText_friend.setTextColor(Color.parseColor("#000000"));
+                BottomBarText_home.setTextColor(Color.parseColor("#000000"));
+                BottomBarText_info.setTextColor(Color.parseColor("#9c9c9c"));
+                BottomBarText_friend.setTextColor(Color.parseColor("#9c9c9c"));
                 break;
 
             case 1:
                 TopBarTitle.setText("交 友");
-                BottomBarText_friend.setTextColor(Color.parseColor("#c47731"));
-                BottomBarText_home.setTextColor(Color.parseColor("#000000"));
-                BottomBarText_info.setTextColor(Color.parseColor("#000000"));
+                BottomBarText_friend.setTextColor(Color.parseColor("#000000"));
+                BottomBarText_home.setTextColor(Color.parseColor("#9c9c9c"));
+                BottomBarText_info.setTextColor(Color.parseColor("#9c9c9c"));
                 break;
             case 2:
                 TopBarTitle.setText("我 的");
-                BottomBarText_info.setTextColor(Color.parseColor("#c47731"));
-                BottomBarText_home.setTextColor(Color.parseColor("#000000"));
-                BottomBarText_friend.setTextColor(Color.parseColor("#000000"));
+                BottomBarText_info.setTextColor(Color.parseColor("#000000"));
+                BottomBarText_home.setTextColor(Color.parseColor("#9c9c9c"));
+                BottomBarText_friend.setTextColor(Color.parseColor("#9c9c9c"));
                 break;
         }
         // 设置当前点击的Tab所对应的页面
