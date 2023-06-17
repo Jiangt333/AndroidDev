@@ -8,7 +8,9 @@ import java.util.List;
 public class Common {
 
     public static User user;
-    public static String URL = "http://172.17.50.147:8080";
+
+    public static String URL = "http://172.27.14.82:8080";
+
     public static List<listviewItem> lvItemList = new ArrayList<listviewItem>();
     public static ListView listView;
     public static mListAdapter adapter;

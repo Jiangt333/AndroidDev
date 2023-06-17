@@ -81,14 +81,25 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp" >
-        <Button
-            android:id="@+id/answerbtn"
+        <TextView
+            android:id="@+id/editbtn"
             android:background="#fafafa"
             android:textColor="@color/black"
+            android:gravity="center"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="280dp"
             android:layout_width="100dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="45dp" />
+        <TextView
+            android:id="@+id/answerbtn"
+            android:background="#fafafa"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="-100dp"
+            android:layout_width="100dp"
+            android:layout_height="45dp" />
+
     </LinearLayout>
 
 </LinearLayout>
