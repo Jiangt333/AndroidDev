@@ -20,6 +20,7 @@ public class Common {
     public static ArrayList<String> questiontimeList = new ArrayList<>();
     public static ArrayList<String> answertimeList = new ArrayList<>();
     public static ArrayList<String> stateList = new ArrayList<>();
+    public static ArrayList<String> AskanswerList = new ArrayList<>();
 
 //    public static ArrayList<Integer> idList;
 //    public static ArrayList<String> questionList;
