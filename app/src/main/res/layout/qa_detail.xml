@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     android:orientation="vertical" >
     <LinearLayout
         android:id="@+id/ll_title"
@@ -92,7 +93,7 @@
             android:layout_height="45dp" />
         <TextView
             android:id="@+id/answerbtn"
-            android:background="#fafafa"
+            android:background="#ffffff"
             android:textColor="@color/black"
             android:gravity="center"
             android:layout_marginTop="10dp"

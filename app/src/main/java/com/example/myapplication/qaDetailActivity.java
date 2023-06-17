@@ -85,11 +85,19 @@ public class qaDetailActivity extends AppCompatActivity {
                                 TextView atime = (TextView)findViewById(R.id.atime);
                                 atime.setText(atimestr);
                                 TextView answerbtn = (TextView) findViewById(R.id.answerbtn);
-                                // 按钮隐藏
-                                answerbtn.setBackgroundColor(Color.parseColor("#fafafa"));
+                                TextView editbtn = (TextView) findViewById(R.id.editbtn);
+                                // 保存回答的按钮隐藏
+                                answerbtn.setBackgroundColor(Color.parseColor("#ffffff"));
                                 answerbtn.setText("");
                                 answerbtn.setTranslationZ(0);
                                 answerbtn.setElevation(0);
+                                answerbtn.setEnabled(false);
+                                // 编辑回答的按钮显示
+                                editbtn.setBackgroundResource(R.drawable.answerbtn);
+                                editbtn.setText("编辑回答");
+                                editbtn.setTranslationZ(5);
+                                editbtn.setElevation(5);
+                                editbtn.setEnabled(true);
                                 answerbtn.setEnabled(false);
 
                                 Common.adapter.notifyDataSetChanged();
@@ -168,7 +176,7 @@ public class qaDetailActivity extends AppCompatActivity {
                         editText.setEnabled(true);
 
                         editbtn.setEnabled(false);
-                        editbtn.setBackgroundColor(Color.parseColor("#fafafa"));
+                        editbtn.setBackgroundColor(Color.parseColor("#ffffff"));
                         editbtn.setText("");
                         editbtn.setTranslationZ(0);
                         editbtn.setElevation(0);

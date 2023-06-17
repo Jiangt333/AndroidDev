@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -115,8 +116,6 @@ public class FriendFragment extends Fragment {
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    System.out.println("start on");
-
                     if(response.isSuccessful()){//回调的方法执行在子线程。
                         String AttenJson = response.body().string();
                         targetList = gson.fromJson(AttenJson, new TypeToken<ArrayList<ListofTarget>>(){}.getType());
@@ -168,8 +167,6 @@ public class FriendFragment extends Fragment {
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    System.out.println("start on");
-
                     if(response.isSuccessful()){//回调的方法执行在子线程。
                         String FansJson = response.body().string();
                         sourceList = gson.fromJson(FansJson, new TypeToken<ArrayList<ListofTarget>>(){}.getType());
@@ -240,8 +237,6 @@ public class FriendFragment extends Fragment {
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    System.out.println("start on");
-
                     if(response.isSuccessful()){//回调的方法执行在子线程。
                         System.out.println("delete success");
                         getActivity().runOnUiThread(new Runnable() {
@@ -370,6 +365,8 @@ public class FriendFragment extends Fragment {
         listView = tabView.findViewById(R.id.list_atten);
         listView_new = tabView.findViewById(R.id.list_new);
         ImageButton tBtn = tabView.findViewById(R.id.toggleButton);
+        LinearLayout ll_attentionBtn = (LinearLayout)tabView.findViewById(R.id.ll_attention);
+        LinearLayout ll_fanBtn = (LinearLayout)tabView.findViewById(R.id.ll_fan);
         ImageButton nBtn = tabView.findViewById(R.id.newsButton);
         Button aBtn = tabView.findViewById(R.id.addButton);
         swipeRefreshLayout = tabView.findViewById(R.id.swipeRefreshLayout);
@@ -408,7 +405,7 @@ public class FriendFragment extends Fragment {
             }
         });
 
-        tBtn.setOnClickListener(new View.OnClickListener() {
+        ll_attentionBtn.setOnClickListener(new View.OnClickListener() {
             boolean isArrowDown = true;
             @Override
             public void onClick(View v) {
@@ -422,7 +419,7 @@ public class FriendFragment extends Fragment {
                 isArrowDown = !isArrowDown;
             }
         });
-        nBtn.setOnClickListener(new View.OnClickListener() {
+        ll_fanBtn.setOnClickListener(new View.OnClickListener() {
             boolean isArrowDown = true;
             @Override
             public void onClick(View v) {
