@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +14,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 
 import okhttp3.CacheControl;
 import okhttp3.Call;
@@ -29,6 +33,8 @@ public class qaDetailActivity extends AppCompatActivity {
 //    不能在这里就写这句，否则会闪退！！！！！！
 //    TextView TopBarTitle = (TextView)findViewById(R.id.topbar_title);
 
+    public static int btnFlag = 0;
+
     class Threads_Answer extends Thread {
         // 写回答/编辑回答
         private OkHttpClient client = null;
@@ -36,6 +42,7 @@ public class qaDetailActivity extends AppCompatActivity {
         String server = null;
         String answer = null;
         String answertime = null;
+
 
         @Override
         public void run() {
@@ -77,6 +84,14 @@ public class qaDetailActivity extends AppCompatActivity {
                                 String atimestr = "回答于 "+answertime;
                                 TextView atime = (TextView)findViewById(R.id.atime);
                                 atime.setText(atimestr);
+                                TextView answerbtn = (TextView) findViewById(R.id.answerbtn);
+                                // 按钮隐藏
+                                answerbtn.setBackgroundColor(Color.parseColor("#fafafa"));
+                                answerbtn.setText("");
+                                answerbtn.setTranslationZ(0);
+                                answerbtn.setElevation(0);
+                                answerbtn.setEnabled(false);
+
                                 Common.adapter.notifyDataSetChanged();
                             }
                         });
@@ -105,22 +120,33 @@ public class qaDetailActivity extends AppCompatActivity {
         String question = qtext.getText().toString();
         Common.nowpos = Common.questionList.indexOf(question);
         String state = Common.stateList.get(Common.nowpos);
-        Button answerbtn = (Button)findViewById(R.id.answerbtn);
+        TextView answerbtn = (TextView) findViewById(R.id.answerbtn);
+        TextView editbtn = (TextView) findViewById(R.id.editbtn);
 
         if(Common.hometabNum == 0 && state.equals("0")){        // 提问我但我未回答的（可写回答）
             editText.setEnabled(true);
             editText.setHint("请输入您的回答...");
+
             answerbtn.setBackgroundResource(R.drawable.answerbtn);
             answerbtn.setText("完成回答");
+            answerbtn.setTranslationZ(5);
+            answerbtn.setElevation(5);
             answerbtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     editText.setEnabled(false);
+
+                    // 获取回答当前时间
+                    TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    Date date = new Date(System.currentTimeMillis());
+                    String answertime = simpleDateFormat.format(date);
+
                     Threads_Answer Answer = new Threads_Answer();
                     Answer.id = Common.idList.get(Common.nowpos).toString();
                     Answer.server = "/Answer";
                     Answer.answer = editText.getText().toString();
-                    Answer.answertime = "2023-03-06 12:00";
+                    Answer.answertime = answertime;
                     Answer.start();
                 }
             });
@@ -130,12 +156,49 @@ public class qaDetailActivity extends AppCompatActivity {
             editText.setEnabled(false);
             String atimestr = "回答于 "+Common.answertimeList.get(Common.nowpos);
             atime.setText(atimestr);
-            answerbtn.setBackgroundResource(R.drawable.answerbtn);
-            answerbtn.setText("编辑回答");
+
+            editbtn.setBackgroundResource(R.drawable.answerbtn);
+            editbtn.setText("编辑回答");
+            editbtn.setTranslationZ(5);
+            editbtn.setElevation(5);
+            answerbtn.setEnabled(false);
+            editbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                        editText.setEnabled(true);
+
+                        editbtn.setEnabled(false);
+                        editbtn.setBackgroundColor(Color.parseColor("#fafafa"));
+                        editbtn.setText("");
+                        editbtn.setTranslationZ(0);
+                        editbtn.setElevation(0);
+
+                        answerbtn.setEnabled(true);
+                        answerbtn.setBackgroundResource(R.drawable.answerbtn);
+                        answerbtn.setText("完成编辑");
+                        answerbtn.setTranslationZ(5);
+                        answerbtn.setElevation(5);
+                }
+            });
+
             answerbtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    editText.setEnabled(true);
+                    editText.setEnabled(false);
+
+                    // 获取回答当前时间
+                    TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    Date date = new Date(System.currentTimeMillis());
+                    String answertime = simpleDateFormat.format(date);
+
+                    Threads_Answer Answer = new Threads_Answer();
+                    Answer.id = Common.idList.get(Common.nowpos).toString();
+                    Answer.server = "/Answer";
+                    Answer.answer = editText.getText().toString();
+                    Answer.answertime = answertime;
+                    Answer.start();
+                    System.out.println("编辑完成");
                 }
             });
         }

@@ -122,8 +122,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         for(Questionbox qb : QBox){
                             Common.stateList.add(qb.getState());
                         }
-                        System.out.println("stateList="+Common.stateList);
-                        System.out.println("congratulation!");
+//                        System.out.println("stateList="+Common.stateList);
+//                        System.out.println("congratulation!");
 
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
