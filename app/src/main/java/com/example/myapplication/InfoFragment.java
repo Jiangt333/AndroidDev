@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,8 +21,11 @@ import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.Interface.FragmentInterface;
 import com.example.myapplication.entity.User;
+import com.example.myapplication.tool.Image;
 import com.google.gson.Gson;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import okhttp3.CacheControl;
@@ -35,8 +39,7 @@ import okhttp3.Response;
 
 public class InfoFragment extends Fragment {
         private User host;
-        ImageView headimg;
-        private Gson gson = new Gson();
+        private ImageView headimg;
         private FragmentInterface Listener;
 
         public InfoFragment(User host) {
@@ -69,16 +72,24 @@ public class InfoFragment extends Fragment {
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
                 View tabView = inflater.inflate(R.layout.tab_info, container, false);
-                EditText txt = tabView.findViewById(R.id.editTextText);
+                TextView txt = tabView.findViewById(R.id.name);
                 txt.setText(host.getName());
+                EditText pass = tabView.findViewById(R.id.showpassword);
+                pass.setText(host.getRealpassword());
                 headimg = tabView.findViewById(R.id.header);
-                headimg.setImageResource(R.drawable.img_1);
+                if(host.getIschanged()==1) {
+                        Getheader();
+                }
+                else
+                {
+                        headimg.setImageResource(R.drawable.img_1);
+                }
                 headimg.setOnClickListener(this::onClickUpload);
                 headimg.setOnClickListener(this::onClickUpload);
                 headimg.setOnClickListener(this::onClickUpload);
                 Button ExistBtn = tabView.findViewById(R.id.exist);
                 ExistBtn.setOnClickListener(this::onExist);
-                //Getheader();
+
                 return tabView;
         }
 
@@ -115,7 +126,6 @@ public class InfoFragment extends Fragment {
                                         Bundle bundle=new Bundle();
                                         bundle.putByteArray("bytes",data);
                                         Message msg=new Message();
-                                        msg.what=0;
                                         msg.obj=bundle;
                                         handler.sendMessage(msg);
 

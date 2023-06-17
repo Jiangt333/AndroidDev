@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.graphics.Bitmap;
 import android.widget.ListView;
 
 import com.example.myapplication.entity.User;
@@ -10,14 +11,11 @@ import java.util.List;
 public class Common {
 
     public  static User user;
-
-    public static String URL = "http://172.17.44.94:8080";
-
+    public  static Bitmap header;
+    public static String URL = "http://172.27.2.212:8080";
     public static List<listviewItem> lvItemList = new ArrayList<listviewItem>();
     public static ListView listView;
     public static mListAdapter adapter;
-
-
     public static ArrayList<Integer> idList = new ArrayList<>();
     public static ArrayList<String> questionList = new ArrayList<>();
     public static ArrayList<String> answerList = new ArrayList<>();

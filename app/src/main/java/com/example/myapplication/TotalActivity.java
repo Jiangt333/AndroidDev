@@ -1,6 +1,7 @@
 
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -16,9 +17,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -76,7 +81,17 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
     FragmentManager mFragmentManager = getSupportFragmentManager();
     // 获取FragmentTransaction对象
     FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+    Handler handler = new Handler(Looper.myLooper()) {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            Bundle bundle = (Bundle)msg.obj;
+            byte[] c=  bundle.getByteArray("bytes");
+            Bitmap bitmap = BitmapFactory.decodeByteArray(c, 0, c.length);
+            Common.header = bitmap;
 
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -239,20 +254,29 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
                 try {
                     Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));//获取位图
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                    int index = ViewPager.getCurrentItem();// 当前可见的fragment
+                    Fragment fragment = (Fragment) ViewPager.getAdapter().instantiateItem(ViewPager,index);// fragment中的某一控件
+                    ImageView headimg = fragment.getView().findViewById(R.id.header);
+                    headimg.setImageBitmap(bitmap);
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }
                 FileOutputStream output;
                 try
                 {
-                    output = openFileOutput("test.png", MODE_PRIVATE);
+                    output = openFileOutput("test", MODE_PRIVATE);
                     output.write(outputStream.toByteArray());
                     output.close();
+                    Bundle bundle=new Bundle();
+                    bundle.putByteArray("bytes",outputStream.toByteArray());
+                    Message msg=new Message();
+                    msg.obj=bundle;
+                    handler.sendMessage(msg);
                 }
                 catch (Exception e) {
                     e.printStackTrace();
                 }
-                File file = this.getFileStreamPath("test.png");
+                File file = this.getFileStreamPath("test");
                 if(!file.exists())
                     System.out.println("not found");
                 OkHttpClient client = new OkHttpClient();

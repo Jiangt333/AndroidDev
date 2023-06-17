@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="167dp"
         app:layout_constraintStart_toStartOf="@+id/linearLayout"
-        tools:layout_editor_absoluteY="100dp"
-        tools:ignore="MissingConstraints" />
+        tools:layout_editor_absoluteY="50dp" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -25,16 +24,14 @@
         app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="406dp"
-        android:layout_height="646dp"
-        android:gravity="center"
+        android:layout_height="607dp"
+        android:layout_marginStart="20dp"
         android:orientation="vertical"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,103 +39,127 @@
 
         <ImageView
             android:id="@+id/header"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            app:srcCompat="@drawable/img_1" />
+            android:layout_width="193dp"
+            android:layout_height="84dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/img_1"
+            tools:layout_editor_absoluteX="96dp"
+            tools:layout_editor_absoluteY="24dp" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="13dp" />
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/name"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginStart="10dp"
+            android:layout_height="69dp"
             android:ems="10"
-            android:textSize="15dp"
-            android:text="我的昵称" />
+            android:gravity="center"
+            android:text="提问箱地址"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="我的密码"
+            android:textSize="20dp" />
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/showpassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginStart="10dp"
-            android:ems="10"
+            android:layout_height="53dp"
+            android:layout_marginBottom="110dp"
+            android:inputType="textPassword"
+            android:text="TextView"
             android:textSize="15dp"
-            android:text="我的密码" />
+            />
 
-        <EditText
-            android:id="@+id/editTextText2"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:inputType="text" />
+            android:orientation="horizontal"
+            android:background="@drawable/underline"
+            android:layout_marginBottom="10dp">
 
+            <TextView
+                android:id="@+id/editTextText5"
+                android:layout_width="370dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:text="用户手册"
+                android:textSize="20dp"
+                />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="86dp" />
-
-        <TextView
-            android:id="@+id/editTextText5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:textSize="20dp"
-            android:layout_marginStart="5dp"
-            android:text="用户手册" />
-
-        <TextView
-            android:id="@+id/editTextText6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:textSize="20dp"
-            android:layout_marginStart="5dp"
-            android:text="隐私协议" />
-
-        <TextView
-            android:id="@+id/editTextText8"
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=">>"
+                android:textSize="18dp"/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:textSize="20dp"
-            android:layout_marginStart="5dp"
-            android:text="联系我们" />
+            android:orientation="horizontal"
+            android:background="@drawable/underline"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/editTextText6"
+                android:layout_width="370dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:text="隐私协议"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=">>"
+                android:textSize="18dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/underline"
+            android:layout_marginBottom="50dp">
+            <TextView
+                android:id="@+id/editTextText8"
+                android:layout_width="370dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:text="联系我们"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=">>"
+                android:textSize="18dp"/>
+        </LinearLayout>
+
+
+
+
 
         <Button
             android:id="@+id/exist"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="333dp"
+            android:layout_height="59dp"
+            android:layout_gravity="center"
             android:text="退出登录"
-            android:textSize="20sp" />
+            android:textSize="20dp" />
 
     </LinearLayout>
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="4dp"
-        android:background="#19FEFAFD"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
 
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="116dp"
-        tools:layout_editor_absoluteY="77dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
