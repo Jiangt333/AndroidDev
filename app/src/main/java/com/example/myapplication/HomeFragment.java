@@ -165,6 +165,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         return tabView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 从上个界面返回后更新数据
+        if(Common.hometabNum == 0){
+            selectTabBtn(0);
+        }
+        if(Common.hometabNum == 1){
+            selectTabBtn(1);
+        }
+        if(Common.hometabNum == 2){
+            selectTabBtn(2);
+        }
+        if(Common.hometabNum == 3){
+            selectTabBtn(3);
+        }
+    }
+
     public void InitEvents(){
         QmeUnansweredTab.setOnClickListener(this);
         QmeAnsweredTab.setOnClickListener(this);
