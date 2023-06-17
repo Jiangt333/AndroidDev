@@ -94,7 +94,6 @@ public class AskActivity extends AppCompatActivity {
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    System.out.println("start on");
                     if(response.isSuccessful()){//回调的方法执行在子线程。
                         Looper.prepare();
                         Toast.makeText(AskActivity.this, "问题提交成功！", Toast.LENGTH_SHORT).show();
@@ -134,7 +133,6 @@ public class AskActivity extends AppCompatActivity {
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    System.out.println("start on");
 
                     if(response.isSuccessful()){//回调的方法执行在子线程。
                         String AnswerJson = response.body().string();

@@ -84,8 +84,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    System.out.println("start on");
-
                     if(response.isSuccessful()){//回调的方法执行在子线程。
                         String QBoxJson = response.body().string();
                         QBox = gson.fromJson(QBoxJson, new TypeToken<ArrayList<Questionbox>>(){}.getType());

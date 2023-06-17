@@ -72,9 +72,11 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         // 指定布局界面
         setContentView(R.layout.activity_total);
+        System.out.println("!!!");
         initViews();    // 初始化控件
         initEvents();   // 初始化事件
         initDatas();    // 初始化数据
+
     }
 
     // 初始化控件

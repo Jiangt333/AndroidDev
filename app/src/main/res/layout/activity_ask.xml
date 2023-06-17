@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     android:orientation="vertical"
     android:windowSoftInputMode="adjustResize|stateHidden">
     <include layout="@layout/component_topbar"/>
@@ -21,9 +22,14 @@
                 android:hint="向 我 提 问"
                 android:gravity="center"
                 android:background="@drawable/textview_question_radioboder"
-                android:layout_gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:translationZ="5dp"
+                android:elevation="5dp"
+                android:minHeight="200dp"/>
 
             <Button
                 android:id="@+id/commit"
@@ -37,6 +43,8 @@
 
             <ListView
                 android:id="@+id/answered"
+                android:dividerHeight="0dp"
+                android:divider="#ffffff"
                 android:layout_marginTop="35dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
