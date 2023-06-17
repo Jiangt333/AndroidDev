@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:id="@+id/time"
+            android:id="@+id/qtime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -76,8 +76,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
-            android:layout_marginLeft="225dp"
-            android:text="回答于 2023-06-14 17:17"/>
+            android:layout_marginLeft="225dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp" >
+        <Button
+            android:id="@+id/answerbtn"
+            android:background="#fafafa"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="280dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </LinearLayout>
