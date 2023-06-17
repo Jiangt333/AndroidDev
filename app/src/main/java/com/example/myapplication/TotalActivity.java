@@ -46,20 +46,17 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
 
     // 三个Tab点击对应的布局
     private LinearLayout HomeBottomTab;
-    private LinearLayout SquareBottomTab;
     private LinearLayout InfoBottomTab;
     private LinearLayout FriendBottomTab;
 
     // 三个Tab点击对应的Text字
     private TextView HomeBottomTabText;
-    private TextView SquareBottomTabText;
     private TextView InfoBottomTabText;
     private TextView FriendBottomTabText;
     private ImageButton backButton;
 
     // 三个页面的Fragment
     private Fragment HomeFragment;
-    private  Fragment SquareFragment;
     private  Fragment InfoFragment;
     private  Fragment FriendFragment;
 
@@ -79,6 +76,7 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
         initEvents();   // 初始化事件
         initDatas();    // 初始化数据
     }
+
     // 初始化控件
     private void initViews() {
         ViewPager = (ViewPager) findViewById(R.id.id_viewpager);
@@ -86,19 +84,16 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
         backButton = findViewById(R.id.backButton);
 
         HomeBottomTab = (LinearLayout) findViewById(R.id.id_homebottomtab);
-        SquareBottomTab = (LinearLayout) findViewById(R.id.id_squarebottomtab);
         InfoBottomTab = (LinearLayout) findViewById(R.id.id_infobottomtab);
         FriendBottomTab = (LinearLayout) findViewById(R.id.id_friendbottomtab);
 
         HomeBottomTabText = (TextView) findViewById(R.id.id_homebottomtab_text);
-        SquareBottomTabText = (TextView) findViewById(R.id.id_squarebottomtab_text);
         InfoBottomTabText = (TextView)findViewById(R.id.id_infobottomtab_text);
         FriendBottomTabText = (TextView)findViewById(R.id.id_friendbottomtab_text);
     }
     private void initEvents() {
         // 设置三个Tab点击的点击事件
         HomeBottomTab.setOnClickListener(this);
-        SquareBottomTab.setOnClickListener(this);
         InfoBottomTab.setOnClickListener(this);
         FriendBottomTab.setOnClickListener(this);
         backButton.setOnClickListener(this);
@@ -107,10 +102,8 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
         FragmentList = new ArrayList<>();
         // 将三个Fragment加入集合中
         FragmentList.add(new HomeFragment());
-        FragmentList.add(new SquareFragment());
         FragmentList.add(new FriendFragment());
         FragmentList.add(new InfoFragment());
-
 
         // 初始化适配器
         Adapter = new mFragmentPagerAdapter(mFragmentManager, FragmentList);
@@ -143,7 +136,7 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
         });
         ViewPager.setCurrentItem(0);
         TextView BottomBarText_home = (TextView)findViewById(R.id.id_homebottomtab_text);
-        BottomBarText_home.setTextColor(Color.parseColor("#c47731"));
+        BottomBarText_home.setTextColor(Color.parseColor("#000000"));
     }
 
     @Override
@@ -152,14 +145,11 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
         if(v.getId() == R.id.id_homebottomtab) {
             selectTabBtn(0);
         }
-        if(v.getId() == R.id.id_squarebottomtab) {
+        if(v.getId() == R.id.id_friendbottomtab) {
             selectTabBtn(1);
         }
-        if(v.getId() == R.id.id_friendbottomtab) {
-            selectTabBtn(2);
-        }
         if(v.getId() == R.id.id_infobottomtab) {
-            selectTabBtn(3);
+            selectTabBtn(2);
         }
         if (v.getId() == R.id.backButton) {
             finish(); // 返回上一个界面
@@ -172,39 +162,28 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
         // 根据点击的Tab按钮设置对应的响应
         TextView TopBarTitle = (TextView)findViewById(R.id.topbar_title);
         TextView BottomBarText_home = (TextView)findViewById(R.id.id_homebottomtab_text);
-        TextView BottomBarText_square = (TextView)findViewById(R.id.id_squarebottomtab_text);
         TextView BottomBarText_info = (TextView)findViewById(R.id.id_infobottomtab_text);
         TextView BottomBarText_friend = (TextView)findViewById(R.id.id_friendbottomtab_text);
         switch (i) {
             case 0:
                 TopBarTitle.setText("首 页");
-                BottomBarText_home.setTextColor(Color.parseColor("#c47731"));
-                BottomBarText_square.setTextColor(Color.parseColor("#000000"));
-                BottomBarText_info.setTextColor(Color.parseColor("#000000"));
-                BottomBarText_friend.setTextColor(Color.parseColor("#000000"));
-                break;
-            case 1:
-                TopBarTitle.setText("广 场");
-                BottomBarText_square.setTextColor(Color.parseColor("#c47731"));
                 BottomBarText_home.setTextColor(Color.parseColor("#000000"));
-                BottomBarText_info.setTextColor(Color.parseColor("#000000"));
-                BottomBarText_friend.setTextColor(Color.parseColor("#000000"));
-                break;
-            case 2:
-                TopBarTitle.setText("交 友");
-                BottomBarText_friend.setTextColor(Color.parseColor("#c47731"));
-                BottomBarText_home.setTextColor(Color.parseColor("#000000"));
-                BottomBarText_square.setTextColor(Color.parseColor("#000000"));
-                BottomBarText_info.setTextColor(Color.parseColor("#000000"));
-                break;
-            case 3:
-                TopBarTitle.setText("我 的");
-                BottomBarText_info.setTextColor(Color.parseColor("#c47731"));
-                BottomBarText_home.setTextColor(Color.parseColor("#000000"));
-                BottomBarText_square.setTextColor(Color.parseColor("#000000"));
-                BottomBarText_friend.setTextColor(Color.parseColor("#000000"));
+                BottomBarText_info.setTextColor(Color.parseColor("#9c9c9c"));
+                BottomBarText_friend.setTextColor(Color.parseColor("#9c9c9c"));
                 break;
 
+            case 1:
+                TopBarTitle.setText("交 友");
+                BottomBarText_friend.setTextColor(Color.parseColor("#000000"));
+                BottomBarText_home.setTextColor(Color.parseColor("#9c9c9c"));
+                BottomBarText_info.setTextColor(Color.parseColor("#9c9c9c"));
+                break;
+            case 2:
+                TopBarTitle.setText("我 的");
+                BottomBarText_info.setTextColor(Color.parseColor("#000000"));
+                BottomBarText_home.setTextColor(Color.parseColor("#9c9c9c"));
+                BottomBarText_friend.setTextColor(Color.parseColor("#9c9c9c"));
+                break;
         }
         // 设置当前点击的Tab所对应的页面
         ViewPager.setCurrentItem(i);

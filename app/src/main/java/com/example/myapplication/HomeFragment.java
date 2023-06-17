@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +43,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private LinearLayout QmeAnsweredTab;
     private LinearLayout meQUnansweredTab;
     private LinearLayout meQAnsweredTab;
+
+    private TextView QmeUnansweredTabText;
+    private TextView QmeAnsweredTabText;
+    private TextView meQUnansweredTabText;
+    private TextView meQAnsweredTabText;
+
     private Gson gson = new Gson();
 //    private ListView listView;
 
@@ -122,8 +129,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         for(Questionbox qb : QBox){
                             Common.stateList.add(qb.getState());
                         }
-                        System.out.println("stateList="+Common.stateList);
-                        System.out.println("congratulation!");
+//                        System.out.println("stateList="+Common.stateList);
+//                        System.out.println("congratulation!");
 
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
@@ -170,6 +177,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         QmeAnsweredTab = (LinearLayout) tabView.findViewById(R.id.id_QmeAnswered);
         meQUnansweredTab = (LinearLayout) tabView.findViewById(R.id.id_meQUnanswered);
         meQAnsweredTab = (LinearLayout) tabView.findViewById(R.id.id_meQAnswered);
+
+        QmeUnansweredTabText = (TextView) tabView.findViewById(R.id.id_QmeUnanswered_text);
+        QmeAnsweredTabText = (TextView) tabView.findViewById(R.id.id_QmeAnswered_text);
+        meQUnansweredTabText = (TextView) tabView.findViewById(R.id.id_meQUnanswered_text);
+        meQAnsweredTabText = (TextView) tabView.findViewById(R.id.id_meQAnswered_text);
+
+        QmeUnansweredTabText.setTextColor(Color.parseColor("#000000"));
+        QmeAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
+        meQUnansweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
+        meQAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
         Threads_GetBox GetBox_0 = new Threads_GetBox();
         GetBox_0.phone = Common.user.getPhone();
         GetBox_0.state = "0";
@@ -192,18 +209,34 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         if(v.getId() == R.id.id_QmeUnanswered) {
             Common.hometabNum = 0;
+            QmeUnansweredTabText.setTextColor(Color.parseColor("#000000"));
+            QmeAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
+            meQUnansweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
+            meQAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
             selectTabBtn(0);
         }
         if(v.getId() == R.id.id_QmeAnswered) {
             Common.hometabNum = 1;
+            QmeAnsweredTabText.setTextColor(Color.parseColor("#000000"));
+            QmeUnansweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
+            meQUnansweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
+            meQAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
             selectTabBtn(1);
         }
         if(v.getId() == R.id.id_meQUnanswered) {
             Common.hometabNum = 2;
+            meQUnansweredTabText.setTextColor(Color.parseColor("#000000"));
+            QmeUnansweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
+            QmeAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
+            meQAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
             selectTabBtn(2);
         }
         if(v.getId() == R.id.id_meQAnswered) {
             Common.hometabNum = 3;
+            meQAnsweredTabText.setTextColor(Color.parseColor("#000000"));
+            QmeUnansweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
+            QmeAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
+            meQUnansweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
             selectTabBtn(3);
         }
     }
