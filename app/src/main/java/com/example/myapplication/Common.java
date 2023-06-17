@@ -8,7 +8,9 @@ import java.util.List;
 public class Common {
 
     public static User user;
+
     public static String URL = "http://172.20.10.3:8080";
+
     public static List<listviewItem> lvItemList = new ArrayList<listviewItem>();
     public static ListView listView;
     public static mListAdapter adapter;
@@ -20,6 +22,7 @@ public class Common {
     public static ArrayList<String> questiontimeList = new ArrayList<>();
     public static ArrayList<String> answertimeList = new ArrayList<>();
     public static ArrayList<String> stateList = new ArrayList<>();
+    public static ArrayList<String> AskanswerList = new ArrayList<>();
 
 //    public static ArrayList<Integer> idList;
 //    public static ArrayList<String> questionList;
