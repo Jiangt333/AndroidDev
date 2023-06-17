@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -364,10 +365,10 @@ public class FriendFragment extends Fragment {
 
         listView = tabView.findViewById(R.id.list_atten);
         listView_new = tabView.findViewById(R.id.list_new);
-        ImageButton tBtn = tabView.findViewById(R.id.toggleButton);
+        ImageView tBtn = tabView.findViewById(R.id.toggleButton);
+        ImageView nBtn = tabView.findViewById(R.id.newsButton);
         LinearLayout ll_attentionBtn = (LinearLayout)tabView.findViewById(R.id.ll_attention);
         LinearLayout ll_fanBtn = (LinearLayout)tabView.findViewById(R.id.ll_fan);
-        ImageButton nBtn = tabView.findViewById(R.id.newsButton);
         Button aBtn = tabView.findViewById(R.id.addButton);
         swipeRefreshLayout = tabView.findViewById(R.id.swipeRefreshLayout);
 
