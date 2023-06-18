@@ -86,8 +86,6 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                 }
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-
-                    System.out.println("start on");
                     if(response.isSuccessful()){    // 回调的方法执行在子线程。
                         String userJson= response.body().string();
                         //Type type = new TypeToken<List<User>>() {
@@ -96,6 +94,8 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                         User user = gson.fromJson(userJson, User.class); //反序列化
                         Common.user = user;
                         System.out.println(user);
+                        System.out.println(Common.user.getRealpassword());
+                        System.out.println(Common.user.getPhone());
                         Intent intent = null;
                         System.out.println("password="+password);
                         if(user == null){
@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                             Toast.makeText(MainActivity.this,"登录成功！",Toast.LENGTH_SHORT).show();
                             intent = new Intent(MainActivity.this, TotalActivity.class);
                             startActivity(intent);
+                            System.out.println("log in!");
                             Looper.loop();
                         } else {
                             Looper.prepare();

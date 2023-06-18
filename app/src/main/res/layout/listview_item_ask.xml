@@ -9,14 +9,20 @@
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:orientation="vertical">
+        android:orientation="horizontal">
+        <ImageView
+            android:background="@drawable/avator"
+            android:layout_marginRight="10sp"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
         <TextView
             android:id="@+id/question"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="18dp"
+            android:textSize="20dp"
             android:lines="2"
             android:ellipsize="end"
             android:textColor="@color/black"

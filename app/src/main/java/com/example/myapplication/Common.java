@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-import android.graphics.Bitmap;
 import android.widget.ListView;
 
 import com.example.myapplication.entity.User;
@@ -10,9 +9,10 @@ import java.util.List;
 
 public class Common {
 
-    public  static User user;
-    public  static Bitmap header;
-    public static String URL = "http://172.27.2.212:8080";
+    public static User user;
+
+    public static String URL = "http://172.27.1.140:8080";
+
     public static List<listviewItem> lvItemList = new ArrayList<listviewItem>();
     public static ListView listView;
     public static mListAdapter adapter;
@@ -24,6 +24,8 @@ public class Common {
     public static ArrayList<String> questiontimeList = new ArrayList<>();
     public static ArrayList<String> answertimeList = new ArrayList<>();
     public static ArrayList<String> stateList = new ArrayList<>();
+    public static ArrayList<String> AskanswerList = new ArrayList<>();
+
 
 //    public static ArrayList<Integer> idList;
 //    public static ArrayList<String> questionList;
@@ -35,7 +37,6 @@ public class Common {
 
     public static int nowpos;   // 当前选中的问题在列表中的索引值
     public static mBottomSheetDialogFragment BottomSheet = new mBottomSheetDialogFragment();
-    public static int hometabNum = 0;   // 指示首页现在在4个小tab页面的哪一个 // 当前选中的问题在列表中的索引值
-
+    public static int hometabNum = 0;   // 指示首页现在在4个小tab页面的哪一个
 
 }
