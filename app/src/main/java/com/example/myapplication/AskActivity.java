@@ -2,11 +2,15 @@ package com.example.myapplication;
 
 import static com.google.android.material.internal.ContextUtils.getActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import okhttp3.CacheControl;
 import okhttp3.Call;
@@ -46,6 +51,9 @@ public class AskActivity extends AppCompatActivity {
     private String target;
     private String phone;
     private AskListAdapter adapter;
+    private ArrayList<Questionbox> answerList;
+    private ArrayList<Integer> answerIdList = new ArrayList<>();;
+
 
     public void calculateHeight() {
         if (adapter != null) {
@@ -67,8 +75,10 @@ public class AskActivity extends AppCompatActivity {
         private OkHttpClient client = null;
         @Override
         public void run() {
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            String questionTime = df.format(new java.util.Date());
+            TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            Date date = new Date(System.currentTimeMillis());
+            String questionTime = simpleDateFormat.format(date);
             System.out.println(questionTime);
             question = askText.getText().toString();
             client = new OkHttpClient();
@@ -138,11 +148,13 @@ public class AskActivity extends AppCompatActivity {
                         String AnswerJson = response.body().string();
                         AskActivity.this.runOnUiThread(new Runnable() {
                             public void run() {
-                                ArrayList<Questionbox> answerList = gson.fromJson(AnswerJson, new TypeToken<ArrayList<Questionbox>>() {}.getType());
+                                answerList = gson.fromJson(AnswerJson, new TypeToken<ArrayList<Questionbox>>() {}.getType());
                                 Common.AskanswerList.clear();
+                                answerIdList.clear();
                                 if (adapter != null) adapter.clear();
                                 for (Questionbox qb : answerList) {
                                     Common.AskanswerList.add(qb.getQuestion());
+                                    answerIdList.add(qb.getId());
                                 }
                                 if (!Common.AskanswerList.isEmpty()) {
                                     adapter = new AskListAdapter(AskActivity.this, R.layout.listview_item_answer, Common.AskanswerList);
@@ -196,6 +208,20 @@ public class AskActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        answeredList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent,View view,int i,long l){
+                int selectedId = answerIdList.get(i);
+                String idstr = String.valueOf(selectedId);
+                Intent intent = new Intent(AskActivity.this, AnswerDetail.class);
+                adapter.notifyDataSetChanged();
+                //传递电话号码
+                intent.putExtra("id", idstr);
+                System.out.println(selectedId);
+                startActivity(intent);
             }
         });
     }

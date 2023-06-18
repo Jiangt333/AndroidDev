@@ -92,6 +92,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".AnswerDetail"
+            android:exported="false">
+        </activity>
 
 
     </application>

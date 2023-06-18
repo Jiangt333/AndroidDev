@@ -3,15 +3,10 @@ package com.example.myapplication;
 public class Questionbox {
 
         private int Id;
-
         private String sourcephone;		// 提问的人
-
         private String targetphone;		// 被问的人
-
         private String targetname;
-
         private String question;
-
         private String answer;
         private String state;
         private String questiontime;
