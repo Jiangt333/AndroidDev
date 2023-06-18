@@ -2,6 +2,8 @@ package com.example.myapplication;
 
 import android.widget.ListView;
 
+import com.example.myapplication.entity.User;
+
 import java.util.ArrayList;
 import java.util.List;
 
