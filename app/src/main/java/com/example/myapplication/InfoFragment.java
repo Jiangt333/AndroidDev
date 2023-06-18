@@ -70,7 +70,7 @@ public class InfoFragment extends Fragment {
                 @Override
                 public void handleMessage(@NonNull Message msg) {
                         super.handleMessage(msg);
-                        Bundle bundle = (Bundle)msg.obj;
+                        Bundle bundle = (Bundle)msg.obj;//在主线程接收
                         byte[] c=  bundle.getByteArray("bytes");
                         Bitmap bitmap = BitmapFactory.decodeByteArray(c, 0, c.length);
                         headimg.setImageBitmap(bitmap);
@@ -115,7 +115,7 @@ public class InfoFragment extends Fragment {
                                                 .add("password",password)
                                                 .build();
                                         Request request = new Request.Builder()
-                                                .url(Common.URL+"//changePassword")
+                                                .url(Common.URL+"/changePassword")
                                                 .post(body)
                                                 .cacheControl(CacheControl.FORCE_NETWORK)
                                                 .build();
@@ -134,6 +134,7 @@ public class InfoFragment extends Fragment {
                                                                 System.out.println("fail");
                                                 }
                                         });
+                                        dialog.cancel();
 
                                 }
                         });
@@ -183,7 +184,7 @@ public class InfoFragment extends Fragment {
                                         byte[] data = response.body().bytes();
                                         Bundle bundle=new Bundle();
                                         bundle.putByteArray("bytes",data);
-                                        Message msg=new Message();
+                                        Message msg=new Message();//发送到主线程
                                         msg.obj=bundle;
                                         handler.sendMessage(msg);
 

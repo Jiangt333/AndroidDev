@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.gson.reflect.TypeToken;
@@ -9,8 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,14 +52,26 @@ public class mBottomSheetDialogFragment extends BottomSheetDialogFragment implem
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    System.out.println("fail to get box!");
+                    System.out.println("fail to delete!");
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     if(response.isSuccessful()){//回调的方法执行在子线程。
                         System.out.println("delete!");
-                        Common.adapter.remove(Common.nowpos);
+//                        非UI线程（Thread-3）中尝试操作UI视图会报错闪退，只有创建UI视图的原始线程（通常是主线程）才能操作它们。
+//                        所以需要确保在主线程中更新UI视图。在Android中，可以使用runOnUiThread方法或Handler来在主线程中执行操作。
+//                        尝试在非UI线程中更新ListView的适配器（Common.adapter.notifyDataSetChanged();）会导致异常。
+//                        为了解决这个问题，可以在run方法中使用runOnUiThread方法或Handler将notifyDataSetChanged操作包装在主线程中。
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Common.lvItemList.remove(Common.nowpos);
+                                Common.adapter.notifyDataSetChanged();
+                            }
+                        });
+//                        Toast.makeText(getContext(), "删除成功！",Toast.LENGTH_SHORT).show();
+                        Common.BottomSheet.dismiss();
                     }
                     else {
                         System.out.println("wrong");
@@ -74,12 +90,31 @@ public class mBottomSheetDialogFragment extends BottomSheetDialogFragment implem
 
     @Override
     public void onClick(View v) {
-            DeleteItem();
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setTitle("提示");
+        alertDialogBuilder.setMessage("是否确认删除该条？");
+        alertDialogBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                DeleteItem();
+                dialog.cancel();
+            }
+        });
+        alertDialogBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+                Common.BottomSheet.dismiss();
+            }
+        });
+        alertDialogBuilder.show();
     }
 
     public void DeleteItem(){
         Threads_DeleteItem DeleteItem = new Threads_DeleteItem();
         DeleteItem.id = Common.idList.get(Common.nowpos).toString();
+        System.out.println("id=" + DeleteItem.id);
         DeleteItem.server = "/DeleteItem";
         DeleteItem.start();
     }

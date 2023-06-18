@@ -8,9 +8,7 @@ public class User{
 
     private String name;
     // Getters and setters
-
     private String realpassword;
-
     private String phone;
 
     private int ischanged;

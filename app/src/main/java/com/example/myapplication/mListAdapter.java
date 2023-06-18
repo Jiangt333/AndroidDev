@@ -1,9 +1,11 @@
 package com.example.myapplication;
 
+import static android.content.ContentValues.TAG;
 import static androidx.core.content.ContextCompat.startActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,26 +23,21 @@ public class mListAdapter extends ArrayAdapter<listviewItem> {
 
     private int resourceId;
     private FragmentActivity mContext;
-//    private List<String> mData;
+//    private List<listviewItem> mData;
 
     public mListAdapter(FragmentActivity context, int textViewResourceId, List<listviewItem> objects) {
         super(context, textViewResourceId, objects);
         resourceId = textViewResourceId;
         mContext = context;
+//        mData = objects;
     }
 
-    public void remove(int position) {
-        for(int j=Common.lvItemList.size()-1;j>=0;j--) {
-            listviewItem item = Common.lvItemList.get(j);
-            System.out.println("j="+j);
-            System.out.println("nowpos="+Common.nowpos);
-            System.out.println("item="+item);
-            if (j == Common.nowpos) {
-                Common.lvItemList.remove(j);
-                Common.adapter.notifyDataSetChanged();
-                System.out.println("remove!");
-            }
+
+    public int getItemCount() {
+        if (Common.lvItemList != null) {
+            return Common.lvItemList.size();
         }
+        return 0;
     }
 
     @Override
@@ -62,6 +59,7 @@ public class mListAdapter extends ArrayAdapter<listviewItem> {
 //                TextView qtext = ll_question.findViewById(R.id.question);
                 TextView qtext = (TextView)  view.findViewById(R.id.question);
                 String question = qtext.getText().toString();
+                Common.nowpos = Common.questionList.indexOf(question);
                 System.out.println(question);
                 Common.nowpos = Common.questionList.indexOf(question);
                 intent = new Intent(mContext, qaDetailActivity.class);
@@ -79,12 +77,37 @@ public class mListAdapter extends ArrayAdapter<listviewItem> {
 //                System.out.println("pos"+Common.nowpos);
 //                System.out.println("id"+Common.idList.get(Common.nowpos));
                 // 在适配器里要使用getSupportFragmentManager()，要通过FragmentActivity类型来获取，要将原本Context改为FragmentActivity
-                new mBottomSheetDialogFragment().show(mContext.getSupportFragmentManager(), "Dialog");
+                Common.BottomSheet.show(mContext.getSupportFragmentManager(), "Dialog");
             }
         });
 
         return mview;
     }
+
+    //    public void remove(int position) {
+//        System.out.println("一开始数据源" + mData.toString());
+//        for(int j = mData.size() - 1; j >= 0; j--) {
+//            listviewItem item = mData.get(j);
+//            System.out.println("j="+j);
+//            System.out.println("nowpos="+Common.nowpos);
+//            System.out.println("item="+item);
+//            if (j == Common.nowpos) {
+//                mData.remove(j);
+//                System.out.println("!");
+//                break;
+//            }
+//        }
+//        System.out.println("删后数据源" + mData.toString());
+//        Common.adapter.notifyDataSetChanged();
+//        System.out.println("remove!");
+//    }
+//    public static void removeItem(int position) {
+//        if (position >= 0 && position < Common.lvItemList.size()) {
+////            Common.lvItemList.remove(Common.nowpos);
+////            Common.adapter.notifyDataSetChanged();
+//            Common.deletingItemFlag = true;
+//        }
+//    }
 
 
 }

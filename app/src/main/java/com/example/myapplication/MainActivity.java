@@ -36,6 +36,17 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        init();
+
+    }
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        Username.setText("");
+        PassWord.setText("");
+    }
+    private void init()
+    {
         getWindow().setBackgroundDrawableResource(R.drawable.loginbg);
         //登录跳转
         Button btnLogin = findViewById(R.id.bt_login);
@@ -48,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this::onClickRegister);
     }
+
 
     class Threads_Login extends Thread {
         //private Socket client = null;
@@ -82,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                         //}.getType(); //泛型类型，import com.google.gson.reflect.TypeToken;
                         Common.user = gson.fromJson(userJson, User.class);
                         User user = gson.fromJson(userJson, User.class); //反序列化
+                        Common.user = user;
                         System.out.println(user);
                         Intent intent = null;
                         System.out.println("password="+password);
