@@ -94,13 +94,15 @@ public class qaDetailActivity extends AppCompatActivity {
                                 answerbtn.setTranslationZ(0);
                                 answerbtn.setElevation(0);
                                 answerbtn.setEnabled(false);
-                                // 编辑回答的按钮显示
-                                editbtn.setBackgroundResource(R.drawable.answerbtn);
-                                editbtn.setText("编辑回答");
-                                editbtn.setTranslationZ(5);
-                                editbtn.setElevation(5);
-                                editbtn.setEnabled(true);
-                                answerbtn.setEnabled(false);
+                                if(Common.hometabNum == 1){
+                                    // 编辑回答的按钮显示
+                                    editbtn.setBackgroundResource(R.drawable.answerbtn);
+                                    editbtn.setText("编辑回答");
+                                    editbtn.setTranslationZ(5);
+                                    editbtn.setElevation(5);
+                                    editbtn.setEnabled(true);
+                                    answerbtn.setEnabled(false);
+                                }
 
                                 Common.adapter.notifyDataSetChanged();
                             }

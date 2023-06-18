@@ -209,7 +209,7 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
         intent.setType("image/*");
         startActivityForResult(intent, 1000);//打开相册
     }
-    public void exist() {
+    public void exit() {
         finish();
     }
     @Override

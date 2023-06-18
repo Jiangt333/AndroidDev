@@ -25,7 +25,7 @@
         android:layout_height="60dp"
         android:textSize="18sp"
         android:textColor="@color/black"
-        android:hint="用户名"
+        android:hint="手机号"
         android:layout_gravity="center"
         android:maxLines="1"
         android:padding="5dp"
