@@ -11,10 +11,12 @@
         android:layout_height="70dp"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/avator"
             android:background="@drawable/avator"
             android:layout_marginRight="10sp"
             android:layout_width="50dp"
-            android:layout_height="50dp" />
+            android:layout_height="50dp"
+            />
 
         <TextView
             android:id="@+id/question"

@@ -157,7 +157,7 @@ public class AskActivity extends AppCompatActivity {
                                     answerIdList.add(qb.getId());
                                 }
                                 if (!Common.AskanswerList.isEmpty()) {
-                                    adapter = new AskListAdapter(AskActivity.this, R.layout.listview_item_answer, Common.AskanswerList);
+                                    adapter = new AskListAdapter(AskActivity.this, R.layout.listview_item_answer, Common.AskanswerList,null);
                                     answeredList.setAdapter(adapter);
                                     calculateHeight();
                                 }
