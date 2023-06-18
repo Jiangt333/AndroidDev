@@ -9,7 +9,7 @@ public class Common {
 
     public static User user;
 
-    public static String URL = "http://172.27.1.140:8080";
+    public static String URL = "http://172.27.97.166:8080";
 
     public static List<listviewItem> lvItemList = new ArrayList<listviewItem>();
     public static ListView listView;
