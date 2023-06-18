@@ -389,8 +389,6 @@ public class FriendFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent,View view,int i,long l){
                 Intent intent = new Intent(view.getContext(), AskActivity.class);
-                adapter.notifyDataSetChanged();
-                adapterFans.notifyDataSetChanged();
                 //传递电话号码
                 intent.putExtra("target", targetList.get(i).Target);
                 intent.putExtra("targetName", targetList.get(i).TargetName);
@@ -403,8 +401,6 @@ public class FriendFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent,View view,int i,long l){
                 Intent intent = new Intent(view.getContext(), AskActivity.class);
-                adapter.notifyDataSetChanged();
-                adapterFans.notifyDataSetChanged();
                 //传递电话号码
                 intent.putExtra("target", sourceList.get(i).Target);
                 intent.putExtra("targetName", sourceList.get(i).TargetName);
