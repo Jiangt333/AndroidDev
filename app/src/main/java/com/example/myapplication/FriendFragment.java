@@ -60,9 +60,11 @@ public class FriendFragment extends Fragment {
     public class ListofTarget{
         public String TargetName;
         public String Target;
-        public void additem(String TargetName,String Target){
+        public byte[] imageBytes;
+        public void additem(String TargetName,String Target,byte[] imageBytes){
             this.TargetName = TargetName;
             this.Target = Target;
+            this.imageBytes = imageBytes;
         }
     }
 
@@ -124,14 +126,17 @@ public class FriendFragment extends Fragment {
                             @Override
                             public void run() {
                                 ArrayList<String> Atten = new ArrayList<>();
+                                ArrayList<byte[]> AttenImage = new ArrayList<>();
                                 for(ListofTarget l :targetList){
                                     Atten.add(l.TargetName);
+                                    AttenImage.add(l.imageBytes);
                                 }
-                                adapter = new AskListAdapter(tabView.getContext(), R.layout.listview_item_ask,Atten);
+                                adapter = new AskListAdapter(tabView.getContext(), R.layout.listview_item_ask,Atten,AttenImage);
                                 listView.setAdapter(adapter);
                                 System.out.println(Atten);
                                 calculateHeight();
                                 swipeRefreshLayout.setRefreshing(false);
+
                             }
                         });
                     }
@@ -175,10 +180,12 @@ public class FriendFragment extends Fragment {
                             @Override
                             public void run() {
                                 ArrayList<String> Fans = new ArrayList<>();
+                                ArrayList<byte[]> FansImage = new ArrayList<>();
                                 for(ListofTarget l :sourceList){
                                     Fans.add(l.TargetName);
+                                    FansImage.add(l.imageBytes);
                                 }
-                                adapterFans = new AskListAdapter(tabView.getContext(), R.layout.listview_item_ask,Fans);
+                                adapterFans = new AskListAdapter(tabView.getContext(), R.layout.listview_item_ask,Fans,FansImage);
                                 listView_new.setAdapter(adapterFans);
                                 System.out.println(Fans);
                                 calculateHeight();
@@ -382,8 +389,6 @@ public class FriendFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent,View view,int i,long l){
                 Intent intent = new Intent(view.getContext(), AskActivity.class);
-                adapter.notifyDataSetChanged();
-                adapterFans.notifyDataSetChanged();
                 //传递电话号码
                 intent.putExtra("target", targetList.get(i).Target);
                 intent.putExtra("targetName", targetList.get(i).TargetName);
@@ -396,8 +401,6 @@ public class FriendFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent,View view,int i,long l){
                 Intent intent = new Intent(view.getContext(), AskActivity.class);
-                adapter.notifyDataSetChanged();
-                adapterFans.notifyDataSetChanged();
                 //传递电话号码
                 intent.putExtra("target", sourceList.get(i).Target);
                 intent.putExtra("targetName", sourceList.get(i).TargetName);
