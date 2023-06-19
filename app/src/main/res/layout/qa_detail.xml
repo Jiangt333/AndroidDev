@@ -83,7 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="70dp" >
         <TextView
-            android:id="@+id/editbtn"
+            android:id="@+id/answerbtn"
             android:background="#fafafa"
             android:textColor="@color/black"
             android:gravity="center"
@@ -92,8 +92,8 @@
             android:layout_width="100dp"
             android:layout_height="45dp" />
         <TextView
-            android:id="@+id/answerbtn"
-            android:background="#ffffff"
+            android:id="@+id/editbtn"
+            android:background="#fafafa"
             android:textColor="@color/black"
             android:gravity="center"
             android:layout_marginTop="10dp"

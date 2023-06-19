@@ -82,8 +82,15 @@ public class InfoFragment extends Fragment {
                 tabView = inflater.inflate(R.layout.tab_info, container, false);
                 TextView txt = tabView.findViewById(R.id.name);
                 txt.setText(host.getName());
-                EditText pass = tabView.findViewById(R.id.showpassword);
-                pass.setText(host.getRealpassword());
+                EditText name = tabView.findViewById(R.id.showname);
+                EditText password = tabView.findViewById(R.id.showpassword);
+                EditText phone = tabView.findViewById(R.id.showphone);
+                name.setText(host.getName());
+                password.setText(host.getRealpassword());
+                phone.setText(host.getPhone());
+                name.setEnabled(false);
+                password.setEnabled(false);
+                phone.setEnabled(false);
                 headimg = tabView.findViewById(R.id.header);
                 if(host.getIschanged()==1) {
                         Getheader();
@@ -93,19 +100,24 @@ public class InfoFragment extends Fragment {
                         headimg.setImageResource(R.drawable.img_1);
                 }
                 headimg.setOnClickListener(this::onClickUpload);
-                Button ExistBtn = tabView.findViewById(R.id.exist);
-                ExistBtn.setOnClickListener(this::onExist);
-                pass.setOnKeyListener(this::onPassword);
+                Button ExitBtn = tabView.findViewById(R.id.exit);
+                ExitBtn.setOnClickListener(this::onExit);
                 return tabView;
         }
 
-        private boolean onPassword(View v, int i, KeyEvent keyEvent) {
+        private boolean onEdit(View v, int i, KeyEvent keyEvent) {
+                Button editbun = (Button) tabView.findViewById(R.id.edit);
+                editbun.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
+                        }
+                });
+                if(i==KEYCODE_ENTER) {
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
                         alertDialogBuilder.setTitle("提示");
                         alertDialogBuilder.setMessage("是否确认修改密码？");
-                        alertDialogBuilder.setCancelable(false)
-                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        alertDialogBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                         EditText pass = tabView.findViewById(R.id.showpassword);
@@ -128,35 +140,34 @@ public class InfoFragment extends Fragment {
                                                 @Override
                                                 public void onResponse(Call call, Response response) throws IOException {
 
-                                                        System.out.println("start on");
                                                         if(response.isSuccessful())
                                                         {}
                                                         else
                                                                 System.out.println("fail");
                                                 }
                                         });
+                                        dialog.cancel();
 
                                 }
-                        })
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        });
+                        alertDialogBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
                                 }
                         });
-                        AlertDialog alert = alertDialogBuilder.create();
-                        alert.show();
+                        alertDialogBuilder.show();
                         return true;
-
+                }
+                else
+                        return false;
 
         }
-
-
         public void onClickUpload(View v) {
                 Listener.photo();
         }
-        public void onExist(View v) {
-                Listener.exist();
+        public void onExit(View v) {
+                Listener.exit();
         }
         public void Getheader() {
                 OkHttpClient client = new OkHttpClient();
@@ -178,7 +189,6 @@ public class InfoFragment extends Fragment {
                         @Override
                         public void onResponse(Call call, Response response) throws IOException {
 
-                                System.out.println("start on");
                                 if (response.isSuccessful()) {//回调的方法执行在子线程。
                                         byte[] data = response.body().bytes();
                                         Bundle bundle=new Bundle();

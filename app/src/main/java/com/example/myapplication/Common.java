@@ -11,8 +11,7 @@ public class Common {
 
     public static User user;
 
-    public static String URL = "http://192.168.90.17:8080";
-
+    public static String URL = "http://172.20.10.3:8080";
     public static List<listviewItem> lvItemList = new ArrayList<listviewItem>();
     public static ListView listView;
     public static mListAdapter adapter;
