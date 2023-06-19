@@ -100,11 +100,12 @@ public class InfoFragment extends Fragment {
         }
 
         private boolean onPassword(View v, int i, KeyEvent keyEvent) {
-                if(i==KEYCODE_ENTER) {
+
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
                         alertDialogBuilder.setTitle("提示");
                         alertDialogBuilder.setMessage("是否确认修改密码？");
-                        alertDialogBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        alertDialogBuilder.setCancelable(false)
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                         EditText pass = tabView.findViewById(R.id.showpassword);
@@ -134,21 +135,19 @@ public class InfoFragment extends Fragment {
                                                                 System.out.println("fail");
                                                 }
                                         });
-                                        dialog.cancel();
 
                                 }
-                        });
-                        alertDialogBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
                                 }
                         });
-                        alertDialogBuilder.show();
+                        AlertDialog alert = alertDialogBuilder.create();
+                        alert.show();
                         return true;
-                }
-                else
-                        return false;
+
 
         }
 

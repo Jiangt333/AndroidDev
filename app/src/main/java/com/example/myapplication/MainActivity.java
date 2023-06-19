@@ -42,8 +42,9 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
     protected void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        Username.setText("");
         PassWord.setText("");
+        Username.setText("");
+
     }
     private void init()
     {
