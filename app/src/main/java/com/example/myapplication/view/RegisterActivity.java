@@ -120,6 +120,9 @@ public class RegisterActivity extends AppCompatActivity {
             msg.arg2 = result;
             msg.obj = data;
             submitHandle.sendMessage(msg);
+            System.out.println(msg.arg1);
+            System.out.println(msg.arg2);
+            System.out.println(msg.obj);
         }
     };
 
@@ -215,6 +218,8 @@ public class RegisterActivity extends AppCompatActivity {
         builder.setPositiveButton("确定", (dialogInterface, i) -> {
             dialogInterface.dismiss();//关闭dialog
             SMSSDK.getVerificationCode(country,phone);//发送短信验证码
+            System.out.println(country);
+            System.out.println(phone);
             Toast.makeText(RegisterActivity.this,"已发送"+i,Toast.LENGTH_LONG).show();
             get_code.setEnabled(false);//获取验证码按钮设置不可点击
             commit.setEnabled(true);//提交按钮可点击
