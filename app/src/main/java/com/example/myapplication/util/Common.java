@@ -1,8 +1,11 @@
-package com.example.myapplication;
+package com.example.myapplication.util;
 
 import android.widget.ListView;
 
 import com.example.myapplication.entity.User;
+import com.example.myapplication.listviewItem;
+import com.example.myapplication.mBottomSheetDialogFragment;
+import com.example.myapplication.mListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
