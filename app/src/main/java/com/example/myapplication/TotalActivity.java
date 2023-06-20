@@ -139,7 +139,7 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
             public void onPageSelected(int position) {
                 // 设置position对应的集合中的Fragment
                 ViewPager.setCurrentItem(position);
-                System.out.println(position);
+//                System.out.println("打印："+position);
                 selectTabBtn(position);
             }
 
@@ -152,6 +152,7 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
         ViewPager.setCurrentItem(0);
         TextView BottomBarText_home = (TextView)findViewById(R.id.id_homebottomtab_text);
         BottomBarText_home.setTextColor(Color.parseColor("#c47731"));
+        System.out.println("初始化了");
     }
 
     @Override
