@@ -91,16 +91,15 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                         Common.user = gson.fromJson(userJson, User.class);
                         User user = gson.fromJson(userJson, User.class); //反序列化
                         Common.user = user;
-                        System.out.println(user);
-                        System.out.println(Common.user.getRealpassword());
-                        System.out.println(Common.user.getPhone());
                         Intent intent = null;
                         System.out.println("password="+password);
                         if(user == null){
                             Looper.prepare();
                             Toast.makeText(MainActivity.this,"该用户不存在！",Toast.LENGTH_SHORT).show();
                             Looper.loop();
-                        } else if (password.equals(user.getRealpassword())) {
+                            return;
+                        }
+                        if (password.equals(user.getRealpassword())) {
                             Looper.prepare();
                             Toast.makeText(MainActivity.this,"登录成功！",Toast.LENGTH_SHORT).show();
                             intent = new Intent(MainActivity.this, TotalActivity.class);

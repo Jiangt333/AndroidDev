@@ -1,11 +1,8 @@
-package com.example.myapplication.util;
+package com.example.myapplication;
 
 import android.widget.ListView;
 
 import com.example.myapplication.entity.User;
-import com.example.myapplication.listviewItem;
-import com.example.myapplication.mBottomSheetDialogFragment;
-import com.example.myapplication.mListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +11,8 @@ public class Common {
 
     public static User user;
 
-    public static String URL = "http://192.168.43.50:8080";
+    public static String URL = "http://172.17.6.4:8080";
+
     public static List<listviewItem> lvItemList = new ArrayList<listviewItem>();
     public static ListView listView;
     public static mListAdapter adapter;
