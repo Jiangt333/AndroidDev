@@ -5,6 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Shader;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -65,7 +69,8 @@ public class InfoFragment extends Fragment {
                         Bundle bundle = (Bundle)msg.obj;//在主线程接收
                         byte[] c=  bundle.getByteArray("bytes");
                         Bitmap bitmap = BitmapFactory.decodeByteArray(c, 0, c.length);
-                        headimg.setImageBitmap(bitmap);
+                        Bitmap circleBitmap = Common.getLargestCircleBitmap(bitmap);
+                        headimg.setImageBitmap(circleBitmap);
                 }
         };
 
@@ -89,7 +94,9 @@ public class InfoFragment extends Fragment {
                 }
                 else
                 {
-                        headimg.setImageResource(R.drawable.img_1);
+                        Bitmap icon = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.img_1);
+                        Bitmap circleBitmap = Common.getLargestCircleBitmap(icon);
+                        headimg.setImageBitmap(circleBitmap);
                 }
                 headimg.setOnClickListener(this::onClickUpload);
                 Button ExitBtn = tabView.findViewById(R.id.exit);
@@ -195,6 +202,7 @@ public class InfoFragment extends Fragment {
                }
 
         }
+
         public void Getheader() {
                 OkHttpClient client = new OkHttpClient();
                 Bitmap bitmap;

@@ -1,5 +1,10 @@
 package com.example.myapplication.util;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Shader;
 import android.widget.ListView;
 
 import com.example.myapplication.entity.User;
@@ -14,7 +19,7 @@ public class Common {
 
     public static User user;
 
-    public static String URL = "http://172.17.6.4:8080";
+    public static String URL = "http://192.168.43.50:8080";
 
     public static List<listviewItem> lvItemList = new ArrayList<listviewItem>();
     public static ListView listView;
@@ -41,5 +46,18 @@ public class Common {
     public static int nowpos;   // 当前选中的问题在列表中的索引值
     public static mBottomSheetDialogFragment BottomSheet = new mBottomSheetDialogFragment();
     public static int hometabNum = 0;   // 指示首页现在在4个小tab页面的哪一个
+    public static Bitmap getLargestCircleBitmap(Bitmap bitmap) {
+        int diameter = Math.min(bitmap.getWidth(), bitmap.getHeight());
+        Bitmap circleBitmap = Bitmap.createBitmap(diameter, diameter, Bitmap.Config.ARGB_8888);
+        BitmapShader shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+        Paint paint = new Paint();
+        paint.setShader(shader);
+
+        Canvas canvas = new Canvas(circleBitmap);
+        float radius = diameter / 2f;
+        canvas.drawCircle(radius, radius, radius, paint);
+
+        return circleBitmap;
+    }
 
 }

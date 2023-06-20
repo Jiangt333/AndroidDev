@@ -228,7 +228,8 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
                     int index = ViewPager.getCurrentItem();// 当前可见的fragment
                     Fragment fragment = (Fragment) ViewPager.getAdapter().instantiateItem(ViewPager,index);// fragment中的某一控件
                     ImageView headimg = fragment.getView().findViewById(R.id.header);
-                    headimg.setImageBitmap(bitmap);
+                    Bitmap circleBitmap = Common.getLargestCircleBitmap(bitmap);
+                    headimg.setImageBitmap(circleBitmap);
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }
