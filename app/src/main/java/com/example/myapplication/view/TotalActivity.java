@@ -1,7 +1,6 @@
 
-package com.example.myapplication;
+package com.example.myapplication.view;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -17,9 +16,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
@@ -27,8 +23,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.myapplication.FriendFragment;
+import com.example.myapplication.HomeFragment;
+import com.example.myapplication.InfoFragment;
 import com.example.myapplication.Interface.FragmentInterface;
+import com.example.myapplication.R;
 import com.example.myapplication.entity.User;
+import com.example.myapplication.mFragmentPagerAdapter;
+import com.example.myapplication.util.Common;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -216,7 +218,7 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {//相册的调用回调
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1000) {//判断是否是我们通过photo()发起的
-            if (resultCode == PictureActivity.RESULT_OK && data != null) {
+            if (resultCode == TotalActivity.RESULT_OK && data != null) {
                 Uri uri = data.getData();
                 ContentResolver cr = this.getContentResolver();
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

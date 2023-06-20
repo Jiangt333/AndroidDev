@@ -1,18 +1,14 @@
 package com.example.myapplication;
 
-import static android.view.KeyEvent.KEYCODE_ENTER;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,11 +23,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.Interface.FragmentInterface;
 import com.example.myapplication.entity.User;
-import com.example.myapplication.tool.Image;
-import com.google.gson.Gson;
+import com.example.myapplication.util.Common;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import okhttp3.CacheControl;
@@ -82,15 +74,15 @@ public class InfoFragment extends Fragment {
                 tabView = inflater.inflate(R.layout.tab_info, container, false);
                 TextView txt = tabView.findViewById(R.id.name);
                 txt.setText(host.getName());
-                EditText name = tabView.findViewById(R.id.showname);
-                EditText password = tabView.findViewById(R.id.showpassword);
-                EditText phone = tabView.findViewById(R.id.showphone);
-                name.setText(host.getName());
-                password.setText(host.getRealpassword());
-                phone.setText(host.getPhone());
-                name.setEnabled(false);
-                password.setEnabled(false);
-                phone.setEnabled(false);
+                EditText Name = tabView.findViewById(R.id.showname);
+                EditText Password = tabView.findViewById(R.id.showpassword);
+                EditText Phone = tabView.findViewById(R.id.showphone);
+                Name.setText(host.getName());
+                Password.setText(host.getRealpassword());
+                Phone.setText(host.getPhone());
+                Name.setEnabled(false);
+                Password.setEnabled(false);
+                Phone.setEnabled(false);
                 headimg = tabView.findViewById(R.id.header);
                 if(host.getIschanged()==1) {
                         Getheader();
@@ -102,72 +94,106 @@ public class InfoFragment extends Fragment {
                 headimg.setOnClickListener(this::onClickUpload);
                 Button ExitBtn = tabView.findViewById(R.id.exit);
                 ExitBtn.setOnClickListener(this::onExit);
+                Button Edit1= tabView.findViewById(R.id.edit1);
+                Button Edit2= tabView.findViewById(R.id.edit2);
+                Button Edit3= tabView.findViewById(R.id.edit3);
+                Edit1.setOnClickListener(this::onEdit);
+                Edit2.setOnClickListener(this::onEdit);
+                Edit3.setOnClickListener(this::onEdit);
                 return tabView;
         }
 
-        private boolean onEdit(View v, int i, KeyEvent keyEvent) {
-                Button editbun = (Button) tabView.findViewById(R.id.edit);
-                editbun.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                        }
-                });
-                if(i==KEYCODE_ENTER) {
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-                        alertDialogBuilder.setTitle("提示");
-                        alertDialogBuilder.setMessage("是否确认修改密码？");
-                        alertDialogBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                        EditText pass = tabView.findViewById(R.id.showpassword);
-                                        String password = pass.getText().toString();
-                                        OkHttpClient client = new OkHttpClient();
-                                        RequestBody body = new FormBody.Builder()
-                                                .add("phone",Common.user.getPhone())
-                                                .add("password",password)
-                                                .build();
-                                        Request request = new Request.Builder()
-                                                .url(Common.URL+"/changePassword")
-                                                .post(body)
-                                                .cacheControl(CacheControl.FORCE_NETWORK)
-                                                .build();
-                                        client.newCall(request).enqueue(new Callback() {
-                                                @Override
-                                                public void onFailure(Call call, IOException e) {
-                                                        e.printStackTrace();
-                                                }
-                                                @Override
-                                                public void onResponse(Call call, Response response) throws IOException {
-
-                                                        if(response.isSuccessful())
-                                                        {}
-                                                        else
-                                                                System.out.println("fail");
-                                                }
-                                        });
-                                        dialog.cancel();
-
-                                }
-                        });
-                        alertDialogBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                }
-                        });
-                        alertDialogBuilder.show();
-                        return true;
-                }
-                else
-                        return false;
-
-        }
         public void onClickUpload(View v) {
                 Listener.photo();
         }
         public void onExit(View v) {
                 Listener.exit();
+        }
+        public void onEdit(View v){
+               Button Edit = tabView.findViewById(v.getId());
+               if(Edit.getText().toString().equals("编辑")) {
+                       if (v.getId() == R.id.edit1) {
+                               EditText Name = tabView.findViewById(R.id.showname);
+                               Name.setEnabled(true);
+                               Edit.setText("保存");
+                       } else if (v.getId() == R.id.edit2) {
+                               EditText Password = tabView.findViewById(R.id.showpassword);
+                               Password.setEnabled(true);
+                               Edit.setText("保存");
+                       } else {
+                               EditText Phone = tabView.findViewById(R.id.showphone);
+                               Phone.setEnabled(true);
+                               Edit.setText("保存");
+                       }
+               }
+               else{
+                       if (v.getId() == R.id.edit1) {
+                               EditText Name = tabView.findViewById(R.id.showname);
+                               AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+                               alertDialogBuilder.setTitle("提示");
+                               alertDialogBuilder.setMessage("是否确认修改？");
+                               alertDialogBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                       @Override
+                                       public void onClick(DialogInterface dialog, int which) {
+                                               Save(Name.getText().toString(), 0);
+                                               dialog.cancel();
+                                       }
+                               });
+                               alertDialogBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                       @Override
+                                       public void onClick(DialogInterface dialog, int id) {
+                                               dialog.cancel();
+                                       }
+                               });
+                               alertDialogBuilder.show();
+                               Name.setEnabled(false);
+                               Edit.setText("编辑");
+                       } else if (v.getId() == R.id.edit2) {
+                               EditText Password = tabView.findViewById(R.id.showpassword);
+                               AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+                               alertDialogBuilder.setTitle("提示");
+                               alertDialogBuilder.setMessage("是否确认修改？");
+                               alertDialogBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                       @Override
+                                       public void onClick(DialogInterface dialog, int which) {
+                                               Save(Password.getText().toString(), 1);
+                                               dialog.cancel();
+                                       }
+                               });
+                               alertDialogBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                       @Override
+                                       public void onClick(DialogInterface dialog, int id) {
+                                               dialog.cancel();
+                                       }
+                               });
+                               alertDialogBuilder.show();
+                               Password.setEnabled(false);
+                               Edit.setText("编辑");
+                       } else {
+                               EditText Phone = tabView.findViewById(R.id.showphone);
+                               AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+                               alertDialogBuilder.setTitle("提示");
+                               alertDialogBuilder.setMessage("是否确认修改？");
+                               alertDialogBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                       @Override
+                                       public void onClick(DialogInterface dialog, int which) {
+                                               Save(Phone.getText().toString(), 2);
+                                               dialog.cancel();
+                                       }
+                               });
+                               alertDialogBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                       @Override
+                                       public void onClick(DialogInterface dialog, int id) {
+                                               dialog.cancel();
+                                       }
+                               });
+                               alertDialogBuilder.show();
+                               Phone.setEnabled(false);
+                               Edit.setText("编辑");
+                       }
+
+               }
+
         }
         public void Getheader() {
                 OkHttpClient client = new OkHttpClient();
@@ -203,4 +229,62 @@ public class InfoFragment extends Fragment {
                         }
                 });
         }
+        public void Save(String value, int option)
+        {
+                OkHttpClient client = new OkHttpClient();
+                RequestBody body;
+                Request request;
+                if(option==0)
+                {
+                        body = new FormBody.Builder()
+                                .add("name",value)
+                                .add("phone", Common.user.getPhone())
+                                .build();
+                        request = new Request.Builder()
+                                .url(Common.URL+"/changeName")
+                                .post(body)
+                                .cacheControl(CacheControl.FORCE_NETWORK)
+                                .build();
+                }
+                else if(option==1)
+                {
+                        body = new FormBody.Builder()
+                                .add("password",value)
+                                .add("phone", Common.user.getPhone())
+                                .build();
+                        request = new Request.Builder()
+                                .url(Common.URL+"/changePassword")
+                                .post(body)
+                                .cacheControl(CacheControl.FORCE_NETWORK)
+                                .build();
+                }
+                else {
+                        body = new FormBody.Builder()
+                                .add("phone",value)
+                                .build();
+                        request = new Request.Builder()
+                                .url(Common.URL+"/changePhone")
+                                .post(body)
+                                .cacheControl(CacheControl.FORCE_NETWORK)
+                                .build();
+                }
+
+                client.newCall(request).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                                e.printStackTrace();
+                        }
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                                if(response.isSuccessful()){    // 回调的方法执行在子线程。
+                                        System.out.println("succeed");
+                                }
+                                else {
+                                        System.out.println("fail");
+                                }
+                        }
+                });
+
+        }
+
 }

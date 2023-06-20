@@ -1,6 +1,5 @@
-package com.example.myapplication;
+package com.example.myapplication.view;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -14,24 +13,20 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 
-import android.view.Gravity;
 import android.widget.Button;
 import android.widget.EditText;
 
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.example.myapplication.R;
+import com.example.myapplication.util.Common;
 import com.mob.MobSDK;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 
 import cn.smssdk.EventHandler;

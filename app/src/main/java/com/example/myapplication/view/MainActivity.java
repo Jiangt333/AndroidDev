@@ -1,27 +1,24 @@
-package com.example.myapplication;
+package com.example.myapplication.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.myapplication.R;
 import com.example.myapplication.entity.User;
+import com.example.myapplication.util.Common;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.net.Socket;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import okhttp3.*;
-import java.io.IOException;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements  View.OnClickListener {
 

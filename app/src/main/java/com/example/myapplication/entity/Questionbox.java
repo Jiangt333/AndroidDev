@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.entity;
 
 public class Questionbox {
 

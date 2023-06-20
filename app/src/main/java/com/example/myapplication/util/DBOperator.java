@@ -1,4 +1,5 @@
-package com.example.myapplication;
+package com.example.myapplication.util;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

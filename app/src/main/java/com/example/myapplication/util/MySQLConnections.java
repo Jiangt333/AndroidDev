@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.util;
 
 import com.mysql.jdbc.Connection;
 import java.sql.DriverManager;
