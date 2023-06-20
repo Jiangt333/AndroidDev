@@ -3,21 +3,16 @@ package com.example.myapplication;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+
+import com.example.myapplication.util.Common;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.gson.reflect.TypeToken;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
-
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import okhttp3.CacheControl;
 import okhttp3.Call;

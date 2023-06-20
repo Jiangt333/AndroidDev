@@ -1,7 +1,6 @@
 package com.example.myapplication;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,26 +13,22 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.tabs.TabLayout;
+import com.example.myapplication.util.Common;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 
 import java.io.IOException;
-import java.util.AbstractList;
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.CacheControl;
 import okhttp3.Call;
@@ -389,8 +384,6 @@ public class FriendFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent,View view,int i,long l){
                 Intent intent = new Intent(view.getContext(), AskActivity.class);
-                adapter.notifyDataSetChanged();
-                adapterFans.notifyDataSetChanged();
                 //传递电话号码
                 intent.putExtra("target", targetList.get(i).Target);
                 intent.putExtra("targetName", targetList.get(i).TargetName);
@@ -403,8 +396,6 @@ public class FriendFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent,View view,int i,long l){
                 Intent intent = new Intent(view.getContext(), AskActivity.class);
-                adapter.notifyDataSetChanged();
-                adapterFans.notifyDataSetChanged();
                 //传递电话号码
                 intent.putExtra("target", sourceList.get(i).Target);
                 intent.putExtra("targetName", sourceList.get(i).TargetName);

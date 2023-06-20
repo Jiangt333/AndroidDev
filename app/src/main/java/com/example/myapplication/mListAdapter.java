@@ -1,21 +1,16 @@
 package com.example.myapplication;
 
-import static android.content.ContentValues.TAG;
-import static androidx.core.content.ContextCompat.startActivity;
-
-import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
+
+import com.example.myapplication.util.Common;
 
 import java.util.List;
 

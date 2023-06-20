@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:windowSoftInputMode="adjustResize|stateHidden"
-    tools:context=".RegisterActivity">
+    tools:context=".view.RegisterActivity">
 
         <EditText
             android:layout_width="match_parent"
