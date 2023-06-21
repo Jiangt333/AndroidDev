@@ -290,18 +290,15 @@ public class FriendFragment extends Fragment {
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int id) {
-                        //当前手机号与当前用户昵称
-                        String source = "1";
-                        String sourceName = "zhangchw";
-
+                        String myName = Common.user.getName();
                         // 处理输入内容
                         String inputText = editText.getText().toString().trim();
                         //Toast.makeText(tabView.getContext(), "正在查找-ID：" + inputText, Toast.LENGTH_SHORT).show();
                         //----
                         OkHttpClient client = new OkHttpClient();
                         RequestBody body = new FormBody.Builder()
-                                .add("source",source)
-                                .add("sourceName",sourceName)
+                                .add("source",phone)
+                                .add("sourceName",myName)
                                 .add("target",inputText)
                                 .build();
                         Request request = new Request.Builder()

@@ -18,8 +18,9 @@ import java.util.List;
 public class Common {
 
     public static User user;
+    public static  Bitmap bitmap;
 
-    public static String URL = "http://172.17.6.4:8080";
+    public static String URL = "http://192.168.33.17:8080";
 
     public static List<listviewItem> lvItemList = new ArrayList<listviewItem>();
     public static ListView listView;

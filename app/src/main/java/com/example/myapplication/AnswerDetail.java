@@ -69,8 +69,8 @@ public class AnswerDetail extends AppCompatActivity {
                                 qText.setText(aBoxItem.getQuestion());
                                 aText.setText(aBoxItem.getAnswer());
                                 aText.setEnabled(false);
-                                qTime.setText(aBoxItem.getQuestionTime());
-                                aTime.setText(aBoxItem.getAnswerTime());
+                                qTime.setText("提问于 "+aBoxItem.getQuestionTime());
+                                aTime.setText("回答于 "+aBoxItem.getAnswerTime());
                                 TextView TopBarTitle = (TextView) findViewById(R.id.topbar_title);
                                 TopBarTitle.setText("详  情");
                             }

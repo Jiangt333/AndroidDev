@@ -158,6 +158,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onResume() {
+        System.out.println("onResume:"+Common.hometabNum);
         super.onResume();
         // 从上个界面返回后更新数据
         if(Common.hometabNum == 0){
@@ -196,11 +197,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         QmeAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
         meQUnansweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
         meQAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
-        Threads_GetBox GetBox_0 = new Threads_GetBox();
-        GetBox_0.phone = Common.user.getPhone();
-        GetBox_0.state = "0";
-        GetBox_0.server = "/gettarget";
-        GetBox_0.start();
+//        Threads_GetBox GetBox_0 = new Threads_GetBox();
+//        System.out.println("错在这？");
+//        GetBox_0.phone = Common.user.getPhone();
+//        GetBox_0.state = "0";
+//        GetBox_0.server = "/gettarget";
+//        GetBox_0.start();
     }
     private void InitlvItem() {
         int length = Common.questionList.size();
@@ -218,42 +220,31 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         if(v.getId() == R.id.id_QmeUnanswered) {
             Common.hometabNum = 0;
-            QmeUnansweredTabText.setTextColor(Color.parseColor("#000000"));
-            QmeAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
-            meQUnansweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
-            meQAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
             selectTabBtn(0);
         }
         if(v.getId() == R.id.id_QmeAnswered) {
             Common.hometabNum = 1;
-            QmeAnsweredTabText.setTextColor(Color.parseColor("#000000"));
-            QmeUnansweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
-            meQUnansweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
-            meQAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
             selectTabBtn(1);
         }
         if(v.getId() == R.id.id_meQUnanswered) {
             Common.hometabNum = 2;
-            meQUnansweredTabText.setTextColor(Color.parseColor("#000000"));
-            QmeUnansweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
-            QmeAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
-            meQAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
             selectTabBtn(2);
         }
         if(v.getId() == R.id.id_meQAnswered) {
             Common.hometabNum = 3;
-            meQAnsweredTabText.setTextColor(Color.parseColor("#000000"));
-            QmeUnansweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
-            QmeAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
-            meQUnansweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
             selectTabBtn(3);
         }
+        System.out.println("click:"+Common.hometabNum);
     }
     public void selectTabBtn(int i) {
 
         // 根据点击的Tab按钮设置对应的响应
         switch (i) {
             case 0:
+                QmeUnansweredTabText.setTextColor(Color.parseColor("#000000"));
+                QmeAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
+                meQUnansweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
+                meQAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
                 Threads_GetBox GetBox_1 = new Threads_GetBox();
                 GetBox_1.phone = Common.user.getPhone();
                 GetBox_1.state = "0";
@@ -262,6 +253,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case 1:
+                QmeAnsweredTabText.setTextColor(Color.parseColor("#000000"));
+                QmeUnansweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
+                meQUnansweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
+                meQAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
                 Threads_GetBox GetBox_2 = new Threads_GetBox();
                 GetBox_2.phone = Common.user.getPhone();
                 GetBox_2.state = "1";
@@ -270,6 +265,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case 2:
+                meQUnansweredTabText.setTextColor(Color.parseColor("#000000"));
+                QmeUnansweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
+                QmeAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
+                meQAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
                 Threads_GetBox GetBox_3 = new Threads_GetBox();
                 GetBox_3.phone = Common.user.getPhone();
                 GetBox_3.state = "0";
@@ -278,6 +277,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case 3:
+                meQAnsweredTabText.setTextColor(Color.parseColor("#000000"));
+                QmeUnansweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
+                QmeAnsweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
+                meQUnansweredTabText.setTextColor(Color.parseColor("#9c9c9c"));
                 Threads_GetBox GetBox_4 = new Threads_GetBox();
                 GetBox_4.phone = Common.user.getPhone();
                 GetBox_4.state = "1";
