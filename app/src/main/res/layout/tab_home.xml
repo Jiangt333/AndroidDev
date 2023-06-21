@@ -22,7 +22,7 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
 
-                android:text="Qme未答"/>
+                android:text="未答"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/id_QmeAnswered"
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:text="Qme已答"/>
+                android:text="已答"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/id_meQUnanswered"
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:text="meQ未答"/>
+                android:text="未回答"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/id_meQAnswered"
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:text="meQ已答"/>
+                android:text="有回答"/>
         </LinearLayout>
     </LinearLayout>
 

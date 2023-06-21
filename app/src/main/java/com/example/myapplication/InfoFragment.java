@@ -204,38 +204,7 @@ public class InfoFragment extends Fragment {
         }
 
         public void Getheader() {
-                OkHttpClient client = new OkHttpClient();
-                Bitmap bitmap;
-                RequestBody body = new FormBody.Builder()
-                        .add("phone", Common.user.getPhone())
-                        .build();
-                Request request = new Request.Builder()
-                        .url(Common.URL + "/getheader")
-                        .post(body)
-                        .cacheControl(CacheControl.FORCE_NETWORK)
-                        .build();
-                client.newCall(request).enqueue(new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-                                e.printStackTrace();
-                        }
-
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-
-                                if (response.isSuccessful()) {//回调的方法执行在子线程。
-                                        byte[] data = response.body().bytes();
-                                        Bundle bundle=new Bundle();
-                                        bundle.putByteArray("bytes",data);
-                                        Message msg=new Message();//发送到主线程
-                                        msg.obj=bundle;
-                                        handler.sendMessage(msg);
-
-                                } else {
-                                        System.out.println("response failed");
-                                }
-                        }
-                });
+               headimg.setImageBitmap(Common.bitmap);
         }
         public void Save(String value, int option)
         {

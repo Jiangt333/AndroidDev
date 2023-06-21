@@ -16,6 +16,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
@@ -40,8 +41,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -92,6 +95,7 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
         initViews();    // 初始化控件
         initEvents();   // 初始化事件
         initDatas();    // 初始化数据
+        Getheader();
     }
 
     // 初始化控件
@@ -267,6 +271,7 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
                     public void onResponse(Call call, Response response) throws IOException {
                         if (response.isSuccessful()) {//回调的方法执行在子线程。
                             System.out.println("succeed");
+                            Common.user.setIschanged(1);
                         } else {
                             System.out.println("fail");
                         }
@@ -274,6 +279,38 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
                 });
             }
         }
+    }
+    public void Getheader() {
+        OkHttpClient client = new OkHttpClient();
+        Bitmap bitmap;
+        RequestBody body = new FormBody.Builder()
+                .add("phone", Common.user.getPhone())
+                .build();
+        Request request = new Request.Builder()
+                .url(Common.URL + "/getheader")
+                .post(body)
+                .cacheControl(CacheControl.FORCE_NETWORK)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                if (response.isSuccessful()) {//回调的方法执行在子线程。
+                    byte[] data = response.body().bytes();
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                    Bitmap circleBitmap = Common.getLargestCircleBitmap(bitmap);
+                    Common.bitmap = circleBitmap;
+
+                } else {
+                    System.out.println("response failed");
+                }
+            }
+        });
     }
 
 }
