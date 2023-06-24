@@ -92,10 +92,10 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
         // 指定布局界面
         setContentView(R.layout.activity_total);
         host = Common.user;
+        Getheader();
         initViews();    // 初始化控件
         initEvents();   // 初始化事件
         initDatas();    // 初始化数据
-        Getheader();
     }
 
     // 初始化控件
@@ -229,38 +229,38 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 try {
                     Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));//获取位图
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
                     int index = ViewPager.getCurrentItem();// 当前可见的fragment
                     Fragment fragment = (Fragment) ViewPager.getAdapter().instantiateItem(ViewPager,index);// fragment中的某一控件
                     ImageView headimg = fragment.getView().findViewById(R.id.header);
                     Bitmap circleBitmap = Common.getLargestCircleBitmap(bitmap);
                     headimg.setImageBitmap(circleBitmap);
+                    Common.bitmap = circleBitmap;
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }
                 FileOutputStream output;
                 try
                 {
-                    output = openFileOutput("test", MODE_PRIVATE);
+                    output = openFileOutput(Common.user.getPhone()+".png", MODE_PRIVATE);
                     output.write(outputStream.toByteArray());
                     output.close();
                 }
                 catch (Exception e) {
                     e.printStackTrace();
                 }
-                File file = this.getFileStreamPath("test");
-                if(!file.exists())
-                    System.out.println("not found");
+                File file = this.getFileStreamPath(Common.user.getPhone()+".png");
                 OkHttpClient client = new OkHttpClient();
                 RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), file);
                 MultipartBody multipartBody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
                         .addFormDataPart("file", file.getName(), body)
                         .build();
+                String phonenumber = Common.user.getPhone();
                 Request request = new Request.Builder()
                         .url(Common.URL+"/upload")
                         .post(multipartBody)
-                        .addHeader("phone",Common.user.getPhone())
+                        .addHeader("phone",phonenumber)
                         .build();
                 client.newCall(request).enqueue(new Callback() {
                     @Override
@@ -307,7 +307,7 @@ public class TotalActivity extends FragmentActivity implements View.OnClickListe
                     Common.bitmap = circleBitmap;
 
                 } else {
-                    System.out.println("response failed");
+                    System.out.println("fail");
                 }
             }
         });

@@ -103,15 +103,16 @@ public class InfoFragment extends Fragment {
                 ExitBtn.setOnClickListener(this::onExit);
                 Button Edit1= tabView.findViewById(R.id.edit1);
                 Button Edit2= tabView.findViewById(R.id.edit2);
-                Button Edit3= tabView.findViewById(R.id.edit3);
                 Edit1.setOnClickListener(this::onEdit);
                 Edit2.setOnClickListener(this::onEdit);
-                Edit3.setOnClickListener(this::onEdit);
                 return tabView;
         }
 
         public void onClickUpload(View v) {
+                host.setIschanged(1);
+                Common.user.setIschanged(1);
                 Listener.photo();
+
         }
         public void onExit(View v) {
                 Listener.exit();
@@ -126,10 +127,6 @@ public class InfoFragment extends Fragment {
                        } else if (v.getId() == R.id.edit2) {
                                EditText Password = tabView.findViewById(R.id.showpassword);
                                Password.setEnabled(true);
-                               Edit.setText("保存");
-                       } else {
-                               EditText Phone = tabView.findViewById(R.id.showphone);
-                               Phone.setEnabled(true);
                                Edit.setText("保存");
                        }
                }
@@ -175,27 +172,6 @@ public class InfoFragment extends Fragment {
                                });
                                alertDialogBuilder.show();
                                Password.setEnabled(false);
-                               Edit.setText("编辑");
-                       } else {
-                               EditText Phone = tabView.findViewById(R.id.showphone);
-                               AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-                               alertDialogBuilder.setTitle("提示");
-                               alertDialogBuilder.setMessage("是否确认修改？");
-                               alertDialogBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                       @Override
-                                       public void onClick(DialogInterface dialog, int which) {
-                                               Save(Phone.getText().toString(), 2);
-                                               dialog.cancel();
-                                       }
-                               });
-                               alertDialogBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                       @Override
-                                       public void onClick(DialogInterface dialog, int id) {
-                                               dialog.cancel();
-                                       }
-                               });
-                               alertDialogBuilder.show();
-                               Phone.setEnabled(false);
                                Edit.setText("编辑");
                        }
 
