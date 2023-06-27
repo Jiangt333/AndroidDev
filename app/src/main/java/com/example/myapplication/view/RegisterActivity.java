@@ -13,6 +13,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -69,6 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
         //mob
         MobSDK.init(this, "3805a30a09595", "4126fd577130e07a64873af014315bed");
         MobSDK.submitPolicyGrantResult(true);
+
         //注册回调
         SMSSDK.registerEventHandler(eventHandle);
         //窗口初始化
@@ -101,6 +103,10 @@ public class RegisterActivity extends AppCompatActivity {
             @SuppressLint("HandlerLeak") int event = msg.arg1;
             int result = msg.arg2;
             Object data = msg.obj;
+            System.out.println(4);
+            System.out.println(msg.arg1);
+            System.out.println(msg.arg2);
+            System.out.println(msg.obj);
             if (result == SMSSDK.RESULT_COMPLETE) {
                 if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
                     Toast.makeText(RegisterActivity.this, "验证成功！", Toast.LENGTH_LONG).show();
@@ -120,6 +126,7 @@ public class RegisterActivity extends AppCompatActivity {
             msg.arg2 = result;
             msg.obj = data;
             submitHandle.sendMessage(msg);
+            System.out.println(1);
             System.out.println(msg.arg1);
             System.out.println(msg.arg2);
             System.out.println(msg.obj);
@@ -190,6 +197,9 @@ public class RegisterActivity extends AppCompatActivity {
             if (TextUtils.isEmpty(code)) {
                 Toast.makeText(RegisterActivity.this, "验证码为空", Toast.LENGTH_LONG).show();
                 return;
+            }else if (name.length() == 0) {
+                Toast.makeText(RegisterActivity.this, "请设置昵称", Toast.LENGTH_LONG).show();
+                return;
             } else if (phone.length() == 0) {
                 Toast.makeText(RegisterActivity.this, "请输入手机号", Toast.LENGTH_LONG).show();
                 return;
@@ -198,6 +208,7 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
             //验证
+            System.out.println(3);
             SMSSDK.submitVerificationCode(country, phone, code);
         });
     }
@@ -217,6 +228,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         builder.setPositiveButton("确定", (dialogInterface, i) -> {
             dialogInterface.dismiss();//关闭dialog
+            System.out.println(2);
             SMSSDK.getVerificationCode(country,phone);//发送短信验证码
             System.out.println(country);
             System.out.println(phone);
