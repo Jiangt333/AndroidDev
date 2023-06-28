@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-    <background android:drawable="@drawable/CodeSandbox" />
-    <foreground android:drawable="@drawable/CodeSandbox" />
-    <monochrome android:drawable="@drawable/CodeSandbox" />
+    <background android:drawable="@drawable/sandbox" />
+    <foreground android:drawable="@drawable/sandbox" />
+    <monochrome android:drawable="@drawable/sandbox" />
 </adaptive-icon>
