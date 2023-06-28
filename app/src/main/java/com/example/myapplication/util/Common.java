@@ -20,7 +20,7 @@ public class Common {
     public static User user;
     public static  Bitmap bitmap;
 
-    public static String URL = "http://192.168.43.50:8080";
+    public static String URL = "http://192.168.183.17:8080";
 
     public static List<listviewItem> lvItemList = new ArrayList<listviewItem>();
     public static ListView listView;
